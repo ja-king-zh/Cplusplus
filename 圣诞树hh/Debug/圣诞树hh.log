@@ -1,0 +1,5 @@
+﻿  圣诞树.cpp
+C:\Users\james\Desktop\Python\C++\圣诞树hh\圣诞树.cpp(34,33): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+C:\Users\james\Desktop\Python\C++\圣诞树hh\圣诞树.cpp(46,34): warning C4244: “参数”: 从“double”转换到“float”，可能丢失数据
+C:\Users\james\Desktop\Python\C++\圣诞树hh\圣诞树.cpp(66,47): warning C4305: “参数”: 从“double”到“float”截断
+  圣诞树hh.vcxproj -> C:\Users\james\Desktop\Python\C++\圣诞树hh\Debug\圣诞树hh.exe
