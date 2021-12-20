@@ -9,6 +9,265 @@ using namespace std;
 
 
 
+int main() {
+	int t;
+	cin >> t;
+	while (t--) {
+		int n;
+		cin >> n;
+		if (n < 3)cout << n << endl;
+		else cout << (n/2)+1 << endl;
+	}
+	return 0;
+}
+
+
+
+
+
+
+
+//int main() {
+//	char arr[1010];
+//	cin >> arr;
+//	int sz = strlen(arr);
+//	int ans = 0;
+//	for (int i = 0;i < sz;i++) {
+//		ans += arr[i] - '0';
+//	}
+//	ans %= 3;
+//	cout << ans;
+//	return 0;
+//}
+
+
+
+
+
+
+
+
+//const int N = 2e5 + 10;
+//int b[N], p[N],arr[N],d[N];
+//bool st[N];
+//int main() {
+//	int t;
+//	cin >> t;
+//	while (t--) {
+//		int n;
+//		cin >> n;
+//		memset(d, -1, sizeof d);
+//		for (int i = 1;i <= n;i++)
+//			cin >> b[i];
+//		for (int i = 1;i <= n;i++)
+//			cin>>p[i];
+//
+//		for (int i = 2;i <= n;i++) {
+//			int t = p[i];
+//
+//			if (d[b[]] == -1) {
+//				cout << -1 << endl;
+//				goto a;
+//			}
+//			d[i] = d[t] + i;
+//		}
+//
+//		a:
+//	}
+//}
+
+
+
+
+
+
+//const int N = 4e5 + 10;
+//int e[N], ne[N], h[N], idx;
+//int f[N];
+//bool st[N], fst[N];
+//int d[N], fd[N];
+//void add(int a, int b) {
+//	e[idx] = b, ne[idx] = h[a], h[a] = idx++;
+//}
+//int main() {
+//
+//	int t;
+//	cin >> t;
+//	while (t--) {
+//		memset(h, -1, sizeof h);
+//		int n, k;
+//		cin >> n >> k;
+//		for (int i = 0;i < k;i++) {
+//			cin >> f[i];
+//		}
+//		for (int i = 0;i < n - 1;i++) {
+//			int a, b;
+//			cin >> a >> b;
+//			add(a, b);
+//			add(b, a);
+//		}
+//		for (int i = 0;i <= n;i++) {
+//			st[i] = false;
+//			fst[i] = false;
+//			d[i] = 0;
+//			fd[i] = 0;
+//		}
+//		queue<int>q;
+//		q.push(1);
+//		st[1] = true;
+//		while (!q.empty()) {
+//			int t = q.front();
+//			q.pop();
+//			for (int i = h[t];i != -1;i = ne[i]) {
+//				int j = e[i];
+//				if (!st[j]) {
+//					st[j] = true;
+//					q.push(j);
+//					d[j] = d[t] + 1;
+//				}
+//			}
+//		}
+//		for (int i = 0;i < k;i++) {
+//			int cnm = f[i];
+//			fst[cnm] = true;
+//			q.push(cnm);
+//		}
+//		while (!q.empty()) {
+//			int t = q.front();
+//			q.pop();
+//			for (int i = h[t];i != -1;i = ne[i]) {
+//				int j = e[i];
+//				if (!fst[j]) {
+//					fst[j] = true;
+//					fd[j] = fd[t] + 1;
+//					q.push(j);
+//					
+//				}
+//			}
+//		}
+//		int flag = 0;
+//		for (int i = 2;i <= n;i++) {
+//			if (ne[h[i]] == -1) {
+//				if (d[i] < fd[i]) {
+//					flag = 1;
+//					break;
+//				}
+//			}
+//		}
+//		if (flag)cout << "YES" << endl;
+//		else cout << "NO" << endl;
+//		
+//	}
+//	return 0;
+//}
+
+
+
+
+
+//const int N = 2e5 + 10;
+//int a[N], p[N];
+//int main() {
+//	int t;
+//	cin >> t;
+//	while (t--) {
+//		int n,m=0;
+//		cin >> n;
+//		for (int i = 0;i < n;i++) {
+//			cin >> a[i];
+//			m = max(m, a[i]);
+//		}
+//		if (a[0] < m && a[n - 1] < m) {
+//			cout << -1 << endl;
+//			continue;
+//		}
+//		if (n == 1) {
+//			cout << 1 << endl;
+//			continue;
+//		}
+//		if (a[0] < a[n - 1]) {
+//			p[n - 1] = a[n - 1];
+//			for (int i = n - 2,j=0;i >= 0;i--,j++) {
+//				p[j] = a[i];
+//			}
+//		}
+//		else {
+//			p[0] = a[0];
+//			for (int i = n - 1, j = 1;j<n;i--, j++) {
+//				p[i] = a[j];
+//			}
+//		}
+//		for (int i = 0;i < n;i++)cout << p[i] << ' ';
+//		cout << endl;
+//	}
+//	return 0;
+//}
+
+
+
+
+
+//int main() {
+//	int t;
+//	cin >> t;
+//	while (t--) {
+//		int a, b,ans=0;
+//		cin >> a >> b;
+//		if (a < b)swap(a, b);
+//		int c = a - b;
+//		/*while (c >= 2 && a >= 3 && b > 0) {
+//			a -= 3;
+//			b -= 1;
+//			c -= 2;
+//			ans++;
+//		}*/
+//		int cnm = min(a / 3, b);
+//		int mmp = min(cnm, c / 2);
+//		ans += mmp;
+//		a = a - mmp * 3;
+//		b = b - mmp;
+//		int m = min(a / 2, b / 2);
+//		ans += m;
+//		
+//		cout << ans << endl;
+//	}
+//	return 0;
+//}
+
+
+
+
+
+//int main() {
+//	int t;
+//	cin >> t;
+//	while (t--) {
+//		char a[100];
+//		scanf("%s", a);
+//		int sz = strlen(a);
+//		if ((a[sz-1]-'0') % 2 == 0) {
+//			cout << 0 << endl;
+//			continue;
+//		}
+//		else {
+//			if ((a[0] - '0') % 2 == 0) {
+//				cout << 1 << endl;
+//			}
+//			else {
+//				int flag = 0;
+//				for (int i = 0;i < sz;i++) {
+//					if ((a[i] - '0') % 2 == 0) {
+//						cout << 2 << endl;
+//						flag = 1;
+//						break;
+//					}
+//				}
+//				if (!flag)cout << -1<<endl;
+//			}
+//		}
+//	}
+//	return 0;
+//}
 
 
 
