@@ -2,24 +2,267 @@
 #include<iostream>
 #include<algorithm>
 #include<math.h>
+#include<stdbool.h>
 #include<stdio.h>
+#include<vector>
 #include<cstring>
 #include<queue>
 using namespace std;
+const int N = 2e5 + 10;
+int e[N], ne[N], h[N], idx;
+int color[N];
+//match[j]=a,表示女孩j的现有配对男友是a
+int match[N];
+//st[]数组我称为临时预定数组，st[j]=a表示一轮模拟匹配中，女孩j被男孩a预定了。
+int st[N];
+int n, m;
+int find(int x)
+{
+	//遍历自己喜欢的女孩
+	for (int i = h[x]; i != -1;i = ne[i])
+	{
+		int j = e[i];
+		if (!st[j])//如果在这一轮模拟匹配中,这个女孩尚未被预定
+		{
+			st[j] = true;//那x就预定这个女孩了
+			//如果女孩j没有男朋友，或者她原来的男朋友能够预定其它喜欢的女孩。配对成功,更新match
+			if (!match[j] || find(match[j]))
+			{
+				match[j] = x;
+				return true;
+			}
 
-
-
-int main() {
-	int t;
-	cin >> t;
-	while (t--) {
-		int n;
-		cin >> n;
-		if (n < 3)cout << n << endl;
-		else cout << (n/2)+1 << endl;
+		}
 	}
+	//自己中意的全部都被预定了。配对失败。
+	return false;
+}
+
+void add(int a, int b) {
+	e[idx] = b, ne[idx] = h[a], h[a] = idx++;
+}
+bool dfs(int t, int c) {
+	color[t] = c;
+	for (int i = h[t];i != -1;i = ne[i]) {
+		int j = e[i];
+		if (!color[j]) {
+			if (!dfs(j, 3 - c))return false;
+		}
+		else if (color[j] == c)return false;
+
+	}
+	return true;
+}
+int main() {
+	cin >> n >> m;
+	memset(h, -1, sizeof h);
+	while (m--) {
+		int a, b;
+		cin >> a >> b;
+		add(a, b);
+	}
+	int flag = 1;
+	for (int i = 1;i <= n;i++) {
+		if (!color[i]) {
+			if (!dfs(i, 1)) {
+				flag = 0;
+				break;
+			}
+		}
+	}
+	if (flag) {
+		//记录最大匹配
+		int res = 0;
+		for (int i = 1; i <= n;i++)
+		{
+			//因为每次模拟匹配的预定情况都是不一样的所以每轮模拟都要初始化
+			memset(st, false, sizeof st);
+			if (color[i] == 1)
+				if (find(i))
+					res++;
+		}
+		cout << res << endl;
+	}
+	else cout << "YE5";
 	return 0;
 }
+
+
+
+
+
+//int a[2010],f[2010],ans;
+//void find(int x) {
+//	ans++;
+//	if (x == f[x])return;
+//	find(f[x]);
+//}
+//int main() {
+//	int n;
+//	cin >> n;
+//	for (int i = 1;i <= n;i++) {
+//		cin >> a[i];
+//		if (a[i] == -1)f[i]=i;
+//		else f[i] = a[i];
+//	}
+//	int maxi = 0;
+//	for (int i = 1;i <= n;i++) {
+//		ans = 0;
+//		find(i);
+//		maxi = max(ans, maxi);
+//	}
+//	cout << maxi;
+//	return 0;
+//}
+
+
+
+
+
+
+
+//typedef pair<int, int>PII;
+//const int N = 1010;
+//char a[N][N];
+//int dist[N][N];
+//bool st[N][N];
+//int dx[4] = { 1,0,0,-1 }, dy[4] = {0,-1,1,0 };
+//int n, m, k;
+//void bfs(int x,int y) {
+//	queue<PII>q;
+//	memset(dist, -1, sizeof dist);
+//	dist[x][y] = 0;
+//	st[x][y] = true;
+//	q.push({ x,y });
+//	while (!q.empty()) {
+//		auto t = q.front();
+//		q.pop();
+//		for (int i = 0;i < 4;i++) {
+//			int nx = t.first + dx[i];
+//			int ny = t.second + dy[i];
+//			if (nx >= 1 && ny >= 1 && nx <= n && ny <= m && dist[nx][ny] == -1 && !st[nx][ny]&&a[nx][ny]!='*') {
+//				q.push({ nx,ny });
+//				st[nx][ny] = true;
+//				dist[nx][ny] = dist[t.first][t.second] + 1;
+//			}
+//		}
+//	}
+//}
+//int main() {
+//	
+//	cin >> n >> m >> k;
+//	int x, y;
+//	
+//	for (int i = 1;i <= n;i++) {
+//		getchar();
+//		for (int j = 1;j <= m;j++) {
+//			scanf("%c", &a[i][j]);
+//			if (a[i][j] == 'X') {
+//				x = i, y = j;
+//			}
+//		}
+//	}
+//	bfs(x,y);
+//	if (k % 2 == 1)cout << "IMPOSSIBLE";
+//	else {
+//		//D>L>R>U
+//		int nx, ny,cao=1;
+//		char s[5] = "DLRU";
+//		string res;
+//		int flag = 1;
+//		for (int i = 1;i <= k;i++) {
+//			flag = 0;
+//			for (int j = 0;j < 4;j++) {
+//				nx = x + dx[j], ny = y + dy[j];
+//				if (nx >= 1 && ny >= 1 && nx <= n && ny <= m && a[nx][ny] != '*' && k - i >= dist[nx][ny]) {
+//					flag = 1;
+//					res += s[j];
+//					x = nx, y = ny;
+//					break;
+//				}
+//			}
+//			if (!flag) {
+//				cout << "IMPOSSIBLE";
+//				cao =0;
+//				break;
+//			}
+//		}
+//		if (cao)cout << res;
+//	}
+//	return 0;
+//}
+
+
+
+
+//
+//vector<int> add(vector<int>& A, vector<int>& B) {
+//	vector<int>C;
+//	int t = 0;
+//	for (int i = 0;i < A.size() || i < B.size();i++) {
+//		if (i < A.size())t += A[i];
+//		if (i < B.size())t += B[i];
+//		C.push_back(t % 10);
+//		t /= 10;
+//	}
+//	if (t)C.push_back(1);
+//	return C;
+//}
+//
+//vector<int> sub(vector<int>& A, vector<int>& B) {
+//	vector<int>C;
+//	int t = 0;
+//	for (int i = 0;i < A.size();i++) {
+//		t += A[i];
+//		if (i < B.size())t -= B[i];
+//		C.push_back((t + 10) % 10);
+//		if (t < 0)t = -1;
+//		else t = 0;
+//	}
+//	while (C.size() > 1 && C.back() == 0)C.pop_back();
+//	return C;
+//}
+//
+//
+//
+//int main() {
+//	int t;
+//	cin >> t;
+//	while (t--) {
+//		string a, b;
+//		vector<int>A, B;
+//		cin >> a >> b;
+//		for (int i = a.size()-1;i >=0;i--)A.push_back(a[i] - '0');
+//		for (int i = b.size() - 1;i >= 0;i--)B.push_back(b[i] - '0');
+//		vector<int> C = add(A, B);
+//		for (int i = C.size() - 1;i >= 0;i--)cout << C[i];
+//		cout << endl;
+//		
+//		vector<int> D = sub(A, B);
+//		for (int i = D.size() - 1;i >= 0;i--)cout << D[i];
+//		
+//		cout << endl;
+//
+//	}
+//	return 0;
+//}
+
+
+
+
+
+
+//int main() {
+//	int t;
+//	cin >> t;
+//	while (t--) {
+//		int n;
+//		cin >> n;
+//		if (n < 3)cout << n << endl;
+//		else cout << (n/2)+1 << endl;
+//	}
+//	return 0;
+//}
 
 
 
