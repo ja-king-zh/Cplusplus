@@ -1,3 +1,5 @@
 ﻿  源.cpp
-C:\Users\james\Desktop\Python\C++\刷题\源.cpp(11,19): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
+C:\Users\james\Desktop\Python\C++\刷题\源.cpp(21,48): warning C4475: “printf”: 不可在格式说明符中将长度修饰符“ll”与类型字段字符“f”一起使用
+C:\Users\james\Desktop\Python\C++\刷题\源.cpp(22,37): warning C4475: “printf”: 不可在格式说明符中将长度修饰符“ll”与类型字段字符“f”一起使用
+C:\Users\james\Desktop\Python\C++\刷题\源.cpp(38,10): warning C4475: “printf”: 不可在格式说明符中将长度修饰符“ll”与类型字段字符“f”一起使用
   刷题.vcxproj -> C:\Users\james\Desktop\Python\C++\刷题\Debug\刷题.exe

@@ -3,89 +3,186 @@
 #include<algorithm>
 #include<math.h>
 #include<stdbool.h>
+#include<iomanip>
 #include<stdio.h>
 #include<vector>
 #include<cstring>
 #include<queue>
 using namespace std;
-const int N = 2e5 + 10;
-int e[N], ne[N], h[N], idx;
-int color[N];
-//match[j]=a,表示女孩j的现有配对男友是a
-int match[N];
-//st[]数组我称为临时预定数组，st[j]=a表示一轮模拟匹配中，女孩j被男孩a预定了。
-int st[N];
-int n, m;
-int find(int x)
-{
-	//遍历自己喜欢的女孩
-	for (int i = h[x]; i != -1;i = ne[i])
-	{
-		int j = e[i];
-		if (!st[j])//如果在这一轮模拟匹配中,这个女孩尚未被预定
-		{
-			st[j] = true;//那x就预定这个女孩了
-			//如果女孩j没有男朋友，或者她原来的男朋友能够预定其它喜欢的女孩。配对成功,更新match
-			if (!match[j] || find(match[j]))
-			{
-				match[j] = x;
-				return true;
-			}
 
-		}
-	}
-	//自己中意的全部都被预定了。配对失败。
-	return false;
-}
+#define pi 3.141592653589793238462643383
+long double x1, x2, y11, y2,r1,r2;
 
-void add(int a, int b) {
-	e[idx] = b, ne[idx] = h[a], h[a] = idx++;
-}
-bool dfs(int t, int c) {
-	color[t] = c;
-	for (int i = h[t];i != -1;i = ne[i]) {
-		int j = e[i];
-		if (!color[j]) {
-			if (!dfs(j, 3 - c))return false;
-		}
-		else if (color[j] == c)return false;
-
-	}
-	return true;
-}
 int main() {
-	cin >> n >> m;
-	memset(h, -1, sizeof h);
-	while (m--) {
-		int a, b;
-		cin >> a >> b;
-		add(a, b);
+	//scanf("%llf%llf%llf%llf%llf%llf", &x1, &y11, &r1, &x2, &y2, &r2);
+	cin >> x1 >> y11 >> r1 >> x2 >> y2 >> r2;
+	long double cao = pow(x1 - x2, 2);
+	long double kao = pow(y11 - y2, 2);
+	long double d = sqrt(cao + kao);
+	if (r1 == 0 || r2 == 0 || d >= r1 + r2)cout << setprecision(25) << 0;
+	else if (d <= fabs(r1 - r2))cout << setprecision(25) << pi * (min(r1, r2)*min(r1,r2));
+	else {
+		long double c = d + r1 + r2;
+		long double p = c / 2;
+		long double s = sqrt(p * (p - r1) * (p - r2) * (p - d));
+		long double mmp = s / (d * r2);
+		long double wuyuzi = s / (d * r1);
+		long double val = 180.0 / pi;
+		long double jiao1 = asin(mmp) * val;
+		long double jiao2 = asin(wuyuzi) * val;
+		long double ans = 2 * jiao1 / 360 * pi * r2 * r2 + 2 * jiao2 / 360 * pi * r1 * r1;
+		long double angA = 2 * acos(((r1 * r1) + (d * d) - (r2 * r2)) / (2 * r1 * d));
+		long double angB = 2 * acos(((r2 * r2) + (d * d) - (r1 * r1)) / (2 * r2 * d));
+		long double cccc = (r1 * r1) * (angA - sin(angA)) / 2;
+		long double ccc = (r2 * r2) * (angB - sin(angB)) / 2;
+		long double ccccc = cccc + ccc;
+		//printf("%llf", ccccc);
+		cout << setprecision(25) << ccccc;
 	}
-	int flag = 1;
-	for (int i = 1;i <= n;i++) {
-		if (!color[i]) {
-			if (!dfs(i, 1)) {
-				flag = 0;
-				break;
-			}
-		}
-	}
-	if (flag) {
-		//记录最大匹配
-		int res = 0;
-		for (int i = 1; i <= n;i++)
-		{
-			//因为每次模拟匹配的预定情况都是不一样的所以每轮模拟都要初始化
-			memset(st, false, sizeof st);
-			if (color[i] == 1)
-				if (find(i))
-					res++;
-		}
-		cout << res << endl;
-	}
-	else cout << "YE5";
 	return 0;
 }
+
+
+
+
+
+//typedef long long ll;
+//const int N = 1000050;
+//int a[N], b[N], ah, at, bh, bt;
+//
+////int main() {
+////	char arr[110];
+////	cin >> arr;
+////	cout << arr;
+////	return 0;
+////}
+//
+//int main() {
+//	int n;
+//	cin >> n;
+//	for (int i = 0;i < n;i++) {
+//		int x;
+//		cin >> x;
+//		a[ah++] = x;
+//	}
+//	int ans = 0,prev=-100005000;
+//	while (at < ah) {
+//		int t = a[at++];
+//		if (ans == 0)ans++;
+//		else {
+//			if (t == prev) {
+//				b[bh++] = t;
+//				continue;
+//			}
+//			else {
+//				ans++;
+//			}
+//		}
+//		prev = t;
+//	}
+//	prev = -100005000;
+//	while (bt < bh) {
+//		int t = b[bt++];
+//		if (ans == 0)ans++;
+//		else {
+//			if (t == prev) {
+//				continue;
+//			}
+//			else {
+//				ans++;
+//			}
+//		}
+//		prev = t;
+//	}
+//	cout << ans << endl;
+//	return 0;
+//}
+
+
+
+
+
+
+
+
+//const int N = 2e5 + 10;
+//int e[N], ne[N], h[N], idx;
+//int color[N];
+////match[j]=a,表示女孩j的现有配对男友是a
+//int match[N];
+////st[]数组我称为临时预定数组，st[j]=a表示一轮模拟匹配中，女孩j被男孩a预定了。
+//int st[N];
+//int n, m;
+//int find(int x)
+//{
+//	//遍历自己喜欢的女孩
+//	for (int i = h[x]; i != -1;i = ne[i])
+//	{
+//		int j = e[i];
+//		if (!st[j])//如果在这一轮模拟匹配中,这个女孩尚未被预定
+//		{
+//			st[j] = true;//那x就预定这个女孩了
+//			//如果女孩j没有男朋友，或者她原来的男朋友能够预定其它喜欢的女孩。配对成功,更新match
+//			if (!match[j] || find(match[j]))
+//			{
+//				match[j] = x;
+//				return true;
+//			}
+//
+//		}
+//	}
+//	//自己中意的全部都被预定了。配对失败。
+//	return false;
+//}
+//
+//void add(int a, int b) {
+//	e[idx] = b, ne[idx] = h[a], h[a] = idx++;
+//}
+//bool dfs(int t, int c) {
+//	color[t] = c;
+//	for (int i = h[t];i != -1;i = ne[i]) {
+//		int j = e[i];
+//		if (!color[j]) {
+//			if (!dfs(j, 3 - c))return false;
+//		}
+//		else if (color[j] == c)return false;
+//
+//	}
+//	return true;
+//}
+//int main() {
+//	cin >> n >> m;
+//	memset(h, -1, sizeof h);
+//	while (m--) {
+//		int a, b;
+//		cin >> a >> b;
+//		add(a, b);
+//	}
+//	int flag = 1;
+//	for (int i = 1;i <= n;i++) {
+//		if (!color[i]) {
+//			if (!dfs(i, 1)) {
+//				flag = 0;
+//				break;
+//			}
+//		}
+//	}
+//	if (flag) {
+//		//记录最大匹配
+//		int res = 0;
+//		for (int i = 1; i <= n;i++)
+//		{
+//			//因为每次模拟匹配的预定情况都是不一样的所以每轮模拟都要初始化
+//			memset(st, false, sizeof st);
+//			if (color[i] == 1)
+//				if (find(i))
+//					res++;
+//		}
+//		cout << res << endl;
+//	}
+//	else cout << "YE5";
+//	return 0;
+//}
 
 
 
