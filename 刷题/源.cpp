@@ -8,39 +8,821 @@
 #include<vector>
 #include<cstring>
 #include<queue>
+
 using namespace std;
 
-#define pi 3.141592653589793238462643383
-long double x1, x2, y11, y2,r1,r2;
-
-int main() {
-	//scanf("%llf%llf%llf%llf%llf%llf", &x1, &y11, &r1, &x2, &y2, &r2);
-	cin >> x1 >> y11 >> r1 >> x2 >> y2 >> r2;
-	long double cao = pow(x1 - x2, 2);
-	long double kao = pow(y11 - y2, 2);
-	long double d = sqrt(cao + kao);
-	if (r1 == 0 || r2 == 0 || d >= r1 + r2)cout << setprecision(25) << 0;
-	else if (d <= fabs(r1 - r2))cout << setprecision(25) << pi * (min(r1, r2)*min(r1,r2));
-	else {
-		long double c = d + r1 + r2;
-		long double p = c / 2;
-		long double s = sqrt(p * (p - r1) * (p - r2) * (p - d));
-		long double mmp = s / (d * r2);
-		long double wuyuzi = s / (d * r1);
-		long double val = 180.0 / pi;
-		long double jiao1 = asin(mmp) * val;
-		long double jiao2 = asin(wuyuzi) * val;
-		long double ans = 2 * jiao1 / 360 * pi * r2 * r2 + 2 * jiao2 / 360 * pi * r1 * r1;
-		long double angA = 2 * acos(((r1 * r1) + (d * d) - (r2 * r2)) / (2 * r1 * d));
-		long double angB = 2 * acos(((r2 * r2) + (d * d) - (r1 * r1)) / (2 * r2 * d));
-		long double cccc = (r1 * r1) * (angA - sin(angA)) / 2;
-		long double ccc = (r2 * r2) * (angB - sin(angB)) / 2;
-		long double ccccc = cccc + ccc;
-		//printf("%llf", ccccc);
-		cout << setprecision(25) << ccccc;
-	}
-	return 0;
+int main()
+{
+    int t;
+    cin >> t;
+    while (t--)
+    {
+        int n;
+        cin >> n;
+        double p;
+        cin >> p;
+        double ans = 1;
+        for (int i = 1; i <= n - 1; i++)
+        {
+            ans *= 2;
+        }
+        int mmp = n * (n + 1) / 4;
+        for (int i = 0; i < mmp; i++)
+        {
+            ans *= p;
+            ans = ans * (1 - p);
+        }
+        if (n % 2 == 1)ans = ans * p;
+        cout << ans << endl;
+    }
+    return 0;
 }
+//
+//#include <windows.h>
+//
+//#include <ctime>
+//using namespace std;
+//const int m = 3;             //m路
+//const int MAXM = m + 1;        //每个节点关键字数组的大小
+//const int MAX = m - 1;       //关键字结点数目
+//const int NUM = (m + 1) / 2; //分割点  [m/2]向上取整
+//const int MIN = NUM - 1;     //每个节点关键字数目最小值
+//typedef int KeyType;
+//typedef struct BTNode {
+//    int KeyNum;             //关键字数量
+//    KeyType key[MAXM];      //关键字数组
+//    struct BTNode* parent;  //指向父节点指针
+//    struct BTNode* child[MAXM];//指向子树指针
+//} BTNode, * BTree;
+////插入之前，在树中查找是否存在关键字x；
+////存在即插入失败，//不存在即可以插入，记下插入的结点 结点中关键字的位置 和记录查找 成功与否的标志
+//typedef struct Result {
+//    BTree p;
+//    int i;
+//    int tag;
+//} Result;
+//int SearchBTNode(BTree p, KeyType x) {
+//    int i = 0;
+//    while (i < p->KeyNum && p->key[i + 1] <= x) ++i;
+//    return i;
+//}
+//Result SearchBTree(BTree tree, KeyType k) {
+//    BTree q = tree, p = NULL;
+//    int found_tag = 0, i = 0;
+//    Result r;
+//    while (q != NULL && found_tag == 0) {  // found_tag  是查找成功的标志
+//        i = SearchBTNode(q, k);
+//        if (i > 0 && q->key[i] == k) found_tag = 1;
+//        else {
+//            p = q;
+//            q = q->child[i];  //如果在第一个结点没有查到，而根据其大小，在第一个结点找到其孩子指针，然后这里转向孩子//指针 继续查找
+//        }
+//    }
+//    if (found_tag == 1) {
+//        r.i = i;
+//        r.p = q;
+//        r.tag = 1;
+//    }
+//    else {
+//        r.i = i;
+//        r.p = p;
+//        r.tag = 0;
+//    }
+//    return r;
+//}
+//void NewRoot(BTree& tree, KeyType k, BTree p, BTree q) {
+//    tree = new BTNode;
+//    tree->key[1] = k;
+//    tree->KeyNum = 1;
+//    tree->child[0] = p;
+//    tree->child[1] = q;
+//    /*非根结点的话 pq可能存在合法的结点 就要修改其父结点*/
+//    if (p != NULL) p->parent = tree;
+//    if (q != NULL) q->parent = tree;
+//    tree->parent = NULL;
+//}
+///*生成新的结点*/
+//void InSertBTNode(BTree& p, int i, KeyType k, BTree q) {
+//    /*在第i个位置 插入*/
+//    /*涉及到两种情况 1.插在末尾；2.插在中间*/
+//    for (int j = p->KeyNum; j > i; j--) { /*往后移*/
+//        p->key[j + 1] = p->key[j];
+//        p->child[j + 1] = p->child[j];
+//    }
+//    p->key[i + 1] = k; /*前面查找过程 所得的i是插入的前一个位置坐标*/
+//    p->child[i + 1] = q;
+//    if (q != NULL) q->parent = p;
+//    p->KeyNum++;  //关键字数目+1
+//}
+////将结点p分裂成两个结点,前一半保留,后一半移入结点q
+//void SplitBTNode(BTree& p, BTree& q) {
+//    q = new BTNode;  //给结点q分配空间
+//    int s = NUM;
+//    q->child[0] = p->child[s];  //后一半移入结点q  并置空
+//    p->child[s] = NULL;
+//    for (int i = s + 1; i <= m; i++) {
+//        q->child[i - s] = p->child[i];
+//        q->key[i - s] = p->key[i];
+//        p->child[i] = NULL;
+//        p->key[i] = 0;
+//    }
+//    /*修改结构体内容*/
+//    q->KeyNum = p->KeyNum - s;
+//    q->parent = p->parent;
+//    /*修改 拿过来的子树双亲*/
+//    for (int j = 0; j <= q->KeyNum; j++) {
+//        if (q->child[j] != NULL) q->child[j]->parent = q;
+//    }
+//    p->KeyNum = s - 1;
+//}
+///*在一颗树的结点p的第i个位置插入关键字k*/
+//void InsertBTree(BTree& tree, int i, KeyType k, BTree p) {
+//    /*插入一个新的关键字的话，同时也会生成一个新的子树  尽管可能为空*/
+//    BTree q;
+//    int finish_tag, newroot_tag;
+//    /*插入成功的标志 和新的结点生成的标志*/ /*如果超过最大关键字数而往上走没有合适的结点放时就要生成新的结点*/
+//    KeyType x;
+//    if (p == NULL) NewRoot(tree, k, NULL, NULL);/*插入的时候 树空 结点也空*/ /*这时候就要新生成一颗树了*/
+//    else {
+//        x = k;
+//        q = NULL;
+//        finish_tag = 0, newroot_tag = 0;
+//        while (finish_tag == 0 && newroot_tag == 0) {
+//            InSertBTNode(p, i, x, q); /*插入结点p中  关键字插入也要生成一个子树（即为空）*/
+//            if (p->KeyNum <= MAX) finish_tag = 1;/*判断关键字数目是否合法*/ /*合法 则修改循环标志  插入成功*/
+//            else {              /*不合法 即关键字数多了 则拆分结点*/
+//                int s = NUM;
+//                SplitBTNode(p, q); /*以s为分界线  将p拆开  */
+//                /*处理分割点上的元素    两种情况*/
+//                x = p->key[s];
+//                p->key[s] = '\0';
+//                if (p->parent) { /*如果双亲存在 寻找适合插入的位置*/
+//                    p = p->parent;
+//                    i = SearchBTNode(p, x); /*回到while循环 又开始一场新的插入位置  此时  分裂结点将变为新的插入结点*/
+//                }
+//                else newroot_tag = 1;/*向上走 没有合适的可以插入 那么新生成一个结点咯*/
+//            }
+//        }
+//        if (newroot_tag == 1) NewRoot(tree, x, p, q);/*要生成新的结点 说明 原来拆散的是根结点   这里将新生成一个新的根结点*/
+//    }
+//}
+///*实现用队列有序输出B树*/
+//void PrintBTree(BTree tree, int newLine, int sum, queue<BTree>& qu) {
+//    BTree p;
+//    if (tree != NULL) {
+//        cout << " [ ";
+//        qu.push(tree->child[0]);
+//        /*现将最左边的孩子结点入队列*/  //每次入队列 都是排在最后，所以达到了一行一行的处理
+//        for (int i = 1; i <= tree->KeyNum; i++) {
+//            cout << tree->key[i] << " ";
+//            qu.push(tree->child[i]);
+//        }
+//        sum += tree->KeyNum + 1; /*记录存入了多少个孩子*/
+//        cout << "]";
+//        /*用newLine来判断  是否需要孩子结点处理完毕*/
+//        if (newLine == 0) {
+//            newLine = sum - 1; /*即将处理一个孩子 结点 所以记录下其他孩子数*/
+//            sum = 0;           /*归0，后续处理*/
+//            cout << endl;
+//        }
+//        else newLine--;
+//    }
+//    if (!qu.empty()) {
+//        p = qu.front();
+//        qu.pop();
+//        PrintBTree(p, newLine, sum, qu);
+//    }
+//}
+///***************************/ /*在树中删除关键字时的操作*/ /***************************/
+////先查找要删除的关键字，在树中所在的结点关键字数组中的位置
+////返回值有三种，结点不存在时返回0
+////存在时返回1
+////该结点中没有，但是可以从该结点往下走，返回下一个孩子指针的位置
+//int FindKeyTree(BTree p, int& i, KeyType k) {
+//    if (k < p->key[1]) {
+//        i = 0;  //关键字数组0不存储元素
+//        return 0;
+//    }
+//    else {
+//        i = p->KeyNum;
+//        while (k < p->key[i] && i > 1) i--;
+//        if (k == p->key[i]) return 1;
+//        else return 0;
+//    }
+//}
+///****************************/ /*具体删除操作*/ /************************/
+///*直接删除——关键字数目大于最小关键字数，可以直接删去*/
+///*直接删除结点中位置i处的关键字——适用于，结点中关键字大于最小关键字数的终端结点*/
+///*删除值直接将关键字往前移，在右边空了出来（后面赋值处理）*/
+//void ReMove(BTree p, int i) {
+//    for (int j = i + 1; j <= p->KeyNum; j++) {
+//        p->key[j - 1] = p->key[j];
+//        p->child[j - 1] = p->child[j];
+//    }
+//    p->key[p->KeyNum] = '\0';
+//    p->KeyNum--;
+//}
+///************/
+///*关键字数目等于最小关键字数目，不能直接删，左右兄弟有大于最小关键数目，向他们借孩子*/  //**************
+////是位于相对根结点向左子树借最大关键字，和位于相对根结点向柚子树借最小关键字——这里只是复制了一下
+//void SubstitutionLeft(BTree p, int i) {
+//    // p是寻找到相对根结点，i是其中需要替换的关键字的位置，思路寻找左子树最大关键字
+//    BTree q;
+//    q = p->child[i - 1];
+//    while (NULL != q->child[q->KeyNum]) q = q->child[q->KeyNum];
+//    p->key[i] = q->key[q->KeyNum - 1];
+//}
+//void SubstitutionRight(BTree p, int i)  //向右寻找
+//{
+//    BTree q;
+//    q = p->child[i];
+//    while (NULL != q->child[0]) q = q->child[0];
+//    p->key[i] = q->key[1];
+//}
+///*这里的左旋 右旋是在删除了关键字之后，对树做调整*/
+////所以p是被删关键字的结点，i是指向关键字的的孩子指针位置
+//void MoveRight(BTree p, int i) {
+//    int j;
+//    BTree q = p->child[i];  //被删除的结点
+//    BTree aq = p->child[i - 1];  //被借的兄弟结点  当用到这个兄弟结点时，已经筛选了，它的关键字数大于最小量才用//而且选取左子树最大一个取代
+//    /*之前删除的时候，已经将被删结点，做了往左走的处理*/
+//    /*父结点i处的元素应该赋予在被删结点的最左边，所以要做右走处理*/
+//    for (j = q->KeyNum; j >= 1; j--) {
+//        q->key[j + 1] = q->key[j];
+//        q->child[j + 1] = q->child[j];
+//    }
+//    q->child[1] = q->child[0];
+//    q->key[1] = p->key[i];
+//    q->KeyNum++;
+//    /*左子树到相对根结点*/
+//    p->key[i] = aq->key[aq->KeyNum];
+//    p->child[i]->child[0] = aq->child[aq->KeyNum];  //在向左兄弟借孩子时，把它的最大孩子指针，带到右兄弟的最小孩子指针
+//    aq->KeyNum--;
+//}
+//void MoveLeft(BTree p, int i) /*左旋*/
+//{
+//    int j;
+//    BTree q, aq;
+//    q = p->child[i + 1];  //右兄弟借孩子
+//    aq = p->child[i];     //左兄弟被删的
+//    /*左旋转，相对根的关键字放在，左子树的最大关键字处*/
+//    //而删除操作时，最大位置处是做空的
+//    aq->key[aq->KeyNum + 1] = p->key[i + 1];
+//    aq->KeyNum++;
+//    aq->child[aq->KeyNum] = p->child[i + 1]->child[0]; /*画图得知，向右兄弟借孩子的同时，把它的0号孩子指针赋予左兄弟的最大孩子指针*/
+//    /*把右兄弟的孩子（选择最小的）替换掉父结点关键字*/
+//    p->key[i + 1] = q->key[1];
+//    q->child[0] = q->child[1];
+//    //向前移
+//    for (j = 2; j <= q->KeyNum; j++) {
+//        q->key[j - 1] = q->key[j];
+//        q->child[j - 1] = q->child[j];
+//    }
+//    q->KeyNum--;
+//}
+///*，被删结点的左兄弟不能合并与右兄弟合并*/
+//void CombineRight(BTree p, int i) {
+//    int j, count = 0;
+//    BTree q = p->child[i];  //被删结点  /*左兄弟是被删的，且最右边已经空了*/
+//    BTree aq = p->child[i + 1];  //右兄弟
+//    q->KeyNum++; /*步骤1：先将双亲结点第i+1个元素拿到左兄弟中*/
+//    q->key[q->KeyNum] = p->key[i + 1];
+//    for (j = i + 2; j <= p->KeyNum; j++) /*步骤2：把根结点、孩子指针往左移一个*/
+//    {
+//        p->key[j - 1] = p->key[j];
+//        p->child[j - 1] = p->child[j];
+//    }
+//    p->child[p->KeyNum] = NULL;
+//    p->KeyNum--;
+//    /*步骤3：将右兄弟的关键字与左兄弟合并*/
+//    q->child[q->KeyNum] = aq->child[0];
+//    for (j = 1; j <= aq->KeyNum; j++) {
+//        q->key[q->KeyNum + j] = aq->key[j];
+//        q->child[q->KeyNum + j] = aq->child[j];
+//        count++;
+//    }
+//    q->KeyNum += count;
+//    delete(aq);
+//}
+//void CombineLeft(BTree p, int i) {
+//    /*也是向左合并*/
+//    int j, count = 0;
+//    BTree q = p->child[i];       /*右兄弟是被删的，且最其右边已经空了*/
+//    BTree aq = p->child[i - 1];  //左兄弟
+//    /*步骤1：先将双亲结点一个元素拿到右兄弟中的第一个元素*/
+//    for (j = q->KeyNum; j >= 1; j--) { /*对右兄弟进行右移处理*/
+//        q->key[j + 1] = q->key[j];
+//        q->child[j + 1] = q->child[j];
+//    }
+//    q->child[1] = q->child[0];
+//    q->key[1] = p->key[i];
+//    p->key[i] = '\0';
+//    q->KeyNum++;
+//    /*步骤2：将被删结点往左兄弟移*/
+//    for (j = 1; j <= q->KeyNum; j++) {
+//        aq->key[aq->KeyNum + j] = q->key[j];
+//        aq->child[aq->KeyNum + j] = q->child[j];
+//        q->key[j] = '\0';
+//        q->child[j] = NULL;
+//        count++;
+//    }
+//    aq->KeyNum += count;
+//    q->KeyNum -= count;
+//    /*步骤3: 将根结点左移*/
+//    for (j = i + 1; j <= p->KeyNum; j++) {
+//        p->key[j - 1] = p->key[j];
+//        p->child[j - 1] = p->child[j];
+//    }
+//    p->KeyNum--;
+//    delete(q);
+//}
+///*k关键字已经删除，要调整树，p是关键字k的父结点，i是父结点走向k所在结点的孩子指针数*/
+//void AdjustBTree(BTree p, int i) {
+//    if (i == 0) {                       //如果删除的是第一个1个孩子指针
+//        if (p->child[1]->KeyNum > MIN) MoveLeft(p, i);//右孩子可以借
+//        else CombineRight(p, i);  //不能借，只能合并
+//    }
+//    else if (i == p->KeyNum) {  //如果删除的是最后一个孩子指针
+//        if (p->child[i - 1]->KeyNum > MIN) MoveRight(p, i);//左孩子可借
+//        else CombineLeft(p, i);  //都不能借，只能合并
+//    }
+//    else {  //如果删除的是中间部分的关键字
+//        if (p->child[i - 1]->KeyNum > MIN) MoveRight(p, i);//左孩子可借
+//        else if (p->child[i + 1]->KeyNum > MIN) MoveLeft(p, i);//右孩子可借
+//        else CombineRight(p, i);  //都不可以借 只能合并
+//    }
+//}
+//int BTNodeDelete(BTree p, KeyType k) {
+//    //在结点p中查找并删除关键字k
+//    int i;
+//    int found_tag;  //查找标志
+//    if (p == NULL) return 0;
+//    else {
+//        found_tag = FindKeyTree(p, i, k);  //返回查找结果
+//        if (found_tag == 1)  //查找函数返回为1时就是，查找成功  i值就是该删除关键字的位置
+//        {
+//            if (p->child[i] != NULL) {    //删除的是非叶子结点
+//                SubstitutionRight(p, i);  //寻找相邻关键字(右子树中最小的关键字)
+//                BTNodeDelete(p->child[i], p->key[i]);  //执行删除操作
+//            }
+//            else if (p->child[i - 1] != NULL) {
+//                SubstitutionLeft(p, i);
+//                BTNodeDelete(p->child[i], p->key[i]);
+//            }
+//            else ReMove(p, i);  //从结点p中位置i处删除关键字
+//        }
+//        else found_tag = BTNodeDelete(p->child[i], k);  //沿孩子结点递归查找并删除关键字k
+//        if (p->child[i] != NULL) /*因为上面进入了循环，所以这里每次都会调整一次*/
+//            if (p->child[i]->KeyNum < MIN)  //删除后关键字个数小于MIN
+//                AdjustBTree(p, i);          //调整B树  这里是被删关键词的父结点
+//        return found_tag;
+//    }
+//}
+//int BTreeDelete(BTree& t, KeyType k) {
+//    //构建删除框架，执行删除操作
+//    BTree p;
+//    int a = BTNodeDelete(t, k);  //删除关键字k
+//    if (a == 0) return 0;//查找失败
+//    else if (t->KeyNum == 0) {  //调整
+//        p = t;
+//        t = t->child[0];
+//        delete(p);
+//    }
+//    return 1;
+//}
+//void DestroyBTree(BTree& t) {
+//    //递归释放B树 
+//    int i;
+//    BTree p = t;
+//    if (p != NULL) {                                    //B树不为空  
+//        for (i = 0;i <= p->KeyNum;i++) {                  //递归释放每一个结点 
+//            DestroyBTree(*&p->child[i]);
+//        }
+//        free(p);
+//    }
+//    t = NULL;
+//}
+//void ShowChoose() {
+//    cout << "=============Operation Table=============" << endl;
+//    cout << "   1.Insert    2.Delete   3.Show B-Tree  " << endl;
+//    cout << "   4.Search    5.Destroy  6.Exit         " << endl;
+//    cout << "   7.RandomTest                          " << endl;
+//    cout << "=========================================" << endl;
+//    cout << "Enter number to choose operation:_____\b\b\b";
+//}
+//void RandomTest() {
+//    //SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),FOREGROUND_INTENSITY |FOREGROUND_GREEN);//绿色字体
+//    cout << "Please enter how many numbers do you want to insert:" << endl;
+//    BTree tree = NULL;
+//    queue<BTree>qu;
+//    int n = 0; cin >> n;
+//    clock_t start = clock();
+//    for (int i = 0;i < n;++i) {
+//        int value = rand() % 99999;
+//        Result s = SearchBTree(tree, value);    //查找是否重复
+//        if (1 != s.tag) InsertBTree(tree, s.i, value, s.p);
+//        // if(1==s.tag) cout<<"The number "<<value<<" has existed!"<<endl;
+//        // else{ 
+//        //     InsertBTree(tree,s.i,value,s.p);
+//        //     cout<<"Insert successfully!"<<endl;
+//        // }
+//    }
+//    clock_t end = clock();
+//    //PrintBTree(tree,0,0,qu);
+//    cout << "Insert " << n << " numbers spends " << (double)(end - start) / CLOCKS_PER_SEC << " s" << endl;
+//    PrintBTree(tree, 0, 0, qu);
+//    DestroyBTree(tree);
+//}
+//void Test() {
+//    system("cls");
+//    BTree tree = NULL;
+//    queue<BTree>qu;
+//    int choose = 0;
+//    while (true) {
+//        cout << endl;
+//        //SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),FOREGROUND_INTENSITY |FOREGROUND_GREEN | FOREGROUND_GREEN | FOREGROUND_BLUE);
+//        ShowChoose();
+//        cin >> choose;
+//        switch (choose) {
+//        case 1: {                       //插入
+//            system("cls");             //清屏
+//            //SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),FOREGROUND_INTENSITY |FOREGROUND_GREEN);//绿色字体
+//            cout << "Please enter the number that you want to insert:_____\b\b\b";
+//            KeyType value = 0; cin >> value;
+//            Result s = SearchBTree(tree, value);    //查找是否重复
+//            if (1 == s.tag) cout << "The number " << value << " has existed!" << endl;
+//            else {
+//                InsertBTree(tree, s.i, value, s.p);
+//                cout << "Insert successfully!" << endl;
+//            }
+//            break;
+//        }
+//        case 2: {                         //删除
+//            system("cls");
+//            //SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),FOREGROUND_INTENSITY |FOREGROUND_GREEN);
+//            cout << "Please enter the number that you want to delete:_____\b\b\b";
+//            KeyType value = 0; cin >> value;
+//            if (0 == BTreeDelete(tree, value)) cout << "Cannot find " << value << " in B-Tree!" << endl;
+//            else cout << "Delete successfully!" << endl;
+//            break;
+//        }
+//        case 3: {                     //打印B-Tree
+//            system("cls");
+//            //SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),FOREGROUND_INTENSITY |FOREGROUND_GREEN);
+//            if (!tree) cout << "B-Tree is NULL!" << endl;
+//            else PrintBTree(tree, 0, 0, qu);
+//            break;
+//        }
+//        case 4: {                       //查找
+//            system("cls");
+//            //SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),FOREGROUND_INTENSITY |FOREGROUND_GREEN);
+//            cout << "Please enter the number that you want to search:_____\b\b\b";
+//            KeyType value = 0; cin >> value;
+//            Result s = SearchBTree(tree, value);
+//            if (1 == s.tag) cout << "Search successfully!" << endl << value << " is in B-Tree!" << endl;
+//            else cout << "Cannot find " << value << " in B-Tree!" << endl;
+//            break;
+//        }
+//        case 5: {                          //销毁B-Tree
+//            system("cls");
+//            //SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),FOREGROUND_INTENSITY |FOREGROUND_GREEN);
+//            DestroyBTree(tree);
+//            cout << "B-Tree is Destroyed!" << endl;
+//            break;
+//        }
+//        case 6: {                           //退出
+//            system("cls");
+//            exit(0);
+//            break;
+//        }
+//        case 7: {
+//            system("cls");             //清屏
+//            RandomTest();
+//            break;
+//        }
+//        default: {
+//            system("cls");
+//            //SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),FOREGROUND_INTENSITY |FOREGROUND_GREEN);
+//            cout << "Error!" << endl << "Please enter again:" << endl;
+//        }
+//        }
+//    }
+//}
+//int main() {
+//    srand((unsigned)time(NULL));
+//    Test();
+//    system("pause");
+//    return 0;
+//}
+
+//static int n = 0;  //统计做对题目的数量
+//int pastscore = 0;//历史成绩
+//void get_value();//调用函数
+//void read(string filename);
+//void get_value1(); //加法
+//void get_value2(); //减法
+//void get_value3(); //乘法
+//void get_value4(); //除法
+//void get_value5();//带括号的混合运算
+//int main() {
+//	system("color F0");
+//	cout << "==============================" << endl;
+//	cout << "*  欢迎使用小学生小型考试系统*" << endl;
+//	cout << "*     1.出10道新题           *" << endl;
+//	srand((unsigned)time(NULL));//初始化随机数发生器
+//
+//	
+//	FILE* fp = fopen("./2.txt", "r");
+//	if (!fp)
+//		return 0;
+//	int c;
+//	c = _getw(fp);
+//	cout << "你的历史成绩为:" << c<<' ';
+//	pastscore = c;
+//	
+//	fclose(fp);
+//	cout << endl;
+//
+//	int y;
+//	cout << "选择功能";
+//	cin >> y;
+//	if (y != 1)
+//		cout << "输入有误" << endl;
+//	else
+//	{
+//		switch (y)
+//		{
+//		case 1:
+//			get_value();break;
+//
+//		}
+//
+//	}
+//
+//}
+//void get_value()
+//{
+//	int m, i;
+//	int score;
+//	for (i = 0;i < 10;i++)
+//	{
+//		cout << "===================" << endl;
+//		cout << "第" << i + 1 << "题：" << endl;
+//		m = rand() % 5;
+//
+//		switch (m)
+//		{
+//		case 0:
+//			get_value1();break;
+//		case 1:
+//			get_value2();break;
+//		case 2:
+//			get_value3();break;
+//		case 3:
+//			get_value4();break;
+//		case 4:
+//			get_value5();break;
+//		}
+//	}
+//	cout << "共做对了" << n << "道题" << endl;
+//	score = n * 10;
+//	cout << "你的本次得分为" << score << endl;
+//	if (score > pastscore)
+//		printf("你进步了\n");
+//	else
+//		printf("你退步了\n");
+//	
+//	FILE* fp = fopen("2.txt", "a");
+//	_putw(score,fp);
+//	fclose(fp);
+//	
+//}
+//void get_value1()
+//{
+//
+//	int a, b, x;
+//	char m = '+', ch;
+//	a = 1 + rand() % 100;
+//	b = 1 + rand() % 100;
+//	cout << a << m << b << '=';
+//	cin >> x;
+//	if (x == a + b)
+//	{
+//		cout << "做对了" << endl;
+//		n++;
+//	}
+//	else
+//	{
+//		cout << "做错了" << endl;
+//		cout << "是否输出正确答案：(Y或N)" << endl;
+//		cin >> ch;
+//		if (ch == 'Y')
+//		{
+//			cout << "正确答案为：" << a + b << endl;
+//		}
+//
+//	}
+//
+//}
+//
+//
+////减法函数
+//void get_value2()
+//{
+//
+//	int a, b, x;
+//	char m = '-', ch;
+//	a = 1 + rand() % 100;
+//	b = 1 + rand() % 100;
+//	if (a >= b)
+//	{
+//		cout << a << m << b << '=';
+//		cin >> x;
+//		if (x == a - b)
+//		{
+//			cout << "做对了" << endl;
+//			n++;
+//		}
+//		else
+//		{
+//			cout << "做错了" << endl;
+//			cout << "是否输出正确答案：(Y或N)" << endl;
+//			cin >> ch;
+//			if (ch == 'Y')
+//			{
+//				cout << "正确答案为：" << a - b << endl;
+//			}
+//
+//		}
+//	}
+//	else
+//		get_value2();
+//}
+//
+//
+////乘法函数
+//void get_value3()
+//{
+//
+//	int a, b, x;
+//	char m = '*', ch;
+//	a = 1 + rand() % 9;
+//	b = 1 + rand() % 9;
+//	if (a < b)
+//	{
+//		cout << a << m << b << '=';
+//		cin >> x;
+//		if (x == a * b)
+//		{
+//			cout << "做对了" << endl;
+//			n++;
+//		}
+//		else
+//		{
+//			cout << "做错了" << endl;
+//			cout << "是否输出正确答案：(Y或N)" << endl;
+//			cin >> ch;
+//			if (ch == 'Y')
+//			{
+//				cout << "正确答案为：" << a * b << endl;
+//			}
+//
+//		}
+//	}
+//	else
+//		get_value3();
+//}
+//
+//
+////除法函数
+//void get_value4()
+//{
+//
+//	int a, b, x;
+//	char m = '/', ch;
+//	a = 1 + rand() % 9;
+//	b = 1 + rand() % 9;
+//	if (a >= b && a % b == 0)
+//	{
+//		cout << a << m << b << '=';
+//		cin >> x;
+//		if (x == a / b)
+//		{
+//			cout << "做对了" << endl;
+//			n++;
+//		}
+//		else
+//		{
+//			cout << "做错了" << endl;
+//			cout << "是否输出正确答案：(Y或N)" << endl;
+//			cin >> ch;
+//			if (ch == 'Y')
+//			{
+//				cout << "正确答案为：" << a / b << endl;
+//			}
+//
+//		}
+//	}
+//	else
+//		get_value4();
+//}
+//
+//void get_value5()
+//{
+//	int a, b, c;int m, k;
+//
+//	a = rand() % 10 + 1;
+//	b = rand() % 10 + 1;
+//	c = rand() % 10 + 1;
+//
+//	m = rand() % 4 + 1;
+//	switch (m)
+//	{
+//	case 1:
+//	{	cout << a << "+" << "(" << b << "*" << c << ")" << "=";
+//	scanf("%d", &k);
+//	if (k = a + (b * c))
+//	{
+//		printf("做对了");
+//		n++;
+//		break;
+//	}
+//	else
+//		printf("做错了");
+//	}
+//	case 2:
+//
+//	{	cout << a << "-" << "(" << b << "*" << c << ")" << "=";
+//	scanf("%d", &k);
+//	if (k = a - (b * c))
+//	{
+//		printf("做对了");
+//		n++;
+//		break;
+//	}
+//	else
+//		printf("做错了");
+//	}
+//	case 3:
+//	{	cout << "(" << a << "-" << b << ")" << "*" << c << "=";
+//	scanf("%d", &k);
+//	if (k = (a - b) * c)
+//	{
+//		printf("做对了");
+//		n++;
+//		break;
+//	}
+//	else
+//		printf("做错了");
+//	}
+//	case 4:
+//	{	cout << "(" << a << "+" << b << ")" << "/" << c << "=";
+//	scanf("%d", &k);
+//	if (k = (a + b) / c)
+//	{
+//		printf("做对了");
+//		n++;
+//		break;
+//	}
+//	else
+//		printf("做错了");
+//	}
+//	}
+//
+//}
+
+
+//#define pi 3.141592653589793238462643383
+//long double x1, x2, y11, y2,r1,r2;
+//
+//int main() {
+//	//scanf("%llf%llf%llf%llf%llf%llf", &x1, &y11, &r1, &x2, &y2, &r2);
+//	cin >> x1 >> y11 >> r1 >> x2 >> y2 >> r2;
+//	long double cao = pow(x1 - x2, 2);
+//	long double kao = pow(y11 - y2, 2);
+//	long double d = sqrt(cao + kao);
+//	if (r1 == 0 || r2 == 0 || d >= r1 + r2)cout << setprecision(25) << 0;
+//	else if (d <= fabs(r1 - r2))cout << setprecision(25) << pi * (min(r1, r2)*min(r1,r2));
+//	else {
+//		long double c = d + r1 + r2;
+//		long double p = c / 2;
+//		long double s = sqrt(p * (p - r1) * (p - r2) * (p - d));
+//		long double mmp = s / (d * r2);
+//		long double wuyuzi = s / (d * r1);
+//		long double val = 180.0 / pi;
+//		long double jiao1 = asin(mmp) * val;
+//		long double jiao2 = asin(wuyuzi) * val;
+//		long double ans = 2 * jiao1 / 360 * pi * r2 * r2 + 2 * jiao2 / 360 * pi * r1 * r1;
+//		long double angA = 2 * acos(((r1 * r1) + (d * d) - (r2 * r2)) / (2 * r1 * d));
+//		long double angB = 2 * acos(((r2 * r2) + (d * d) - (r1 * r1)) / (2 * r2 * d));
+//		long double cccc = (r1 * r1) * (angA - sin(angA)) / 2;
+//		long double ccc = (r2 * r2) * (angB - sin(angB)) / 2;
+//		long double ccccc = cccc + ccc;
+//		//printf("%llf", ccccc);
+//		cout << setprecision(25) << ccccc;
+//	}
+//	return 0;
+//}
 
 
 
