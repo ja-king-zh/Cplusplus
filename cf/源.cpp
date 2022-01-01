@@ -6,43 +6,47 @@
 #include<vector>
 #include<map>
 using namespace std;
-int arr[100];
-double d[100];
 
-int main() {
-	int t;
-	cin >> t;
-	while (t--) {
-		int n;
-		memset(d, 0x3f, sizeof d);
-		memset(arr, 0, sizeof arr);
-		cin >> n;
-		for (int i = 1;i <= n;i++) {
-			cin >> arr[i];
-		}
-		int res = 0, cnt = 1;
-		for (int i = 1;i <= n;i++) {
-			int k = 1;
-			for (int j = 1;j <= n;j++) {
-				
-				if (i == j)continue;
-				else {
-					d[k++] = (double)(arr[j] - arr[i]) / (j - i);
-					
-				}
-			}
-			sort(d+1, d + n);
-			
-			for (int m = 1;m < n;m++) {
-				if (d[m + 1] == d[m])cnt++;
-				else cnt = 1;
-				res = max(res, cnt);
-			}
-		}
-		cout << n - res -1 << endl;
-	}
-	return 0;
-}
+
+
+
+//int arr[100];
+//double d[100];
+//
+//int main() {
+//	int t;
+//	cin >> t;
+//	while (t--) {
+//		int n;
+//		memset(d, 0x3f, sizeof d);
+//		memset(arr, 0, sizeof arr);
+//		cin >> n;
+//		for (int i = 1;i <= n;i++) {
+//			cin >> arr[i];
+//		}
+//		int res = 0, cnt = 1;
+//		for (int i = 1;i <= n;i++) {
+//			int k = 1;
+//			for (int j = 1;j <= n;j++) {
+//				
+//				if (i == j)continue;
+//				else {
+//					d[k++] = (double)(arr[j] - arr[i]) / (j - i);
+//					
+//				}
+//			}
+//			sort(d+1, d + n);
+//			
+//			for (int m = 1;m < n;m++) {
+//				if (d[m + 1] == d[m])cnt++;
+//				else cnt = 1;
+//				res = max(res, cnt);
+//			}
+//		}
+//		cout << n - res -1 << endl;
+//	}
+//	return 0;
+//}
 
 
 
@@ -81,7 +85,7 @@ int main() {
 //}
 
 
-//
+
 //int main()
 //{
 //	int t;
