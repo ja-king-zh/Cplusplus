@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31205.134
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "牛客网刷题", "牛客网刷题.vcxproj", "{AF273B61-C917-4A7A-8E8C-B0121AEB272A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AF273B61-C917-4A7A-8E8C-B0121AEB272A}.Debug|x64.ActiveCfg = Debug|x64
+		{AF273B61-C917-4A7A-8E8C-B0121AEB272A}.Debug|x64.Build.0 = Debug|x64
+		{AF273B61-C917-4A7A-8E8C-B0121AEB272A}.Debug|x86.ActiveCfg = Debug|Win32
+		{AF273B61-C917-4A7A-8E8C-B0121AEB272A}.Debug|x86.Build.0 = Debug|Win32
+		{AF273B61-C917-4A7A-8E8C-B0121AEB272A}.Release|x64.ActiveCfg = Release|x64
+		{AF273B61-C917-4A7A-8E8C-B0121AEB272A}.Release|x64.Build.0 = Release|x64
+		{AF273B61-C917-4A7A-8E8C-B0121AEB272A}.Release|x86.ActiveCfg = Release|Win32
+		{AF273B61-C917-4A7A-8E8C-B0121AEB272A}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C01DDAA0-4C8D-4D10-A9ED-659952B3F7B2}
+	EndGlobalSection
+EndGlobal

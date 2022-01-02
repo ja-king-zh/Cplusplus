@@ -1,0 +1,6 @@
+﻿  源.cpp
+C:\Users\james\Desktop\Python\C++\牛客网刷题\源.cpp(96,45): warning C4244: “=”: 从“double”转换到“ll”，可能丢失数据
+C:\Users\james\Desktop\Python\C++\牛客网刷题\源.cpp(97,18): warning C4244: “=”: 从“double”转换到“ll”，可能丢失数据
+C:\Users\james\Desktop\Python\C++\牛客网刷题\源.cpp(101,45): warning C4244: “=”: 从“double”转换到“ll”，可能丢失数据
+C:\Users\james\Desktop\Python\C++\牛客网刷题\源.cpp(102,18): warning C4244: “=”: 从“double”转换到“ll”，可能丢失数据
+  牛客网刷题.vcxproj -> C:\Users\james\Desktop\Python\C++\牛客网刷题\Debug\牛客网刷题.exe
