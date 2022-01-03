@@ -1,2 +1,21 @@
 ﻿  源.cpp
-  刷题.vcxproj -> C:\Users\james\Desktop\Python\C++\刷题\Debug\刷题.exe
+C:\Users\james\Desktop\Python\C++\刷题\源.cpp(9,19): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
+C:\Users\james\Desktop\Python\C++\刷题\源.cpp(32,23): error C2664: “void std::priority_queue<PII,std::vector<PII,std::allocator<PII>>,std::greater<PII>>::push(const std::pair<int,int> &)”: 无法将参数 1 从“int”转换为“const std::pair<int,int> &”
+C:\Users\james\Desktop\Python\C++\刷题\源.cpp(32,23): message : 原因如下: 无法从“int”转换为“const std::pair<int,int>”
+C:\Users\james\Desktop\Python\C++\刷题\源.cpp(32,23): message : 无构造函数可以接受源类型，或构造函数重载决策不明确
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\queue(266,10): message : 参见“std::priority_queue<PII,std::vector<PII,std::allocator<PII>>,std::greater<PII>>::push”的声明
+C:\Users\james\Desktop\Python\C++\刷题\源.cpp(37,27): warning C4018: “<”: 有符号/无符号不匹配
+C:\Users\james\Desktop\Python\C++\刷题\源.cpp(39,29): error C2440: “初始化”: 无法从“const _Ty”转换为“int”
+          with
+          [
+              _Ty=PII
+          ]
+C:\Users\james\Desktop\Python\C++\刷题\源.cpp(39,20): message : 没有可用于执行该转换的用户定义的转换运算符，或者无法调用该运算符
+C:\Users\james\Desktop\Python\C++\刷题\源.cpp(43,35): error C2664: “void std::priority_queue<PII,std::vector<PII,std::allocator<PII>>,std::greater<PII>>::push(const std::pair<int,int> &)”: 无法将参数 1 从“int”转换为“const std::pair<int,int> &”
+C:\Users\james\Desktop\Python\C++\刷题\源.cpp(43,35): message : 原因如下: 无法从“int”转换为“const std::pair<int,int>”
+C:\Users\james\Desktop\Python\C++\刷题\源.cpp(43,35): message : 无构造函数可以接受源类型，或构造函数重载决策不明确
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\queue(266,10): message : 参见“std::priority_queue<PII,std::vector<PII,std::allocator<PII>>,std::greater<PII>>::push”的声明
+C:\Users\james\Desktop\Python\C++\刷题\源.cpp(50,31): error C2664: “void std::priority_queue<PII,std::vector<PII,std::allocator<PII>>,std::greater<PII>>::push(const std::pair<int,int> &)”: 无法将参数 1 从“int”转换为“const std::pair<int,int> &”
+C:\Users\james\Desktop\Python\C++\刷题\源.cpp(50,31): message : 原因如下: 无法从“int”转换为“const std::pair<int,int>”
+C:\Users\james\Desktop\Python\C++\刷题\源.cpp(50,31): message : 无构造函数可以接受源类型，或构造函数重载决策不明确
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\queue(266,10): message : 参见“std::priority_queue<PII,std::vector<PII,std::allocator<PII>>,std::greater<PII>>::push”的声明

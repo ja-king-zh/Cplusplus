@@ -1,42 +1,138 @@
 #define _CRT_SECURE_NO_WARNINGS 1
-#include<iostream>
-#include<algorithm>
-#include<math.h>
-#include<stdbool.h>
-#include<iomanip>
-#include<stdio.h>
-#include<vector>
-#include<cstring>
-#include<queue>
+//#include<iostream>
+//#include<vector>
+//#include<queue>
+//#include<algorithm>
+//using namespace std;
+//typedef pair<int, int>PII;
+//
+//const int N = 1e5 + 10;
+//struct range
+//{
+//    int l, r;
+//}ranges[N];
+//
+//bool cmp(range a, range b)
+//{
+//    return a.l < b.l;
+//}
+//
+//int main()
+//{
+//    int n;
+//    cin >> n;
+//    for (int i = 0; i < n; i++)
+//    {
+//        int l, r;
+//        cin >> l >> r;
+//        ranges[i] = { l, r };
+//    }
+//    sort(ranges, ranges + n, cmp);
+//    priority_queue<int, vector<int>, greater<int>>a;
+//    a.push(ranges[0].r);
+//    int res = 1;
+//    for (int i = 1; i < n; i++)
+//    {
+//        int flag = 0;
+//        for (int j = 0; j < a.size(); j++)
+//        {
+//            int aa = a.top();
+//            if (ranges[i].l > aa)
+//            {
+//                a.pop();
+//                a.push(ranges[i].r);
+//                flag = 1;
+//                break;
+//            }
+//        }
+//        if (!flag)
+//        {
+//            a.push(ranges[i].r);
+//            res++;
+//        }
+//    }
+//    cout << res << endl;
+//    return 0;
+//}
 
-using namespace std;
 
-int main()
-{
-    int t;
-    cin >> t;
-    while (t--)
-    {
-        int n;
-        cin >> n;
-        double p;
-        cin >> p;
-        double ans = 1;
-        for (int i = 1; i <= n - 1; i++)
-        {
-            ans *= 2;
-        }
-        int mmp = n * (n + 1) / 4;
-        for (int i = 0; i < mmp; i++)
-        {
-            ans *= p;
-            ans = ans * (1 - p);
-        }
-        if (n % 2 == 1)ans = ans * p;
-        cout << ans << endl;
-    }
-    return 0;
-}
+
+
+//#include<iostream>
+//#include<algorithm>
+//#include<math.h>
+//#include<stdbool.h>
+//#include<iomanip>
+//#include<stdio.h>
+//#include<vector>
+//#include<cstring>
+//#include<queue>
+//
+//using namespace std;
+//
+//const int N = 1e6 + 10;
+//struct range
+//{
+//	int l, r;
+//}ranges[N];
+//
+//bool cmp(range a, range b)
+//{
+//	return a.r < b.r;
+//}
+//
+//int main()
+//{
+//	int n;
+//	cin >> n;
+//	for (int i = 0; i < n;i++)
+//	{
+//		int l, r;
+//		cin >> l >> r;
+//		ranges[i] = { l, r };
+//	}
+//	sort(ranges, ranges + n, cmp);
+//	int res = 1, ed = ranges[0].r;
+//	for (int i = 1; i < n; i++)
+//	{
+//		if (ed <= ranges[i].l)
+//		{
+//			res++;
+//			ed = ranges[i].r;
+//		}
+//	}
+//	cout << res << endl;
+//	return 0;
+//}
+
+
+
+//int main()
+//{
+//    int t;
+//    cin >> t;
+//    while (t--)
+//    {
+//        int n;
+//        cin >> n;
+//        double p;
+//        cin >> p;
+//        double ans = 1;
+//        for (int i = 1; i <= n - 1; i++)
+//        {
+//            ans *= 2;
+//        }
+//        int mmp = n * (n + 1) / 4;
+//        for (int i = 0; i < mmp; i++)
+//        {
+//            ans *= p;
+//            ans = ans * (1 - p);
+//        }
+//        if (n % 2 == 1)ans = ans * p;
+//        cout << ans << endl;
+//    }
+//    return 0;
+//}
 //
 //#include <windows.h>
 //

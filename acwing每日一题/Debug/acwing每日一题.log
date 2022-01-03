@@ -1,0 +1,3 @@
+﻿  源.cpp
+C:\Users\james\Desktop\Python\C++\acwing每日一题\源.cpp(16,49): warning C4244: “+=”: 从“double”转换到“int”，可能丢失数据
+  acwing每日一题.vcxproj -> C:\Users\james\Desktop\Python\C++\acwing每日一题\Debug\acwing每日一题.exe
