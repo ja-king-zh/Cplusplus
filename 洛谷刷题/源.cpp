@@ -1,13 +1,254 @@
 #define _CRT_SECURE_NO_WARNINGS 1
-
-
 #include<iostream>
 #include<algorithm>
 #include<queue>
 #include<cstring>
 using namespace std;
 
+typedef pair<int, int>PII;
+const int N = 500;
+int a[N][N];
+bool st[N][N];
 
+int main()
+{
+	int n, m, xx, yy;
+	cin >> n >> m >> xx >> yy;
+	queue<PII>q;
+	q.push({ xx, yy });
+	st[xx][yy] = true;
+	int dx[8] = { -1, -2, -2, -1, 1 , 2, 2,1 }, dy[8] = { -2, -1, 1, 2, 2,1, - 1, - 2 };
+	while (!q.empty())
+	{
+		auto t = q.front();
+		q.pop();
+		for (int i = 0; i < 8;i++)
+		{
+			int x = t.first + dx[i], y = t.second + dy[i];
+			if (x > 0 && x <= n && y > 0 && y <= m && !st[x][y])
+			{
+				st[x][y] = true;
+				//cout << x << ' ' << y << endl;
+				a[x][y] = a[t.first][t.second] + 1;
+				q.push({ x, y });
+			}
+		}
+	}
+	for (int i = 1; i <= n;i++)
+	{
+		for (int j = 1; j <= m;j++)
+		{
+			if (!st[i][j]) a[i][j] = -1;
+			printf("%-5d", a[i][j]);
+		}
+		cout << endl;
+	}
+	return 0;
+}
+
+
+
+
+
+//const int N = 110;
+//int a[N][N], dp[N][N];
+//int n, m;
+//
+//int main()
+//{
+//	cin >> n >> m;
+//	for (int i = 1; i <= n; i++)
+//	{
+//		for (int j = 1; j <= m; j++)
+//		{
+//			cin >> a[i][j];
+//		}
+//	}
+//	for (int i = 1; i <= n; i++)
+//	{
+//		for (int j = 1; j <= m; j++)
+//		{
+//			if (a[i][j])
+//			{
+//				dp[i][j] = min(min(dp[i][j - 1], dp[i - 1][j]), dp[i - 1][j - 1]) + 1;
+//			}
+//		}
+//	}
+//	int ans = 0;
+//	for (int i = 1; i <= n; i++)
+//	{
+//		for (int j = 1; j <= m; j++)
+//		{
+//			if (dp[i][j] > ans)
+//			{
+//				ans = dp[i][j];
+//			}
+//		}
+//	}
+//	cout << ans << endl;
+//	return 0;
+//}
+
+
+
+
+
+//typedef pair<int, int>PII;
+//const int N = 110;
+//int a[N][N];
+//bool st[N][N];
+//int main()
+//{
+//	int n, m;
+//	cin >> n >> m;
+//	for (int i = 0; i < n; i++)
+//	{
+//		for (int j = 0; j < m; j++) 
+//		{
+//			cin >> a[i][j];
+//		}
+//	}
+//	int res = 0, ans = 0;
+//	int dx[3] = { 1, 0, 1 }, dy[3] = { 0, 1, 1 };
+//	for (int i = 0; i < n; i++)
+//	{
+//		for (int j = 0; j < m; j++)
+//		{
+//			if (a[i][j] == 1)
+//			{
+//				queue<PII>q;
+//				q.push({ i, j });
+//				while (!q.empty())
+//				{
+//					res++;
+//					int w = q.size();
+//					for (int i = 0; i < w; i++)
+//					{
+//						auto t = q.front();
+//						q.pop();
+//						for (int i = 0;i < 3; i++)
+//						{
+//							int x = dx[i] + t.first, y = dy[i] + t.second;
+//							if (a[x][y] && !st[x][y])
+//							{
+//								q.push({ x, y });
+//								st[x][y] = true;
+//							}
+//							else
+//							{
+//								goto aa;
+//							}
+//						}
+//					}
+//				}
+//			}
+//			aa:
+//			ans = max(ans, res);
+//		}
+//	}
+//	cout << ans << endl;
+//	return 0;
+//}
+
+
+
+
+//const int N = 3e4 + 10;
+//int a[N];
+//int main()
+//{
+//	int w;
+//	cin >> w;
+//	int n;
+//	cin >> n;
+//	for (int i = 0; i < n; i++)
+//	{
+//		cin >> a[i];
+//	}
+//	sort(a, a + n);
+//	int l = 0, r = n - 1;
+//	int res = 0;
+//	while (l <= r)
+//	{
+//		if ((a[l] + a[r]) > w)
+//		{
+//			res++;
+//			r--;
+//		}
+//		else
+//		{
+//			res++;
+//			l++;
+//			r--;
+//		}
+//	}
+//	cout << res << endl;
+//	return 0;
+//}
+
+
+
+
+
+
+
+//typedef pair<int, int>PII;
+//typedef long long ll;
+//const int N = 1e6 + 10;
+//ll a[N], d[N], c[N];
+//PII q[N];
+//int n, m;
+//bool solve(int x)
+//{
+//	memset(d, 0, sizeof d);
+//	for (int i = 1; i <= x; i++)
+//	{
+//		int l = q[i].first, r = q[i].second;
+//		d[l] += c[i], d[r + 1] -= c[i];
+//	}
+//	for (int i = 1; i <= n; i++)
+//	{
+//		d[i] += d[i - 1];
+//		if (d[i] > a[i])return false;
+//	}
+//	return true;
+//}
+//
+//int main()
+//{
+//	
+//	cin >> n >> m;
+//	for (int i = 1; i <= n; i++)
+//	{
+//		cin >> a[i];
+//	}
+//	for (int i = 1; i <= m; i++)
+//	{
+//		int l, r, t;
+//		cin >> t >> l >> r;
+//		c[i] = t;
+//		q[i] = { l,r };
+//	}
+//	if (solve(m))
+//	{
+//		cout << 0 << endl;
+//	}
+//	else
+//	{
+//		int l = 1, r = m;
+//		while (l < r - 1)
+//		{
+//			int mid = l + r >> 1;
+//			if (solve(mid)) l = mid + 1;
+//			else r = mid;
+//		}
+//		cout << -1 << endl;
+//		//cout << l << ' ' << r << endl;
+//		if (solve(l)) cout << r << endl;
+//		else cout << l << endl;
+//	}
+//	return 0;
+//}
 
 
 
