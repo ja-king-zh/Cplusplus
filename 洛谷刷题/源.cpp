@@ -1,50 +1,157 @@
 #define _CRT_SECURE_NO_WARNINGS 1
 #include<iostream>
 #include<algorithm>
+#include<math.h>
 #include<queue>
 #include<cstring>
 using namespace std;
 
-typedef pair<int, int>PII;
-const int N = 500;
-int a[N][N];
-bool st[N][N];
 
-int main()
-{
-	int n, m, xx, yy;
-	cin >> n >> m >> xx >> yy;
-	queue<PII>q;
-	q.push({ xx, yy });
-	st[xx][yy] = true;
-	int dx[8] = { -1, -2, -2, -1, 1 , 2, 2,1 }, dy[8] = { -2, -1, 1, 2, 2,1, - 1, - 2 };
-	while (!q.empty())
-	{
-		auto t = q.front();
-		q.pop();
-		for (int i = 0; i < 8;i++)
-		{
-			int x = t.first + dx[i], y = t.second + dy[i];
-			if (x > 0 && x <= n && y > 0 && y <= m && !st[x][y])
-			{
-				st[x][y] = true;
-				//cout << x << ' ' << y << endl;
-				a[x][y] = a[t.first][t.second] + 1;
-				q.push({ x, y });
-			}
-		}
-	}
-	for (int i = 1; i <= n;i++)
-	{
-		for (int j = 1; j <= m;j++)
-		{
-			if (!st[i][j]) a[i][j] = -1;
-			printf("%-5d", a[i][j]);
-		}
-		cout << endl;
-	}
-	return 0;
-}
+
+
+
+
+//const int N = 1010;
+//int d[N][N];
+//
+//int main()
+//{
+//	int n, m;
+//	cin >> n >> m;
+//	for (int i = 0; i < m;i++)
+//	{
+//		int x1, x2, y1, y2;
+//		cin >> x1 >> y1 >> x2 >> y2;
+//		for (int j = x1; j <= x2; j++)
+//		{
+//			d[j][y1] += 1;
+//			d[j][y2 + 1] -= 1;
+//		}
+//	}
+//	int res = 0;
+//	for (int i = 1; i <= n + 1;i++)
+//	{
+//		for (int j = 1; j <= n + 1;j++)
+//		{
+//			res += d[i][j];
+//			d[i][j] = res;
+//		}
+//	}
+//	for (int i = 1; i <= n;i++)
+//	{
+//		for (int j = 1; j <= n;j++)
+//		{
+//			cout << d[i][j] << ' ';
+//		}
+//		cout << endl;
+//	}
+//	return 0;
+//}
+
+
+
+
+//typedef long long ll;
+//const int N = 2e5 + 10;
+//struct range
+//{
+//	ll x, y, s;
+//	double d;
+//}Ranges[N];
+//
+//bool cmp(range a, range b)
+//{
+//	return a.s < b.s;
+//}
+//
+//int main()
+//{
+//	int n;
+//	cin >> n;
+//	for (int i = 0; i < n;i++)
+//	{
+//		ll x, y;
+//		cin >> x >> y;
+//		Ranges[i] = { x, y, x + y };
+//	}
+//	sort(Ranges, Ranges + n, cmp);
+//	double res = 1e9;
+//	for (int i = 0; i < n - 1;i++)
+//	{
+//		Ranges[i].d = sqrt(pow((Ranges[i].x - Ranges[i + 1].x), 2) + pow((Ranges[i].y - Ranges[i + 1].y), 2));
+//		res = min(res, Ranges[i].d);
+//	}
+//	printf("%.4f", res);
+//	return 0;
+//}
+
+
+
+//const int N = 1e7 + 10;
+//long long f[N];
+//
+//int main()
+//{
+//	int m;
+//	cin >> m;
+//	f[1] = 1;
+//	for (int i = 2;i < 1e7;i++)
+//	{
+//		f[i] = (f[i - 1] + f[i - 2]) % m;
+//		f[i + 1] = (f[i] + f[i - 1]) % m;
+//		if ((f[i] % m) == 0 && (f[i + 1] % m) == 1)
+//		{
+//			cout << i << endl;
+//			break;
+//		}
+//	}
+//	return 0;
+//}
+
+
+
+
+
+//typedef pair<int, int>PII;
+//const int N = 500;
+//int a[N][N];
+//bool st[N][N];
+//
+//int main()
+//{
+//	int n, m, xx, yy;
+//	cin >> n >> m >> xx >> yy;
+//	queue<PII>q;
+//	q.push({ xx, yy });
+//	st[xx][yy] = true;
+//	int dx[8] = { -1, -2, -2, -1, 1 , 2, 2,1 }, dy[8] = { -2, -1, 1, 2, 2,1, - 1, - 2 };
+//	while (!q.empty())
+//	{
+//		auto t = q.front();
+//		q.pop();
+//		for (int i = 0; i < 8;i++)
+//		{
+//			int x = t.first + dx[i], y = t.second + dy[i];
+//			if (x > 0 && x <= n && y > 0 && y <= m && !st[x][y])
+//			{
+//				st[x][y] = true;
+//				//cout << x << ' ' << y << endl;
+//				a[x][y] = a[t.first][t.second] + 1;
+//				q.push({ x, y });
+//			}
+//		}
+//	}
+//	for (int i = 1; i <= n;i++)
+//	{
+//		for (int j = 1; j <= m;j++)
+//		{
+//			if (!st[i][j]) a[i][j] = -1;
+//			printf("%-5d", a[i][j]);
+//		}
+//		cout << endl;
+//	}
+//	return 0;
+//}
 
 
 
