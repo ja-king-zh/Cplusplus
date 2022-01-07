@@ -6,8 +6,88 @@
 #include<vector>
 #include<map>
 using namespace std;
+const int N = 1e5 + 10;
+typedef pair<int, pair<int, int>>PII;
+//bool cmp(PII a, PII b)
+//{
+//	return a.l < b.l;
+//}
+int main()
+{
+	int t;
+	cin >> t;
+	while (t--)
+	{
+		int n;
+		cin >> n;
+		priority_queue<PII, vector<PII>, greater<PII>>a;
+		priority_queue<PII>b;
+		int l, r, w;
+		cin >> l >> r >> w;
+		cout << w << endl;
+		a.push({ l,{r,w} });
+		b.push({ r,{l,w }});
+		for (int i = 1;i < n;i++)
+		{
+			cin >> l >> r >> w;
+			if(l<=a.top().first)
+				a.push({ l,{r,w} });
+			if(r>=b.top().first)
+				b.push({ r,{l,w } });
+			if (a.top().second.first >= b.top().first)
+			{
+				cout << a.top().second.second << endl;
+			}
+			else if (b.top().second.first <= a.top().first)
+			{
+				cout << b.top().second.second << endl;
+			}
+			else
+			{
+				cout << a.top().second.second + b.top().second.second << endl;
+			}
+		}
+	}
+	return 0;
+}
 
 
+//char a[50][50];
+//int main()
+//{
+//	int t;
+//	cin >> t;
+//	while (t--)
+//	{
+//		memset(a,0,sizeof a);
+//		int n, k;
+//		cin >> n >> k;
+//		if ((n + 1) < (2 * k))
+//		{
+//			cout << -1 << endl;
+//			continue;
+//		}
+//		else
+//		{
+//			int i = 0, j = 0;
+//			while (k--)
+//			{
+//				a[i][j] = 'R';
+//				i += 2, j += 2;
+//			}
+//			for (int i = 0;i < n;i++)
+//			{
+//				for (int j = 0;j < n;j++)
+//				{
+//					if (a[i][j] != 'R')cout << '.';
+//					else cout << a[i][j];
+//				}
+//				cout << endl;
+//			}
+//		}
+//	}
+//	return 0;
+//}
 
 
 //int arr[100];

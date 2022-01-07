@@ -6,7 +6,121 @@
 #include<cstring>
 using namespace std;
 
+//const int N = 1e5 + 10;
+//int a[N], b[N];
+//
+//int main()
+//{
+//	int n;
+//	cin >> n;
+//	long long res = 0, ans = 0;
+//	for (int i = 1; i <= n; i++)
+//	{
+//		cin >> a[i];
+//		b[i] = a[i] - a[i - 1];
+//		if (i - 1 && b[i] > 0) res += b[i];
+//		if (i - 1 && b[i] < 0) ans -= b[i];
+//	}
+//	cout << max(ans, res) << endl << abs(ans - res) + 1;
+//	return 0;
+//}
 
+
+
+//typedef long long ll;
+//const int N = 1010;
+//struct range
+//{
+//	int l, r, s;
+//}Ranges[N];
+//
+//bool cmp(range a, range b)
+//{
+//	return a.s < b.s;
+//}
+//
+//int main()
+//{
+//	int n;
+//	cin >> n;
+//	for (int i = 0; i <= n; i++)
+//	{
+//		int l, r;
+//		cin >> l >> r;
+//		Ranges[i] = { l, r, l * r };
+//	}
+//	sort(Ranges + 1, Ranges + n + 1, cmp);
+//	ll res = 1, ans = 0;
+//	for (int i = 0; i <= n; i++)
+//	{
+//		ans = max(ans, res / Ranges[i].r);
+//		res *= Ranges[i].l;
+//	}
+//	cout << ans << endl;
+//	return 0;
+//}
+
+
+
+
+//const int N = 50;
+//int a[N][N];
+//
+//int main()
+//{
+//	int n;
+//	cin >> n;
+//	int i = 1, j = (n + 1) / 2;
+//	int cnt = 1;
+//	a[i][j] = 1;
+//	while (cnt != (n * n))
+//	{
+//		if (i == 1 && j != n)
+//		{
+//			a[n][j + 1] = a[i][j] + 1;
+//			i = n, j = j + 1;
+//			cnt++;
+//		}
+//		if (j == n && i != 1)
+//		{
+//			a[i - 1][1] = a[i][j] + 1;
+//			i--;
+//			j = 1;
+//			cnt++;
+//		}
+//		if (i == 1 && j == n)
+//		{
+//			a[i + 1][j] = a[i][j] + 1;
+//			i++;
+//			cnt++;
+//		}
+//		if (i != 1 && j != n)
+//		{
+//			if (a[i - 1][j + 1] == 0 && i - 1 >= 1 && j + 1 <= n)
+//			{
+//				a[i - 1][j + 1] = a[i][j] + 1;
+//				i--;
+//				j++;
+//				cnt++;
+//			}
+//			else if (a[i + 1][j] == 0 && i + 1 <= n)
+//			{
+//				a[i + 1][j] = a[i][j] + 1;
+//				i++;
+//				cnt++;
+//			}
+//		}
+//	}
+//	for (int i = 1; i <= n; i++)
+//	{
+//		for (int j = 1; j <= n; j++)
+//		{
+//			cout << a[i][j] << ' ';
+//		}
+//		cout << endl;
+//	}
+//	return 0;
+//}
 
 
 
