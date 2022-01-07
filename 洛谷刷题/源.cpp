@@ -6,6 +6,254 @@
 #include<cstring>
 using namespace std;
 
+const int N = 1e5 + 10;
+const int mod = 1e8 - 3;
+int a[N], b[N];
+int c[N], d[N];
+int num1[N], num2[N];
+int e[N];
+long long ans = 0;
+int tmp[N];
+
+void merge(int x, int y)
+{
+	if (x == y)return;
+	int mid = (x + y) >> 1;
+	merge(x, mid), merge(mid + 1, y);
+	int i = x, j = mid + 1;
+	int k = x;
+	while (i <= mid && j <= y)
+	{
+		if (a[i] <= a[j])tmp[k++] = a[i++];
+		else	tmp[k++] = a[j++], ans += mid - i + 1, ans %= mod;;
+	}
+	while (i <= mid)
+		tmp[k++] = a[i++];
+	while (j <= y)
+		tmp[k++] = a[j++];
+	for (int i = x;i <= y;++i)
+		a[i] = tmp[i];
+}
+int main()
+{
+	int n;
+	cin >> n;
+	for (int i = 1;i <= n;++i)cin >> a[i], c[i] = a[i];
+	for (int i = 1;i <= n;++i)cin >> b[i], d[i] = b[i];
+
+	sort(d + 1, d + 1 + n);
+
+	for (int i = 1;i <= n;++i)
+		num1[d[i]] = i;
+
+	sort(c + 1, c + 1 + n);
+
+	for (int i = 1;i <= n;++i)
+		num2[c[i]] = i;
+
+	for (int i = 1;i <= n;++i)
+		e[num1[b[i]]] = i;
+
+	for (int i = 1;i <= n;++i)
+		a[i] = e[num2[a[i]]];
+
+	merge(1, n);
+	cout << ans % mod << endl;
+	return 0;
+}
+
+
+
+
+
+//typedef long long ll;
+//
+//const int N = 55;
+//int n, m, a, b;
+//ll g[N][N];
+//bool f[N][N][65];
+//
+//int main()
+//{
+//	cin >> n >> m;
+//	memset(g, 0x3f, sizeof(g));
+//
+//	for (int i = 1;i <= m; i++)
+//	{
+//		cin >> a >> b;
+//		f[a][b][0] = 1;
+//		g[a][b] = 1;
+//	}
+//
+//	for (int q = 1;q <= 64;++q)
+//	{
+//		for (int i = 1;i <= n;++i)
+//		{
+//			for (int j = 1;j <= n;++j)
+//			{
+//				for (int k = 1;k <= n;++k)
+//				{
+//					if (f[i][k][q - 1] && f[k][j][q - 1])
+//					{
+//						f[i][j][q] = 1;
+//						g[i][j] = 1;
+//					}
+//				}
+//			}
+//		}
+//	}
+//
+//	for (int k = 1;k <= n;++k)
+//		for (int i = 1;i <= n;++i)
+//			for (int j = 1;j <= n;++j)
+//				g[i][j] = min(g[i][j], g[i][k] + g[k][j]);
+//
+//	cout << g[1][n] << endl;
+//	return 0;
+//}
+
+
+
+
+
+
+
+//const int N = 210;
+//int aa[N];
+//int dist[N];
+//bool st[N];
+//int n, m;
+//
+//
+//int spfa(int x, int y, int tt, int f[N][N])
+//{
+//	if (aa[x] > tt) return -1;
+//	if (aa[y] > tt) return -1;
+//	memset(dist, 0x3f, sizeof dist);
+//	memset(st, 0, sizeof st);
+//	dist[x] = 0;
+//	queue<int>q;
+//	q.push(x);
+//	st[x] = true;
+//	while (!q.empty())
+//	{
+//		auto t = q.front();
+//		q.pop();
+//		st[t] = false;
+//		for (int i = 0; i < n; i++)
+//		{
+//			if (f[t][i] != 1e8 && aa[i] <= tt)
+//			{
+//				if (dist[i] > dist[t] + f[t][i])
+//				{
+//					dist[i] = f[t][i] + dist[t];
+//					q.push(i);
+//					st[i] = true;
+//				}
+//			}
+//		}
+//	}
+//	if (dist[y] > 1e7) return -1;
+//	else return dist[y];
+//}
+//
+//int main()
+//{
+//	int g[N][N];
+//	for (int i = 0; i < N; i++)
+//	{
+//		for (int j = 0; j < N; j++)
+//		{
+//			if (i == j) g[i][j] = 0;
+//			else g[i][j] = 0x3f3f3f3f;
+//		}
+//	}
+//	cin >> n >> m;
+//	for (int i = 0; i < n; i++)
+//	{
+//		cin >> aa[i];
+//	}
+//	while (m--)
+//	{
+//		int a, b, w;
+//		cin >> a >> b >> w;
+//		g[a][b] = g[b][a] = min(g[a][b], w);
+//	}
+//	int t;
+//	cin >> t;
+//	int k = 0;
+//	while (t--)
+//	{
+//		int x, y, t;
+//		cin >> x >> y >> t;
+//		if (aa[x] > t || aa[y] > t)
+//		{
+//			cout << "-1" << endl;
+//			continue;
+//		}
+//		for (; aa[k] <= t && k < n;k++)
+//		{
+//			for (int i = 0;i < n;i++)
+//			{
+//				for (int j = 0; j < n;j++)
+//				{
+//					g[i][j] = min(g[i][k] + g[k][j], g[i][j]);
+//				}
+//			}
+//		}
+//		if (g[x][y] == 0x3f3f3f3f) cout << "-1" << endl;
+//		else cout << g[x][y] << endl;
+//		//cout << spfa(x, y, t, g) << endl;
+//	}
+//	return 0;
+//}
+
+
+
+
+//typedef long long ll;
+//const int N = 5050;
+//struct people
+//{
+//	int p, x;
+//}P[N];
+//
+//bool cmp(people a, people b)
+//{
+//	return a.p < b.p;
+//}
+//
+//int main()
+//{
+//	int n, m;
+//	cin >> n >> m;
+//	for (int i = 0; i < m; i++)
+//	{
+//		int p, x;
+//		cin >> p >> x;
+//		P[i] = { p, x };
+//	}
+//	sort(P, P + m, cmp);
+//	ll res = 0;
+//	for (int i = 0; i < m; i++)
+//	{
+//		if (n < P[i].x)
+//		{
+//			res = res + n * P[i].p;
+//			break;
+//		}
+//		else
+//		{
+//			res = res + P[i].x * P[i].p;
+//			n -= P[i].x;
+//		}
+//	}
+//	cout << res << endl;
+//	return 0;
+//}
+
+
+
 //const int N = 1e5 + 10;
 //int a[N], b[N];
 //
