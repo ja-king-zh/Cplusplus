@@ -1,5 +1,110 @@
 #define _CRT_SECURE_NO_WARNINGS 1
+#include<iostream>
+#include<cstring>
+#include<stdlib.h>
+#include<algorithm>
+#include<vector>
+using namespace std;
+const int N = 25;
+bool st[N], ist[N][N];
 
+struct poeple
+{
+	string name;
+	int x;
+	vector<string>a;
+}P[N];
+
+int main()
+{
+	int n, m;
+	cin >> n;
+	m = n;
+	for (int i = 0; i < n; i++)
+	{
+		cin >> P[i].name >> P[i].x;
+		for (int j = 0; j < P[i].x;j++)
+		{
+			string ff;
+			cin >> ff;
+			P[i].a.push_back(ff);
+		}
+	}
+	for (int i = 0;i < n;i++)
+	{
+		for (int j = i + 1; j < n;j++)
+		{
+			if (!st[i] && !st[j]) {
+				if (P[i].name == P[j].name)
+				{
+					while (P[j].a.size())
+					{
+						string cc = P[j].a.back();
+						P[i].a.push_back(cc);
+						P[j].a.pop_back();
+						P[i].x++;
+					}
+					m--;
+					st[j] = true;
+				}
+			}
+		}
+	}
+	for (int i = 0;i < n;i++)
+	{
+		if (!st[i])
+		{
+			for (int j = 0; j < P[i].a.size();j++)
+			{
+				for (int k = j + 1; k < P[i].a.size();k++)
+				{
+					if (!ist[i][k] && !ist[i][j]) 
+					{
+						if (P[i].a[k].size() < P[i].a[j].size())
+						{
+							int flag = 1;
+							for (int ccc = P[i].a[k].size() - 1,dd = P[i].a[j].size() - 1; ccc >= 0;dd--,ccc--)
+							{
+								if (P[i].a[k][ccc] != P[i].a[j][dd]) flag = 0;
+							}
+							if (flag)
+							{
+								ist[i][k] = true;
+								P[i].x--;
+							}
+						}
+						else
+						{
+							int flag = 1;
+							for (int ccc = P[i].a[j].size() - 1,dd = P[i].a[k].size() - 1; ccc >= 0;dd--,ccc--)
+							{
+								if (P[i].a[k][dd] != P[i].a[j][ccc]) flag = 0;
+							}
+							if (flag)
+							{
+								ist[i][j] = true;
+								P[i].x--;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	cout << m << endl;
+	for (int i = 0; i < n;i++)
+	{
+		if (st[i])continue;
+		cout << P[i].name << ' ' << P[i].x << ' ';
+		for (int j = 0;j < P[i].a.size();j++)
+		{
+			if (ist[i][j])continue;
+			cout << P[i].a[j] << ' ';
+		}
+		cout << endl;
+	}
+	return 0;
+}
 
 
 
