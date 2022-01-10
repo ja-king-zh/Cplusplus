@@ -2,65 +2,620 @@
 #include<iostream>
 #include<algorithm>
 #include<math.h>
+#include<stdio.h>
 #include<queue>
+#include<deque>
 #include<cstring>
 using namespace std;
+const int N = 55;
 
-const int N = 1e5 + 10;
-const int mod = 1e8 - 3;
-int a[N], b[N];
-int c[N], d[N];
-int num1[N], num2[N];
-int e[N];
-long long ans = 0;
-int tmp[N];
+#define x first
+#define y second
 
-void merge(int x, int y)
+typedef pair<char, pair<int, int>> PII;
+
+int g[N][N];
+int dist[N][N];
+bool st[N][N];
+int n, m;
+int sx, sy, ex, ey;
+char face, last_face;
+
+//E S W N 东南西北
+int dx[12] = { -1, -2, -3, 0, 0, 0, 1, 2, 3, 0, 0, 0 }, dy[12] = { 0, 0, 0, 1, 2, 3, 0, 0, 0, -1, -2, -3 };
+
+int bfs()
 {
-	if (x == y)return;
-	int mid = (x + y) >> 1;
-	merge(x, mid), merge(mid + 1, y);
-	int i = x, j = mid + 1;
-	int k = x;
-	while (i <= mid && j <= y)
-	{
-		if (a[i] <= a[j])tmp[k++] = a[i++];
-		else	tmp[k++] = a[j++], ans += mid - i + 1, ans %= mod;;
-	}
-	while (i <= mid)
-		tmp[k++] = a[i++];
-	while (j <= y)
-		tmp[k++] = a[j++];
-	for (int i = x;i <= y;++i)
-		a[i] = tmp[i];
+    memset(dist, 0x3f, sizeof dist);
+
+    queue<PII> q;
+    q.push({ last_face,{ sx, sy } });
+    dist[sx][sy] = 0;
+
+    while (q.size())
+    {
+        auto t = q.front();
+        q.pop();
+        last_face = t.x;
+        for (int i = 0; i < 4; i++)
+        {
+            for (int j = 0; j < 3; j++)
+            {
+                int a = t.y.x + dx[3 * i + j], b = t.y.y + dy[3 * i + j];
+
+
+                if (a <= 0 || a >= n || b <= 0 || b >= m) continue;
+                if (g[a][b] == 1) break;
+
+                if (dx[3 * i + j] < 0) face = 'N';
+                else if (dx[3 * i + j] > 0) face = 'S';
+                else if (dy[3 * i + j] < 0) face = 'W';
+                else face = 'E';
+
+                if (face == last_face)
+                {
+                    if (dist[a][b] >= dist[t.y.x][t.y.y] + 1)
+                    {
+                        dist[a][b] = dist[t.y.x][t.y.y] + 1;
+                        q.push({ face,{ a, b } });
+                    }
+                }
+                else if ((face == 'S' && last_face == 'N') || (face == 'N' && last_face == 'S') || (face == 'W' && last_face == 'E') || (face == 'E' && last_face == 'W'))
+                {
+                    if (dist[a][b] >= dist[t.y.x][t.y.y] + 3)
+                    {
+                        dist[a][b] = dist[t.y.x][t.y.y] + 3;
+                        q.push({ face,{ a, b } });
+                    }
+                }
+                else
+                {
+                    if (dist[a][b] >= dist[t.y.x][t.y.y] + 2)
+                    {
+                        dist[a][b] = dist[t.y.x][t.y.y] + 2;
+                        q.push({ face,{ a, b } });
+                    }
+                }
+            }
+        }
+    }
+    if (dist[ex][ey] != 0x3f3f3f3f)return dist[ex][ey];
+    else return -1;
 }
+
 int main()
 {
-	int n;
-	cin >> n;
-	for (int i = 1;i <= n;++i)cin >> a[i], c[i] = a[i];
-	for (int i = 1;i <= n;++i)cin >> b[i], d[i] = b[i];
+    cin >> n >> m;
 
-	sort(d + 1, d + 1 + n);
+    for (int i = 1; i <= n; i++) {
+        for (int j = 1; j <= m; j++) {
+            cin >> g[i][j];
+            if (g[i][j] == 1) {
+                g[i - 1][j - 1] = g[i - 1][j] = g[i][j - 1] = 1;
+            }
+        }
+    }
 
-	for (int i = 1;i <= n;++i)
-		num1[d[i]] = i;
+    cin >> sx >> sy >> ex >> ey >> last_face;
+    //sx--, sy--, ex--, ey--;
 
-	sort(c + 1, c + 1 + n);
+    /*g[sx][sy] = 'S';
+    g[ex][ey] = 'E';
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < m; j++)
+        {
+            cout << g[i][j] << ' ';
+        }
+        cout << endl;
+    }*/
 
-	for (int i = 1;i <= n;++i)
-		num2[c[i]] = i;
+    cout << bfs() << endl;
 
-	for (int i = 1;i <= n;++i)
-		e[num1[b[i]]] = i;
-
-	for (int i = 1;i <= n;++i)
-		a[i] = e[num2[a[i]]];
-
-	merge(1, n);
-	cout << ans % mod << endl;
-	return 0;
+    return 0;
 }
+
+//const int N = 2e5 + 10;
+//int a[N], p[N];
+//
+//int gcd(int a, int b)
+//{
+//	return b == 0 ? a : gcd(b, a % b);
+//}
+//
+//int main()
+//{
+//	int n, k;
+//	cin >> n >> k;
+//	for (int i = 1;i <= n; i++) cin >> a[i];
+//	for (int i = 0; i <= n; i++)p[i] = i;
+//	for (int i = 1; i < n; i++)
+//	{
+//		int a, b;
+//		cin >> a >> b;
+//		p[b] = a;
+//	}
+//	while (k--)
+//	{
+//		int op, x;
+//		cin >> op;
+//		if (op == 1)
+//		{
+//			cin >> x;
+//			int father = p[x];
+//			if (father == x)
+//			{
+//				cout << -1 << endl;
+//				continue;
+//			}
+//			else
+//			{
+//				int f = 0;
+//				int last = x;
+//				while (x != p[x])
+//				{
+//					x = p[x];
+//					if (gcd(a[last], a[x]) != 1)
+//					{
+//						cout << x << endl;
+//						f = 1;
+//						break;
+//					}
+//				}
+//				if (!f)
+//				{
+//					cout << -1 << endl;
+//				}
+//			}
+//		}
+//		else
+//		{
+//			int id, w;
+//			cin >> id >> w;
+//			a[id] = w;
+//		}
+//	}
+//	return 0;
+//}
+
+
+
+//#define x first
+//#define y second
+//
+//typedef pair<char, pair<int, int>>PCII;
+//typedef pair<int, int>PII;
+//const int N = 1010;
+//int g[N][N], dist[N][N];
+//bool st[N][N];
+//int n, m;
+//PII S, T;
+//char go;
+////上左下右NWSE
+//char str[5] = "NWSE";
+//int dy[] = { 0, -1, 0, 1 }, dx[] = { -1, 0, 1, 0 };
+//
+//int spfa(char start)
+//{
+//	if (g[S.x][S.y] == 1) return -1;
+//	memset(dist, 0x3f, sizeof dist);
+//	dist[S.x][S.y] = 0;
+//	st[S.x][S.y] = true;
+//	queue<PCII>q;
+//	q.push({ start,S });
+//	while (!q.empty())
+//	{
+//		auto t = q.front();
+//		q.pop();
+//		st[t.y.x][t.y.y] = false;
+//		char mu = t.x;
+//		int ji = 0;
+//		for (;ji < 4; ji++)
+//		{
+//			if (str[ji] == mu)break;
+//		}
+//		int cnt[10];
+//		cnt[ji] = 0, cnt[ji + 1] = 1, cnt[ji + 2] = 2;
+//		cnt[ji + 3] = 1;
+//		if (ji > 0)cnt[ji - 1] = 1;
+//		if (ji > 1)cnt[ji - 2] = 2;
+//		if (ji > 2)cnt[ji - 3] = 1;
+//		for (int i = 0; i < 4; i++)
+//		{
+//			for (int j = 1; j <= 3; j++)
+//			{
+//				int a = t.y.x + dx[i] * j, b = t.y.y + dy[i] * j;
+//				if (a <= 0 || a >= n || b <= 0 || b >= m) break;
+//				//if (st[a][b]) continue;
+//				if (g[a][b])break;
+//				if (dist[a][b] > dist[t.y.x][t.y.y] + cnt[i] + 1)
+//				{
+//					dist[a][b] = dist[t.y.x][t.y.y] + cnt[i] + 1;
+//					q.push({ str[i],{a, b} });
+//					st[a][b] = true;
+//				}
+//			}
+//		}
+//	}
+//	if (dist[T.x][T.y] == 0x3f3f3f3f) return -1;
+//	else return dist[T.x][T.y];
+//}
+//
+//int main()
+//{
+//	cin >> n >> m;
+	/*for (int i = 1; i <= n; i++) {
+		for (int j = 1; j <= m; j++) {
+			cin >> g[i][j];
+			if (g[i][j] == 1) {
+				g[i - 1][j - 1] = g[i - 1][j] = g[i][j - 1] = 1;
+			}
+		}
+	}*/
+//	cin >> S.first >> S.second >> T.first >> T.second >> go;
+//	cout << spfa(go) << endl;
+//	return 0;
+//}
+
+
+
+
+
+
+//const int N = 5e4 + 10;
+//int a[N], b[N];
+//int n, m, L;
+//
+//bool check(int x)
+//{
+//	int cnt = 0, aa = 0;
+//	for (int i = 1; i <= n + 1; i++)
+//	{
+//		if (a[i] - aa < x)
+//		{
+//			cnt++;
+//			continue;
+//		}
+//		aa = a[i];
+//	}
+//	if (cnt <= m)return true;
+//	else return false;
+//}
+//
+//int main()
+//{
+//	cin >> L >> n >> m;
+//	for (int i = 1; i <= n; i++) cin >> a[i];
+//	a[n + 1] = L;
+//	int l = 0, r = L;
+//	while (l < r)
+//	{
+//		int mid = (l + r) >> 1;
+//		if (check(mid)) l = mid + 1;
+//		else r = mid;
+//	}
+//	if (check(l))
+//		cout << l << endl;
+//	else
+//		cout << l - 1 << endl;
+//	return 0;
+//}
+
+
+
+
+
+//const int N = 1e5 + 10;
+//int a[N], b[N];
+//
+//int main()
+//{
+//	int l, n, k;
+//	cin >> l >> n >> k;
+//	priority_queue<int>heap;
+//	for (int i = 1; i <= n; i++)
+//	{
+//		cin >> a[i];
+//		b[i] = a[i] - a[i - 1];
+//		heap.push(b[i]);
+//	}
+//	heap.push(l - a[n]);
+//	while (k--)
+//	{
+//		int t = heap.top();
+//		heap.pop();
+//		if (t % 2 == 0)
+//		{
+//			t /= 2;
+//			heap.push(t);
+//			heap.push(t);
+//		}
+//		else
+//		{
+//			t = (t + 1) / 2;
+//			heap.push(t);
+//			heap.push(t - 1);
+//		}
+//	}
+//	cout << heap.top() << endl;
+//	return 0;
+//}
+
+
+
+
+//#define x first
+//#define y second
+//#define int long long
+//
+//typedef pair<int, int> PII;
+//
+//const int N = 10000010, INF = 0x3f3f3f3f;
+//int n, m, len;
+//int a[N];
+//
+//bool check(int x)
+//{
+//    int cnt = 0;
+//    for (int i = 1; i < n; i++)
+//    {
+//        if ((a[i] - a[i - 1]) >= x)
+//        {
+//            cnt += (a[i] - a[i - 1]) / x;
+//            if ((a[i] - a[i - 1]) % x == 0) cnt--;
+//        }
+//    }
+//
+//    if (cnt > m) return false;
+//    else return true;
+//}
+//
+//signed main()
+//{
+//    cin >> len >> n >> m;
+//
+//    for (int i = 0; i < n; i++) cin >> a[i];
+//
+//    int l = -1, r = len + 1;
+//
+//    while (l + 1 != r)
+//    {
+//        int mid = l + r >> 1;
+//
+//        if (!check(mid)) l = mid;
+//        else r = mid;
+//    }
+//
+//    cout << r << endl;
+//
+//    return 0;
+//}
+
+//const int N = 1e5 + 10;
+//int a[N], b[N];
+//int main() 
+//{
+//	int n;
+//	cin >> n;
+//	int p = 0, q = 0;
+//	for (int i = 1; i <= n;i++)
+//	{
+//		cin >> a[i];
+//		b[i] = a[i] - a[i - 1];
+//		if (b[i] > 0)p += b[i];
+//		else q -= b[i];
+//	}
+//	cout << max(p, q);
+//	return 0;
+//}
+
+
+
+//const int N = 1e6 + 10;
+//
+//int n, k;
+//deque<int> q;
+//int a[N];
+//
+//int main() {
+//    cin >> n >> k;
+//    for (int i = 0; i < n; i++) 
+//    {
+//        cin >> a[i];
+//    }
+//    for (int i = 0; i < n; i++) 
+//    {
+//        if (!q.empty() && i - k + 1 > q.front()) 
+//        {
+//            q.pop_front();
+//        }
+//        while (!q.empty() && a[q.back()] <= a[i]) 
+//        {
+//            q.pop_back();
+//        }
+//        q.push_back(i);
+//        if (i >= k - 1) 
+//        {
+//            cout << a[q.front()] << endl;
+//        }
+//    }
+//    return 0;
+//}
+
+
+
+
+
+
+
+//typedef pair<double, double>PDD;
+//const int N = 1010;
+//PDD a[N];
+//double s[N][N];
+//bool st[N];
+//int n, l;
+//double res = 1e9;
+//
+//double length(int x, int y)
+//{
+//	return (double)sqrt((a[x].first - a[y].first) * (a[x].first - a[y].first) + (a[x].second - a[y].second) * (a[x].second - a[y].second));
+//}
+//
+//void dfs(int x, int u, double dist)
+//{
+//	l++;
+//	if (l > 30000000)
+//	{
+//		printf("%.2lf", res);
+//		exit(0);
+//	}
+//	if (dist >= res) return;
+//
+//	if (u == n)
+//	{
+//		res = min(res, dist);
+//		return;
+//	}
+//
+//	for (int i = 1; i <= n; i++)
+//	{
+//		if (!st[i])
+//		{
+//			st[i] = true;
+//			dfs(i, u + 1, dist + s[x][i]);
+//			st[i] = false;
+//		}
+//	}
+//}
+//
+//int main()
+//{
+//	scanf("%d", &n);
+//	for (int i = 1; i <= n; i++)
+//	{
+//		double x, y;
+//		scanf("%lf%lf", &x, &y);
+//		a[i] = { x, y };
+//	}
+//
+//	for (int i = 0; i <= n;i++)
+//		for (int j = i + 1; j <= n; j++)
+//			s[i][j] = s[j][i] = length(i, j);
+//
+//	dfs(0, 0, 0.0);
+//
+//	printf("%.2lf", res);
+//
+//	return 0;
+//}
+
+
+
+
+
+//const int N = 1e5 + 10;
+//int e[N], ne[N], h[N], idx;
+//int n, m, f[N];
+//bool st[N];
+//
+//void add(int a, int b)
+//{
+//	e[idx] = b, ne[idx] = h[a], h[a] = idx++;
+//}
+//
+//void dfs(int x, int d)
+//{
+//	if (f[x])return;
+//	f[x] = d;
+//	for (int i = h[x]; i != -1; i = ne[i])
+//	{
+//		int j = e[i];
+//		dfs(j, d);
+//	}
+//}
+//
+//int main()
+//{
+//	memset(h, -1, sizeof h);
+//	cin >> n >> m;
+//	while (m--)
+//	{
+//		int a, b;
+//		cin >> a >> b;
+//		add(b, a);
+//	}
+//	
+//	for (int i = n;i >= 1;i--)
+//	{
+//		dfs(i, i);
+//	}
+//
+//	for (int i = 1;i <= n;i++) cout << f[i] << ' ';
+//	
+//	return 0;
+//}
+
+
+
+
+
+
+
+//const int N = 1e5 + 10;
+//const int mod = 1e8 - 3;
+//int a[N], b[N];
+//int c[N], d[N];
+//int num1[N], num2[N];
+//int e[N];
+//long long ans = 0;
+//int tmp[N];
+//
+//void merge(int x, int y)
+//{
+//	if (x == y)return;
+//	int mid = (x + y) >> 1;
+//	merge(x, mid), merge(mid + 1, y);
+//	int i = x, j = mid + 1;
+//	int k = x;
+//	while (i <= mid && j <= y)
+//	{
+//		if (a[i] <= a[j])tmp[k++] = a[i++];
+//		else	tmp[k++] = a[j++], ans += mid - i + 1, ans %= mod;;
+//	}
+//	while (i <= mid)
+//		tmp[k++] = a[i++];
+//	while (j <= y)
+//		tmp[k++] = a[j++];
+//	for (int i = x;i <= y;++i)
+//		a[i] = tmp[i];
+//}
+//int main()
+//{
+//	int n;
+//	cin >> n;
+//	for (int i = 1;i <= n;++i)cin >> a[i], c[i] = a[i];
+//	for (int i = 1;i <= n;++i)cin >> b[i], d[i] = b[i];
+//
+//	sort(d + 1, d + 1 + n);
+//
+//	for (int i = 1;i <= n;++i)
+//		num1[d[i]] = i;
+//
+//	sort(c + 1, c + 1 + n);
+//
+//	for (int i = 1;i <= n;++i)
+//		num2[c[i]] = i;
+//
+//	for (int i = 1;i <= n;++i)
+//		e[num1[b[i]]] = i;
+//
+//	for (int i = 1;i <= n;++i)
+//		a[i] = e[num2[a[i]]];
+//
+//	merge(1, n);
+//	cout << ans % mod << endl;
+//	return 0;
+//}
 
 
 
