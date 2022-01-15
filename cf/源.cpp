@@ -7,32 +7,38 @@
 #include<vector>
 #include<map>
 using namespace std;
-const int N = 2e5 + 10;
-int pre[N];
-int main()
-{
-	int t;
-	cin >> t;
-	while (t--)
-	{
-		int n;
-		cin >> n;
-		int res = -1;
-		memset(pre, 0, sizeof pre);
-		for (int i = 1; i <= n; i++)
-		{
-			int a;
-			cin >> a;
-			if (pre[a])
-			{
-				res = max(res, n - (i - pre[a]));
-			}
-			pre[a] = i;
-		}
-		cout << res << endl;
-	}
-	return 0;
-}
+
+
+
+
+
+
+//const int N = 2e5 + 10;
+//int pre[N];
+//int main()
+//{
+//	int t;
+//	cin >> t;
+//	while (t--)
+//	{
+//		int n;
+//		cin >> n;
+//		int res = -1;
+//		memset(pre, 0, sizeof pre);
+//		for (int i = 1; i <= n; i++)
+//		{
+//			int a;
+//			cin >> a;
+//			if (pre[a])
+//			{
+//				res = max(res, n - (i - pre[a]));
+//			}
+//			pre[a] = i;
+//		}
+//		cout << res << endl;
+//	}
+//	return 0;
+//}
 
 
 
