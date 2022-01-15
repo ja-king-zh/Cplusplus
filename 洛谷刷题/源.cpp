@@ -5,115 +5,1384 @@
 #include<stdio.h>
 #include<queue>
 #include<deque>
+#include<map>
 #include<cstring>
+#include<vector>
 using namespace std;
-const int N = 55;
 
-#define x first
-#define y second
+const int N = 110;
+int g[N][N], dist[N];
+int n, ans;
+bool st[N];
 
-typedef pair<char, pair<int, int>> PII;
-
-int g[N][N];
-int dist[N][N];
-bool st[N][N];
-int n, m;
-int sx, sy, ex, ey;
-char face, last_face;
-
-//E S W N 东南西北
-int dx[12] = { -1, -2, -3, 0, 0, 0, 1, 2, 3, 0, 0, 0 }, dy[12] = { 0, 0, 0, 1, 2, 3, 0, 0, 0, -1, -2, -3 };
-
-int bfs()
+void prime()
 {
-    memset(dist, 0x3f, sizeof dist);
-
-    queue<PII> q;
-    q.push({ last_face,{ sx, sy } });
-    dist[sx][sy] = 0;
-
-    while (q.size())
-    {
-        auto t = q.front();
-        q.pop();
-        last_face = t.x;
-        for (int i = 0; i < 4; i++)
-        {
-            for (int j = 0; j < 3; j++)
-            {
-                int a = t.y.x + dx[3 * i + j], b = t.y.y + dy[3 * i + j];
-
-
-                if (a <= 0 || a >= n || b <= 0 || b >= m) continue;
-                if (g[a][b] == 1) break;
-
-                if (dx[3 * i + j] < 0) face = 'N';
-                else if (dx[3 * i + j] > 0) face = 'S';
-                else if (dy[3 * i + j] < 0) face = 'W';
-                else face = 'E';
-
-                if (face == last_face)
-                {
-                    if (dist[a][b] >= dist[t.y.x][t.y.y] + 1)
-                    {
-                        dist[a][b] = dist[t.y.x][t.y.y] + 1;
-                        q.push({ face,{ a, b } });
-                    }
-                }
-                else if ((face == 'S' && last_face == 'N') || (face == 'N' && last_face == 'S') || (face == 'W' && last_face == 'E') || (face == 'E' && last_face == 'W'))
-                {
-                    if (dist[a][b] >= dist[t.y.x][t.y.y] + 3)
-                    {
-                        dist[a][b] = dist[t.y.x][t.y.y] + 3;
-                        q.push({ face,{ a, b } });
-                    }
-                }
-                else
-                {
-                    if (dist[a][b] >= dist[t.y.x][t.y.y] + 2)
-                    {
-                        dist[a][b] = dist[t.y.x][t.y.y] + 2;
-                        q.push({ face,{ a, b } });
-                    }
-                }
-            }
-        }
-    }
-    if (dist[ex][ey] != 0x3f3f3f3f)return dist[ex][ey];
-    else return -1;
+	memset(dist, 0x3f, sizeof dist);
+	memset(st, 0, sizeof st);
+	dist[1] = 0;
+	for (int i = 1; i <= n; i++)
+	{
+		int t = -1;
+		for (int j = 1; j <= n; j++)
+			if (!st[j] && (t == -1 || dist[t] > dist[j]))
+				t = j;
+		if (i - 1) ans += dist[t];
+		st[t] = true;
+		for (int j = 1; j <= n; j++)
+		{
+			if (dist[j] > g[t][j]) dist[j] = g[t][j];
+		}
+	}
 }
 
 int main()
 {
-    cin >> n >> m;
-
-    for (int i = 1; i <= n; i++) {
-        for (int j = 1; j <= m; j++) {
-            cin >> g[i][j];
-            if (g[i][j] == 1) {
-                g[i - 1][j - 1] = g[i - 1][j] = g[i][j - 1] = 1;
-            }
-        }
-    }
-
-    cin >> sx >> sy >> ex >> ey >> last_face;
-    //sx--, sy--, ex--, ey--;
-
-    /*g[sx][sy] = 'S';
-    g[ex][ey] = 'E';
-    for (int i = 0; i < n; i++)
-    {
-        for (int j = 0; j < m; j++)
-        {
-            cout << g[i][j] << ' ';
-        }
-        cout << endl;
-    }*/
-
-    cout << bfs() << endl;
-
-    return 0;
+	while (cin >> n, n)
+	{
+		ans = 0;
+		memset(g, 0x3f, sizeof g);
+		for (int i = 1; i < n; i++)
+		{
+			char a;
+			int m;
+			cin >> a >> m;
+			for (int i = 0; i < m; i++)
+			{
+				char b;
+				int c;
+				cin >> b >> c;
+				g[a - 'A' + 1][b - 'A' + 1] = g[b - 'A' + 1][a - 'A' + 1] = c;
+			}
+		}
+		prime();
+		cout << ans << endl;
+	}
+	return 0;
 }
+
+
+
+
+
+//const int N = 1e3 + 10;
+//int p[N], g[N][N];
+//int n, d;
+//bool nst[N];
+//struct node
+//{
+//	int first, second;
+//}a[N];
+//
+//int dis(int i, int j)
+//{
+//	return (a[i].first - a[j].first) * (a[i].first - a[j].first) + (a[i].second - a[j].second) * (a[i].second - a[j].second);
+//}
+//
+//int find(int x)
+//{
+//	if (x == p[x]) return p[x];
+//	return p[x] = find(p[x]);
+//}
+//
+//signed main()
+//{
+//	cin >> n >> d;
+//	memset(g, 0x3f, sizeof g);
+//	memset(nst, 0, sizeof nst);
+//	for (int i = 1; i <= n; i++)
+//	{
+//		cin >> a[i].first >> a[i].second;
+//		for (int j = 1; j < i; j++)
+//		{
+//			g[j][i] = g[i][j] = dis(i, j);
+//		}
+//	}
+//	for (int i = 0; i <= n; i++)p[i] = i;
+//	char c;
+//	while (cin >> c)
+//	{
+//		if (c == 'O')
+//		{
+//			int x;
+//			cin >> x;
+//			nst[x] = true;
+//			for (int i = 1; i <= n; i++)
+//			{
+//				if (nst[i] && i != x)
+//				{
+//					if (g[x][i] <= d * d)
+//					{
+//						p[find(x)] = find(i);
+//					}
+//				}
+//			}
+//		}
+//		else
+//		{
+//			int s, ed;
+//			cin >> s >> ed;
+//			if (nst[s] && nst[ed] && find(s) == find(ed)) cout << "SUCCESS" << endl;
+//			else cout << "FAIL" << endl;
+//		}
+//	}
+//	return 0;
+//}
+
+
+
+
+
+
+//typedef pair<int, int>PII;
+//const int N = 1e3 + 10;
+//double g[N][N];
+//PII a[N];
+//double n, d;
+//bool st[N], nst[N];
+//
+//double dis(int i, int j)
+//{
+//	return sqrt((pow(double(a[i].first - a[j].first),2) + pow(double(a[i].second - a[j].second),2)));
+//}
+//
+//bool spfa(int s, int ed)
+//{
+//	if (!nst[s] || !nst[ed]) return false;
+//	memset(st, 0, sizeof st);
+//	queue<int>q;
+//	q.push(s);
+//	while (!q.empty())
+//	{
+//		int t = q.front();
+//		q.pop();
+//		st[t] = false;
+//		for (int i = 1; i <= n; i++)
+//		{
+//			if (i != t && nst[i])
+//			{
+//				if (dis(t, i) < g[s][i])
+//				{
+//					g[i][s] = g[s][i] = dis(t, i);
+//					q.push(i);
+//					st[i] = true;
+//				}
+//			}
+//		}
+//	}
+//	if (g[s][ed] > d) return false;
+//	else return true;
+//}
+//
+//signed main()
+//{
+//	cin >> n >> d;
+//	for (int i = 1; i <= n; i++)
+//	{
+//		cin >> a[i].first >> a[i].second;
+//	}
+//	for (int i = 1; i <= n; i++)
+//	{
+//		for (int j = 1; j <= n;j++)
+//		{
+//			if (i == j)g[i][j] = 0;
+//			else g[i][j] = 1e9;
+//		}
+//	}
+//	char c;
+//	while (cin >> c)
+//	{
+//		if (c == 'O')
+//		{
+//			int x;
+//			cin >> x;
+//			nst[x] = true;
+//		}
+//		else
+//		{
+//			int s, ed;
+//			cin >> s >> ed;
+//			if (spfa(s, ed)) cout << "SUCCESS" << endl;
+//			else cout << "FAIL" << endl;
+//		}
+//	}
+//	return 0;
+//}
+
+
+
+
+//const int N = 1e3 + 10, M = 1e5 + 10;
+//int g[N][N], dist[N];
+//bool st[N];
+//int n, m, t;
+//
+//void spfa()
+//{
+//	queue<int>q;
+//	q.push(1);
+//	dist[1] = 0x3f3f3f3f;
+//	while (!q.empty())
+//	{
+//		int t = q.front();
+//		q.pop();
+//		for (int i = 1; i <= n; i++)
+//		{
+//			if (g[t][i] != -1)
+//			{
+//				if (dist[i] < min(dist[t], g[t][i]))
+//				{
+//					dist[i] = min(dist[t], g[t][i]);
+//					q.push(i);
+//				}
+//			}
+//		}
+//	}
+//}
+//
+//int main()
+//{
+//	ios::sync_with_stdio(0); cin.tie(0); cin.tie(0);
+//	cin >> t;
+//	for (int i = 1; i <= t; i++)
+//	{
+//		cin >> n >> m;
+//		memset(g, -1, sizeof g);
+//		memset(st, 0, sizeof st);
+//		memset(dist, 0, sizeof dist);
+//		for (int i = 0; i < m; i++)
+//		{
+//			int a, b, c;
+//			cin >> a >> b >> c;
+//			g[a][b] = g[b][a] = c;
+//		}
+//		spfa();
+//		printf("Scenario #%d:\n%d\n\n", i, dist[n]);
+//	}
+//	return 0;
+//}
+
+
+
+
+//const int N = 1e5 + 10;
+//int st, ed;
+//int dist[N];
+//
+//int bfs()
+//{
+//	memset(dist, -1, sizeof dist);
+//	dist[st] = 0;
+//	queue<int>q;
+//	q.push(st);
+//	int dx[3] = { 1, -1, 2 };
+//	while (!q.empty())
+//	{
+//		int t = q.front();
+//		q.pop();
+//		if (t == ed) return dist[t];
+//		for (int i = 0; i < 3; i++)
+//		{
+//			int x = 0;
+//			if (i != 2) x = dx[i] + t;
+//			else x = dx[i] * t;
+//			if (dist[x] != -1)continue;
+//			dist[x] = dist[t] + 1;
+//			q.push(x);
+//		}
+//	}
+//	return -1;
+//}
+//
+//int main()
+//{
+//	cin >> st >> ed;
+//	if (ed < st)cout << st - ed << endl;
+//	else cout << bfs() << endl;
+//	return 0;
+//}
+
+
+
+
+//const int N = 3e4 + 10, M = 3e5 + 10;
+//int ra[N];
+//int e[M], ne[M], w[M], h[N], idx;
+//int n, m;
+//int d[15][N], dist[N];
+//int ans;
+//bool st[N],nst[N];
+//
+//void add(int a, int b, int c)
+//{
+//	e[idx] = b, ne[idx] = h[a], w[idx] = c, h[a] = idx++;
+//}
+//
+//void spfa1(int x)
+//{
+//	for (int i = 0; i <= n; i++) d[x][i] = 1e9;
+//	memset(st, 0, sizeof st);
+//	queue<int>q;
+//	for (int i = 1; i <= n; i++)
+//	{
+//		if (ra[i] == x)
+//		{
+//			d[x][i] = 0;
+//			q.push(i);
+//		}
+//	}
+//	while (!q.empty())
+//	{
+//		int t = q.front();
+//		q.pop();
+//		st[t] = false;
+//		for (int i = h[t]; i != -1; i = ne[i])
+//		{
+//			int j = e[i];
+//			if (d[x][j] > d[x][t] + w[i])
+//			{
+//				d[x][j] = d[x][t] + w[i];
+//				if (!st[j])
+//				{
+//					q.push(j);
+//					st[j] = true;
+//				}
+//			}
+//		}
+//	}
+//}
+//
+//void spfa2(int s)
+//{
+//	memset(dist, 0x3f, sizeof dist);
+//	memset(st, 0, sizeof st);
+//	memset(nst, 0, sizeof nst);
+//	queue<int>q;
+//	q.push(s);
+//	dist[s] = 0;
+//	while (!q.empty())
+//	{
+//		int t = q.front();
+//		q.pop();
+//		st[t] = false;
+//		if (!nst[t])
+//		{
+//			ans++;
+//			nst[t] = true;
+//		}
+//		for (int i = h[t]; i != -1; i = ne[i])
+//		{
+//			int j = e[i];
+//			if (dist[j] > dist[t] + w[i])
+//			{
+//				dist[j] = dist[t] + w[i];
+//				if (!st[j] && dist[j] < d[ra[s] + 1][j])
+//				{
+//					st[j] = true;
+//					q.push(j);
+//				}
+//			}
+//		}
+//	}
+//}
+//
+//int main()
+//{
+//	cin >> n >> m;
+//	memset(h, -1, sizeof h);
+//	for (int i = 1; i <= n; i++)cin >> ra[i];
+//	for (int i = 0; i < m; i++)
+//	{
+//		int a, b, c;
+//		cin >> a >> b >> c;
+//		add(a, b, c), add(b, a, c);
+//	}
+//	for (int i = 1; i <= 10; i++) spfa1(i);
+//	for (int i = 9; i >= 1; i--)
+//	{
+//		for (int j = 1; j <= n; j++)
+//		{
+//			d[i][j] = min(d[i][j], d[i + 1][j]);
+//		}
+//	}
+//	for (int i = 1; i <= n; i++)spfa2(i);
+//	cout << ans << endl;
+//	return 0;
+//}
+//
+
+
+
+
+
+
+//const int N = 2e3 + 10;
+//int c[N][N], sum[N][N];
+//int n, m;
+//
+//int main()
+//{
+//	int t, k;
+//	cin >> t >> k;
+//	c[0][0] = c[1][0] = c[1][1] = 1;
+//
+//	for (int i = 2; i <= N; i++)
+//	{
+//		c[i][0] = 1;
+//		for (int j = 1; j <= i; j++)
+//		{
+//			c[i][j] = (c[i - 1][j] + c[i - 1][j - 1]) % k;
+//		}
+//	}
+//	for (int i = 1;i <= N;i++) {
+//		for (int j = 1;j <= N;j++) {
+//			sum[i][j] = sum[i - 1][j] + sum[i][j - 1] - sum[i - 1][j - 1];
+//			if (c[i][j] == 0)sum[i][j]++;
+//		}
+//	}
+//	while (t--)
+//	{
+//		cin >> n >> m;
+//		if (n < m) cout << sum[n][n] << endl;
+//		else cout << sum[n][m] << endl;
+//	}
+//}
+
+
+
+
+
+
+//const int N = 1010;
+//
+//#define x first
+//#define y second
+//#define int long long 
+//
+//typedef pair<pair<int, int>, int> PPI;
+//int n, m;
+//int g[N][N];
+//struct Node
+//{
+//    int x, y, z;
+//};
+//int dx[4] = { -1, 0, 1, 0 }, dy[4] = { 0, 1, 0, -1 };
+//bool st[N][N][3];
+//int dist[N][N][3];
+//int pre[N][N];
+////1黄色，2红色， 3万能色
+//
+//int bfs()
+//{
+//    queue<Node> q;
+//    memset(dist, 0x3f, sizeof dist);
+//
+//    dist[1][1][g[1][1]] = 0;
+//    q.push({ 1, 1, g[1][1] });
+//
+//    while (q.size())
+//    {
+//        auto t = q.front();
+//        q.pop();
+//        st[t.x][t.y][t.z] = false;
+//
+//        for (int i = 0; i < 4; i++)
+//        {
+//            int a = t.x + dx[i], b = t.y + dy[i];
+//
+//            if (a < 1 || a > m || b < 1 || b > m) continue;
+//            //if(st[a][b]) continue;
+//            //if(t.z == 3 && g[a][b] == 0) continue;      //万能格子不能向无色跳
+//            if (g[a][b] == 0 && g[t.x][t.y] == 0)continue;
+//            int c = 0;
+//            if ((t.z == 1 && g[a][b] == 2) || (t.z == 2 && g[a][b] == 1))   //1->2 || 2->1 花费1
+//            {
+//                c = g[a][b];
+//                if (dist[a][b][c] > dist[t.x][t.y][t.z])
+//                {
+//                    dist[a][b][c] = dist[t.x][t.y][t.z] + 1;
+//                    if (!st[a][b][c])
+//                    {
+//                        q.push({ a, b, c });
+//                        st[a][b][c] = true;
+//                    }
+//                    continue;
+//                }
+//            }
+//            else if ((t.z == 1 && g[a][b] == 1) || (t.z == 2 && g[a][b] == 2))      //1->1 || 2->2 直接跳
+//            {
+//                c = t.z;
+//                if (dist[a][b][c] > dist[t.x][t.y][t.z])
+//                {
+//                    dist[a][b][c] = dist[t.x][t.y][t.z];
+//                    if (!st[a][b][c])
+//                    {
+//                        q.push({ a, b, c });
+//                        st[a][b][c] = true;
+//                    }
+//                    continue;
+//                }
+//            }
+//            else if (g[a][b] == 0)                                                   //把0变万能格子需2
+//            {
+//                c = 2;
+//                if (g[t.x][t.y] != 2)
+//                {
+//                    if (dist[a][b][c] > dist[t.x][t.y][t.z] + 3)
+//                    {
+//                        dist[a][b][c] = dist[t.x][t.y][t.z] + 3;
+//                        if (!st[a][b][c])
+//                        {
+//                            q.push({ a, b, c });
+//                            st[a][b][c] = true;
+//                        }
+//                    }
+//                }
+//                else
+//                {
+//                    if (dist[a][b][c] > dist[t.x][t.y][t.z] + 2)
+//                    {
+//                        dist[a][b][c] = dist[t.x][t.y][t.z] + 2;
+//                        if (!st[a][b][c])
+//                        {
+//                            q.push({ a, b, c });
+//                            st[a][b][c] = true;
+//                        }
+//                    }
+//                }
+//
+//                c = 1;
+//                if (g[t.x][t.y] != 1)
+//                {
+//                    if (dist[a][b][c] > dist[t.x][t.y][t.z] + 3)
+//                    {
+//                        dist[a][b][c] = dist[t.x][t.y][t.z] + 3;
+//                        if (!st[a][b][c])
+//                        {
+//                            q.push({ a, b, c });
+//                            st[a][b][c] = true;
+//                        }
+//                    }
+//                }
+//                else
+//                {
+//                    if (dist[a][b][c] > dist[t.x][t.y][t.z] + 2)
+//                    {
+//                        dist[a][b][c] = dist[t.x][t.y][t.z] + 2;
+//                        if (!st[a][b][c])
+//                        {
+//                            q.push({ a, b, c });
+//                            st[a][b][c] = true;
+//                        }
+//                    }
+//                }
+//                continue;
+//            }
+//        }
+//    }
+//
+//    int ans = 0x3f3f3f3f;
+//    for (int i = 1; i < 3; i++)
+//    {
+//        ans = min(ans, dist[m][m][i]);
+//        //cout << dist[1][3][i] << ' ';
+//    }
+//
+//    if (ans > 0x3f3f3f3f / 2) return -1;
+//
+//    return ans;
+//}
+//
+//signed main()
+//{
+//    ios::sync_with_stdio(0); cin.tie(0); cin.tie(0);
+//
+//    cin >> m >> n;
+//
+//    while (n--)
+//    {
+//        int a, b, c;
+//        cin >> a >> b >> c;
+//
+//        if (c == 0) c = 2;
+//        g[a][b] = c;
+//    }
+//
+//    /*for(int i = 1; i <= m; i ++)
+//    {
+//       for(int j = 1; j <= m; j ++)
+//        {
+//            cout << g[i][j] << ' ';
+//        }
+//        cout << endl;
+//    }*/
+//
+//    cout << bfs() << endl;
+//
+//    return 0;
+//}
+
+
+
+
+
+
+
+
+
+
+//typedef pair<pair<int, int>, pair<int, pair<int, int>>>PII;
+//const int N = 110;
+//int n, m;
+//bool st[N][N];
+//int dist[N][N];
+//int g[N][N];
+//#define x first
+//#define y second
+//
+//int main()
+//{
+//	memset(dist, -1, sizeof dist);
+//	cin >> n >> m;
+//	for (int i = 1; i <= n; i++)
+//	{
+//		for (int j = 1; j <= n;j++)
+//		{
+//			g[i][j] = 2;
+//		}
+//	}
+//	while (m--)
+//	{
+//		int a, b, c;
+//		cin >> a >> b >> c;
+//		g[a][b] = c;
+//	}
+//	priority_queue<PII, vector<PII>, greater<PII>>q;
+//	q.push({ { 0, g[1][1] } ,{-1, { 1, 1 }} });
+//	dist[1][1] = 0;
+//	int dx[4] = { 1, 0, -1, 0 }, dy[4] = { 0, 1, 0, -1 };
+//	int last = -1;
+//	while (!q.empty())
+//	{
+//		auto t = q.top();
+//		q.pop();
+//		int x = t.y.y.x, y = t.y.y.y;
+//		if (x == n && y == n)break;
+//		st[x][y] = true;
+//		int color = t.x.y;
+//		last = t.y.x;
+//		for (int i = 0; i < 4; i++)
+//		{
+//			int a = x + dx[i], b = y + dy[i];
+//			if (a < 1 || a > n || b < 1 || b > n) continue;
+//			if (st[a][b]) continue;
+//			if (color == g[a][b] && g[a][b] == 2) continue;
+//			if (color == g[a][b])
+//			{
+//				if (dist[a][b] == -1 || dist[a][b] >= dist[x][y])
+//				{
+//					dist[a][b] = dist[x][y];
+//					q.push({ {dist[a][b],g[a][b] }, {last,{ a,b } } });
+//				}
+//			}
+//			else if (color == 2 && g[a][b] != 2)
+//			{
+//				if (last == g[a][b])
+//				{
+//					if (dist[a][b] == -1 || dist[a][b] >= dist[x][y])
+//					{
+//						dist[a][b] = dist[x][y];
+//						q.push({ {dist[a][b],g[a][b] }, {last,{ a,b } } });
+//					}
+//				}
+//				else
+//				{
+//					if (dist[a][b] == -1 || dist[a][b] >= dist[x][y] + 1)
+//					{
+//						dist[a][b] = dist[x][y] + 1;
+//						q.push({ {dist[a][b],g[a][b] }, {last,{ a,b } } });
+//					}
+//				}
+//			}
+//			else if (color != g[a][b] && g[a][b] != 2)
+//			{
+//				if (dist[a][b] == -1 || dist[a][b] >= dist[x][y] + 1)
+//				{
+//					dist[a][b] = dist[x][y] + 1;
+//					q.push({ {dist[a][b],g[a][b] }, {last,{ a,b } } });
+//				}
+//			}
+//			else
+//			{
+//				if (dist[a][b] == -1 || dist[a][b] >= dist[x][y] + 2)
+//				{
+//					dist[a][b] = dist[x][y] + 2, last = color;
+//					q.push({ {dist[a][b],g[a][b] }, {last,{ a,b } } });
+//				}
+//			}
+//
+//		}
+//	}
+//	cout << dist[n][n] << endl;
+//	return 0;
+//}
+
+
+
+//const int N = 1e4 + 10;
+//int g[N][N];
+//int n, m;
+//
+//int main()
+//{
+//	cin >> n >> m;
+//	for (int i = 0; i < n; i++)
+//	{
+//		int a, b, c;
+//		cin >> a >> b >> c;
+//		g[a + 1][b + 1] += c;
+//	}
+//
+//	for (int i = 1; i <= n; i++)
+//		for (int j = 1; j <= m; j++)
+//			g[i][j] += g[i - 1][j] + g[i][j - 1] - g[i - 1][j - 1];
+//
+//	int ans = -1;
+//	for (int i = m + 1;i <= 5e3; i++)
+//	{
+//		for (int j = m + 1; j <= 5e3; j++)
+//		{
+//			ans = max(ans, g[i][j] - g[i - m - 1][j] - g[i][j - m - 1] + g[i - m - 1][j - m - 1]);
+//		}
+//	}
+//	cout << ans << endl;
+//	return 0;
+//}
+
+
+
+
+
+
+
+
+//const int N = 5010;
+//double dist[N];
+//bool st[N];
+//double x[N], y[N];
+//int n;
+//
+//double length(int i, int j)
+//{
+//	return sqrt(pow((x[i] - x[j]), 2) + pow((y[i] - y[j]), 2));
+//}
+//
+//double prime()
+//{
+//	st[1] = true;
+//	for (int i = 1; i <= n;i++)
+//	{
+//		dist[i] = length(1, i);
+//	}
+//	double ans = 0;
+//	for (int i = 1; i <= n; i++)
+//	{
+//		int t = -1;
+//		for (int j = 1; j <= n; j++)
+//		{
+//			if (!st[j] && (t == -1 || dist[t] > dist[j]))
+//				t = j;
+//		}
+//		ans += dist[t];
+//		st[t] = true;
+//		for (int j = 1; j <= n; j++)
+//		{
+//			if (!st[j] && dist[j] > length(t, j))
+//			{
+//				dist[j] = length(t, j);
+//			}
+//		}
+//	}
+//	return ans;
+//}
+//
+//int main()
+//{
+//	cin >> n;
+//	for (int i = 1; i <= n; i++)
+//	{
+//		cin >> x[i] >> y[i];
+//	}
+//	printf("%.2f", prime());
+//	return 0;
+//}
+
+
+
+
+
+//#define int long long
+//int gcd(int a, int b)
+//{
+//	return b == 0 ? a : gcd(b, a % b);
+//}
+//
+//signed main()
+//{
+//	ios::sync_with_stdio(false);
+//	int t;
+//	cin >> t;
+//	while (t--)
+//	{
+//		int a0, a1, b0, b1;
+//		cin >> a0 >> a1 >> b0 >> b1;
+//		int ans = 0;
+//		for (int i = 1; i <= b1 / i; i++)
+//		{
+//			if (b1 % i == 0)
+//			{
+//				if (i % a1 == 0 && gcd(i, a0) == a1 && (i * b0 / gcd(i, b0))== b1) ans++;
+//				if (b1 / i % a1 == 0 && (b1/i) != i && gcd(b1 / i, a0) == a1 && (b1 * b0 / (i * gcd(b1 / i, b0))) == b1)ans++;
+//			}
+//		}
+//		cout << ans << endl;
+//	}
+//	return 0;
+//}
+
+
+
+
+
+//const int N = 4e5 + 10;
+//int n, m, k;
+//int f[N], use[N], ans[N], p[N];
+//vector<int>q[N];
+//int find(int x)
+//{
+//	if (x == p[x]) return p[x];
+//	p[x] = find(p[x]);
+//}
+//
+//int main()
+//{
+//	cin >> n >> m;
+//	for (int i = 0; i < m; i++)
+//	{
+//		int a, b;
+//		cin >> a >> b;
+//		q[a].push_back(b);
+//		q[b].push_back(a);
+//	}
+//	cin >> k;
+//	for (int i = 0; i < k; i++)
+//	{
+//		cin >> f[i];
+//		use[f[i]]++;
+//	}
+//	for (int i = 0; i <= n; i++)p[i] = i;
+//	int cnt = n - k;
+//	for (int i = 0; i < n; i++)
+//	{
+//		if (!use[i])
+//		{
+//			while (q[i].size())
+//			{
+//				int t = q[i].back();
+//				q[i].pop_back();
+//				if (find(t) != find(i) && !use[t]) p[find(t)] = find(i), cnt--;
+//			}
+//		}
+//	}
+//	for (int i = k; i >= 0;i--)
+//	{
+//		ans[i] = cnt;
+//		cnt++;
+//		if (i == 0) break;
+//		while (q[f[i - 1]].size())
+//		{
+//			int t = q[f[i - 1]].back();
+//			q[f[i - 1]].pop_back();
+//			if (find(t) != find(f[i - 1]) && !use[t]) cnt--, p[find(t)] = find(f[i - 1]);
+//		}
+//		use[f[i - 1]] = 0;
+//	}
+//	for (int i = 0; i <= k; i++) cout << ans[i] << endl;
+//	return 0;
+//}
+
+
+
+
+
+
+
+//typedef pair<int, int> PII;
+//#define x first
+//#define y second
+//const int N = 2010;
+//
+//int n, m, k, l, T;
+//map<int, int> col, row;
+//PII c[N], r[N];
+//int cnt1, cnt2;
+//
+//bool cmp(PII a, PII b)
+//{
+//    return a.y > b.y;
+//}
+//
+//signed main()
+//{
+//    cin >> n >> m >> k >> l;
+//
+//    cin >> T;
+//
+//    while (T--)
+//    {
+//        int sx, sy, ex, ey;
+//        cin >> sx >> sy >> ex >> ey;
+//        int t;
+//        if (sx == ex)
+//        {
+//            t = min(sy, ey);
+//            col[t]++;
+//        }
+//        if(sy == ey)
+//        {
+//            t = min(sx, ex);
+//            row[t]++;
+//        }
+//    }
+//
+//
+//    for (auto t : row) r[cnt1++] = { t.first,t.second };
+//    for (auto t : col) c[cnt2++] = { t.first, t.second };
+//
+//
+//    sort(r, r + cnt1, cmp);
+//    sort(c, c + cnt2, cmp);
+//    sort(r, r + k);
+//    sort(c, c + l);
+//    for (int i = 0; i < k; i++) cout << r[i].x << ' ';
+//    cout << endl;
+//    for (int i = 0; i < l; i++) cout << c[i].x << ' ';
+//
+//    return 0;
+//}
+
+
+
+//const int N = 1010;
+//int a[N][N];
+//int n, m, k, l, d;
+//struct node
+//{
+//	int cnt, id;
+//}x[N], y[N];
+//
+//bool cmp1(node a, node b)
+//{
+//	return a.cnt > b.cnt;
+//}
+//
+//bool cmp2(node a, node b)
+//{
+//	return a.id < b.id;
+//}
+//
+//int main()
+//{
+//	cin >> n >> m >> k >> l >> d;
+//	for (int i = 0; i < 1010; i++)x[i].id = i, y[i].id = i;
+//	for (int i = 0; i < d; i++)
+//	{
+//		int x1, y1, x2, y2;
+//		cin >> x1 >> y1 >> x2 >> y2;
+//		if (x1 == x2)y[min(y1, y2)].cnt++;
+//		if (y1 == y2)x[min(x1, x2)].cnt++;
+//	}
+//	sort(x + 1, x + 1 + n, cmp1);
+//	sort(y + 1, y + 1 + m, cmp1);
+//	sort(x + 1, x + 1 + k, cmp2);
+//	sort(y + 1, y + 1 + l, cmp2);
+//	for (int i = 1; i <= k; i++)
+//	{
+//		cout << x[i].id << ' ';
+//	}
+//	cout << endl;
+//	for (int i = 1; i <= l; i++)
+//	{
+//		cout << y[i].id << ' ';
+//	}
+//	return 0;
+//}
+//
+
+
+
+//const int N = 5e5 + 10, mod = 80112002;
+//int e[N], ne[N], h[N], idx;
+//int n, m;
+//int f1[N], f2[N], dist[N];
+//
+//void add(int a, int b)
+//{
+//	e[idx] = b, ne[idx] = h[a], h[a] = idx++;
+//}
+//
+//void solve()
+//{
+//	queue<int>q;
+//	int ans = 0;
+//	for (int i = 1; i <= n; i++)
+//	{
+//		if (!f1[i]) q.push(i),dist[i] = 1;
+//	}
+//	while (!q.empty())
+//	{
+//		int t = q.front();
+//		q.pop();
+//		for (int i = h[t]; i != -1; i = ne[i])
+//		{
+//			int j = e[i];
+//			dist[j] = (dist[j] + dist[t]) % mod;
+//			f1[j]--;
+//			if (!f1[j]) q.push(j);
+//		}
+//	}
+//}
+//
+//
+//int main()
+//{
+//	memset(h, -1, sizeof h);
+//	cin >> n >> m;
+//	while (m--)
+//	{
+//		int a, b;
+//		cin >> a >> b;
+//		add(b, a);
+//		f1[a]++, f2[b]++;
+//	}
+//	solve();
+//	int ans = 0;
+//	for (int i = 1; i <= n; i++)
+//	{
+//		if (!f2[i]) ans = (ans + dist[i]) % mod;
+//	}
+//	cout << ans << endl;
+//	return 0;
+//}
+
+
+
+
+
+//int main()
+//{
+//	int n;
+//	cin >> n;
+//	int res = 0;
+//	for (int i = 0; i < n; i++)
+//	{
+//		int a;
+//		cin >> a;
+//		res ^= a;
+//	}
+//	cout << res << endl;
+//	return 0;
+//}
+//
+
+
+
+//#define int long long
+//const int N = 1e5 + 10;
+//int a[N];
+//int n, k;
+//int check(int x)
+//{
+//	int sum = 0, cnt = 0;
+//	for (int i = 0; i < n;i++)
+//	{
+//		sum += a[i];
+//		if (sum >= x)
+//		{
+//			cnt++;
+//			sum = 0;
+//		}
+//		sum = max(sum, (long long)0);
+//	}
+//	return cnt;
+//}
+//
+//signed main()
+//{
+//	int maxi = 0;
+//	cin >> n >> k;
+//	for (int i = 0; i < n; i++)
+//	{
+//		cin >> a[i];
+//		if (a[i] > maxi) maxi = a[i];
+//	}
+//	int l = 1, r = 1e18, ans = -1;
+//	while (l <= r)
+//	{
+//		int mid = (l + r) >> 1;
+//		if (check(mid) > k) l = mid + 1;
+//		else r = mid - 1;
+//		if (check(mid) == k) ans = mid;
+//	}
+//	if (ans == -1)
+//	{
+//		cout << ans << endl;
+//		return 0;
+//	}
+//	cout << ans << ' ';
+//	l = 1, r = 1e18;
+//	while (l <= r)
+//	{
+//		int mid = (l + r) >> 1;
+//		if (check(mid) >= k)
+//		{
+//			l = mid + 1;
+//			if (check(mid) == k) ans = mid;
+//		}
+//		else r = mid - 1;
+//	}
+//	cout << ans << ' ';
+//	return 0;
+//}
+//
+
+
+
+
+//const int N = 110;
+//int n, m;
+//int g[N][N];
+//int dist[N][N];
+//int dx[4] = { 0, 1, 0, -1 }, dy[4] = { 1, 0, -1, 0 };
+//
+//int dfs(int x, int y)
+//{
+//	if (dist[x][y] != -1) return dist[x][y];
+//	dist[x][y] = 1;
+//	for (int i = 0; i < 4; i++)
+//	{
+//		int a = x + dx[i], b = y + dy[i];
+//		if (a < 0 || a >= n || b < 0 || b >= m) continue;
+//		if (g[a][b] >= g[x][y]) continue;
+//		dist[x][y] = max(dist[x][y], dfs(a, b) + 1);
+//	}
+//	return dist[x][y];
+//}
+//
+//int main()
+//{
+//	cin >> n >> m;
+//	for (int i = 0; i < n; i++)
+//	{
+//		for (int j = 0; j < m; j++)
+//		{
+//			cin >> g[i][j];
+//		}
+//	}
+//	int res = 0;
+//	memset(dist, -1, sizeof dist);
+//	for (int i = 0; i < n; i++)
+//	{
+//		for (int j = 0; j < m; j++)
+//		{
+//			res = max(res, dfs(i, j));
+//		}
+//	}
+//	cout << res << endl;
+//	return 0;
+//}
+
+
+
+
+
+
+//const int N = 1010;
+//int e[N], ne[N], h[N], idx;
+//int n, m;
+//
+//void add(int a, int b)
+//{
+//	e[idx] = b, ne[idx] = h[a], h[a] = idx++;
+//}
+//
+//int main()
+//{
+//	cin >> n >> m;
+//	while (m--)
+//	{
+//		int a, b;
+//		cin >> a >> b;
+//		add(a, b), add(b, a);
+//	}
+//	int t;
+//	cin >> t;
+//	
+//	return 0;
+//}
+
+
+
+
+
+//const int N = 110;
+//int a[N];
+//
+//int main()
+//{
+//	int n, sum = 0;
+//	cin >> n;
+//	for (int i = 0; i < n; i++)
+//	{
+//		cin >> a[i];
+//		sum += a[i];
+//	}
+//	int d = sum / n;
+//	int cnt = 0;
+//	for (int i = 0; i < n;i++)
+//	{
+//		if (a[i] > d)
+//		{
+//			int c = a[i] - d;
+//			a[i] -= c;
+//			a[i + 1] += c;
+//			cnt++;
+//		}
+//		else if (a[i] == d)
+//		{
+//			continue;
+//		}
+//		else
+//		{
+//			int c = d - a[i];
+//			a[i] += c;
+//			a[i + 1] -= c;
+//			cnt++;
+//		}
+//	}
+//	cout << cnt << endl;
+//	return 0;
+//}
+
+
+
+
+
+//
+//#define x first
+//#define y second
+//
+//typedef pair<char, pair<int, int>> PII;
+//
+//int g[N][N];
+//int dist[N][N];
+//bool st[N][N];
+//int n, m;
+//int sx, sy, ex, ey;
+//char face, last_face;
+//
+////E S W N 东南西北
+//int dx[12] = { -1, -2, -3, 0, 0, 0, 1, 2, 3, 0, 0, 0 }, dy[12] = { 0, 0, 0, 1, 2, 3, 0, 0, 0, -1, -2, -3 };
+//
+//int bfs()
+//{
+//    memset(dist, 0x3f, sizeof dist);
+//
+//    queue<PII> q;
+//    q.push({ last_face,{ sx, sy } });
+//    dist[sx][sy] = 0;
+//
+//    while (q.size())
+//    {
+//        auto t = q.front();
+//        q.pop();
+//        last_face = t.x;
+//        for (int i = 0; i < 4; i++)
+//        {
+//            for (int j = 0; j < 3; j++)
+//            {
+//                int a = t.y.x + dx[3 * i + j], b = t.y.y + dy[3 * i + j];
+//
+//
+//                if (a <= 0 || a >= n || b <= 0 || b >= m) continue;
+//                if (g[a][b] == 1) break;
+//
+//                if (dx[3 * i + j] < 0) face = 'N';
+//                else if (dx[3 * i + j] > 0) face = 'S';
+//                else if (dy[3 * i + j] < 0) face = 'W';
+//                else face = 'E';
+//
+//                if (face == last_face)
+//                {
+//                    if (dist[a][b] >= dist[t.y.x][t.y.y] + 1)
+//                    {
+//                        dist[a][b] = dist[t.y.x][t.y.y] + 1;
+//                        q.push({ face,{ a, b } });
+//                    }
+//                }
+//                else if ((face == 'S' && last_face == 'N') || (face == 'N' && last_face == 'S') || (face == 'W' && last_face == 'E') || (face == 'E' && last_face == 'W'))
+//                {
+//                    if (dist[a][b] >= dist[t.y.x][t.y.y] + 3)
+//                    {
+//                        dist[a][b] = dist[t.y.x][t.y.y] + 3;
+//                        q.push({ face,{ a, b } });
+//                    }
+//                }
+//                else
+//                {
+//                    if (dist[a][b] >= dist[t.y.x][t.y.y] + 2)
+//                    {
+//                        dist[a][b] = dist[t.y.x][t.y.y] + 2;
+//                        q.push({ face,{ a, b } });
+//                    }
+//                }
+//            }
+//        }
+//    }
+//    if (dist[ex][ey] != 0x3f3f3f3f)return dist[ex][ey];
+//    else return -1;
+//}
+//
+//int main()
+//{
+//    cin >> n >> m;
+//
+//    for (int i = 1; i <= n; i++) {
+//        for (int j = 1; j <= m; j++) {
+//            cin >> g[i][j];
+//            if (g[i][j] == 1) {
+//                g[i - 1][j - 1] = g[i - 1][j] = g[i][j - 1] = 1;
+//            }
+//        }
+//    }
+//
+//    cin >> sx >> sy >> ex >> ey >> last_face;
+//    //sx--, sy--, ex--, ey--;
+//
+//    /*g[sx][sy] = 'S';
+//    g[ex][ey] = 'E';
+//    for (int i = 0; i < n; i++)
+//    {
+//        for (int j = 0; j < m; j++)
+//        {
+//            cout << g[i][j] << ' ';
+//        }
+//        cout << endl;
+//    }*/
+//
+//    cout << bfs() << endl;
+//
+//    return 0;
+//}
 
 //const int N = 2e5 + 10;
 //int a[N], p[N];
