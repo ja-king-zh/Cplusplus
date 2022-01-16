@@ -8,7 +8,280 @@
 #include<map>
 using namespace std;
 
+const int N = 1e6 + 10;
+int a[N];
 
+int gcd(int a, int b)
+{
+    return b == 0 ? a : gcd(b, a % b);
+}
+
+int main()
+{
+    int n;
+    cin >> n;
+    for (int i = 0; i < n; i++)
+    {
+        int x;
+        cin >> x;
+        a[x]++;
+    }
+    int ans = 0;
+    for (int i = N; i >= 1; i--)
+    {
+        if (a[i]) continue;
+        int t = 0;
+        for (int j = i; j <= N; j += i)
+        {
+            if (a[j]) t = gcd(t, j);
+        }
+        if (t == i) ans++;
+    }
+    cout << ans << endl;
+    return 0;
+}
+
+
+
+
+//typedef pair<int, int>PII;
+//map<PII, int>mp;
+//const int N = 1e5 + 10, M = 2e5 + 10;
+//int rd[N], cd[N];
+//int e[M], ne[M], h[N], idx;
+//int n,dist[N];
+//
+//void add(int a, int b)
+//{
+//	e[idx] = b, ne[idx] = h[a], h[a] = idx++;
+//}
+//bool st[N];
+//void spfa()
+//{
+//	queue<PII>q;
+//	memset(st, 0, sizeof st);
+//	memset(dist, 0, sizeof dist);
+//	for (int i = 1; i <= n; i++)
+//	{
+//		if (rd[i] == 1)
+//		{
+//			q.push({ i, 2 });
+//			break;
+//		}
+//	}
+//	while (!q.empty())
+//	{
+//		auto t = q.front();
+//		st[t.first] = true;
+//		q.pop();
+//		for (int i = h[t.first]; i != -1; i = ne[i])
+//		{
+//			int j = e[i];
+//			if (!st[j])
+//			{
+//				dist[mp[{t.first, j}]] = t.second;
+//				q.push({ j, 5 - t.second });
+//			}
+//		}
+//	}
+//	for (int i = 1; i < n; i++)
+//	{
+//		cout << dist[i] << ' ';
+//	}
+//	cout << endl;
+//}
+//int main()
+//{
+//	ios::sync_with_stdio(0); cin.tie(0); cin.tie(0);
+//	int t;
+//	cin >> t;
+//
+//	while (t--)
+//	{
+//		cin >> n;
+//		memset(rd, 0, sizeof rd);
+//		memset(cd, 0, sizeof cd);
+//		memset(h, -1, sizeof h);
+//		/*memset(e, 0, sizeof e);
+//		memset(ne, 0, sizeof ne);*/
+//
+//		idx = 0;
+//
+//		for (int i = 1; i < n; i++)
+//		{
+//			int a, b;
+//			cin >> a >> b;
+//			rd[b]++;
+//			rd[a]++;
+//			cd[a]++;
+//			cd[b]++;
+//			mp[{a, b}] = mp[{b, a}] = i;
+//			add(a, b), add(b, a);
+//		}
+//		int f = 1;
+//		for (int i = 1; i <= n; i++)
+//		{
+//			if (rd[i] + cd[i] >= 6)
+//			{
+//				cout << -1 << endl;
+//				f = 0;
+//				break;
+//			}
+//		}
+//		if (!f) continue;
+//		else
+//		{
+//			spfa();
+//		}
+//	}
+//	return 0;
+//}
+
+
+
+//
+//const int N = 1e5 + 10;
+//int g[N];
+//
+//int main()
+//{
+//	ios::sync_with_stdio(0); cin.tie(0); cin.tie(0);
+//	int t;
+//	cin >> t;
+//	while (t--)
+//	{
+//		memset(g , 0, sizeof g);
+//		int n, m;
+//		cin >> n >> m;
+//		for (int i = 1; i <= n; i++)
+//		{
+//			for (int j = 1; j <= m; j++)
+//			{
+//				g[(i - 1) * m + j] = max(abs(i - 1) + abs(j - 1), g[(i - 1) * m + j]);
+//				g[(i - 1) * m + j] = max(abs(i - n) + abs(j - m), g[(i - 1) * m + j]);
+//				g[(i - 1) * m + j] = max(abs(i - 1) + abs(j - m), g[(i - 1) * m + j]);
+//				g[(i - 1) * m + j] = max(abs(i - n) + abs(j - 1), g[(i - 1) * m + j]);
+//			}
+//		}
+//		sort(g + 1, g + 1 + m * n);
+//		for (int i = 1; i < 1 + m * n; i++) cout << g[i] << ' ';
+//		cout << endl;
+//	}
+//	return 0;
+//}
+
+
+
+
+//const int N = 110;
+//char a[N][N];
+//int n, m;
+
+//int main()
+//{
+//	ios::sync_with_stdio(0); cin.tie(0); cin.tie(0);
+//	int t;
+//	cin >> t;
+//	while (t--)
+//	{
+//		int n, m;
+//		cin >> n >> m;
+//		if (n == 1 || m == 1)
+//		{
+//			int tmp = max(m, n);
+//			int cc = tmp / 2, dd = 0;
+//			for (int i = 0; i < max(m,n); i++)
+//			{
+//				if (tmp % 2 == 1) {
+//					cout << cc << ' ', cc++;
+//					tmp--;
+//					continue;
+//				}
+//				cout << cc << ' ';
+//				dd++;
+//				if (dd % 2 == 0)cc++;
+//			}
+//			cout << endl;
+//			continue;
+//		}
+//		int d = (n - 2) * (m - 2);
+//		int c = n + m - 4;
+//		for (int i = 0; i < d; i++)
+//		{
+//			cout << c << ' ';
+//		}
+//		d = 2 * n + 2 * m - 8;
+//		c++;
+//		for (int i = 0; i < d; i++)
+//		{
+//			cout << c << ' ';
+//		}
+//		if (n == 1 || m == 1)d = 2;
+//		else if (n == 1 && m == 1) d = 1;
+//		else d = 4;
+//		c++;
+//		for (int i = 0; i < d; i++)
+//		{
+//			cout << c << ' ';
+//		}
+//		cout << endl;
+//	}
+//	return 0;
+//}
+
+
+
+//const int N = 110;
+//char a[N][N];
+//int n, m;
+//
+//int main()
+//{
+//	ios::sync_with_stdio(0); cin.tie(0); cin.tie(0);
+//	int t;
+//	cin >> t;
+//	while (t--)
+//	{
+//		memset(a, 0, sizeof a);
+//		int x, y;
+//		cin >> n >> m >> x >> y;
+//		for (int i = 1; i <= n; i++)
+//		{
+//			for (int j = 1; j <= m; j++)
+//			{
+//				cin >> a[i][j];
+//			}
+//		}
+//		bool flag = false, f = false, ff = false;
+//		for (int i = 1; i <= n; i++)
+//		{
+//			for (int j = 1; j <= m; j++)
+//			{
+//				if (a[i][j] == 'B')
+//				{
+//					flag = true;
+//				}
+//				if (a[i][j] == 'B' && i == x)
+//				{
+//					f = true;
+//				}
+//				if (a[i][j] == 'B' && j == y)
+//				{
+//					f = true;
+//				}
+//				if (a[i][j] == 'B' && j == y && i == x)
+//				{
+//					ff = true;
+//				}
+//			}
+//		}
+//		if (f && flag && ff) cout << 0 << endl;
+//		else if (f && flag && !ff) cout << 1 << endl;
+//		else if (!f && flag && !ff) cout << 2 << endl;
+//		else cout << -1 << endl;
+//	}
+//	return 0;
+//}
 
 
 
