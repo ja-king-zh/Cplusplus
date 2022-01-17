@@ -1,64 +1,126 @@
 #define _CRT_SECURE_NO_WARNINGS 1
 #include<iostream>
-#include<algorithm>
-#include<math.h>
-#include<stdio.h>
-#include<queue>
-#include<deque>
-#include<map>
-#include<cstring>
 #include<vector>
+#include<stdio.h>
+#include<algorithm>
 using namespace std;
+const int N = 5e5 + 10;
 
-const int N = 110;
-int g[N][N], dist[N];
-int n, ans;
-bool st[N];
 
-void prime()
-{
-	memset(dist, 0x3f, sizeof dist);
-	memset(st, 0, sizeof st);
-	dist[1] = 0;
-	for (int i = 1; i <= n; i++)
-	{
-		int t = -1;
-		for (int j = 1; j <= n; j++)
-			if (!st[j] && (t == -1 || dist[t] > dist[j]))
-				t = j;
-		if (i - 1) ans += dist[t];
-		st[t] = true;
-		for (int j = 1; j <= n; j++)
-		{
-			if (dist[j] > g[t][j]) dist[j] = g[t][j];
-		}
-	}
-}
 
-int main()
-{
-	while (cin >> n, n)
-	{
-		ans = 0;
-		memset(g, 0x3f, sizeof g);
-		for (int i = 1; i < n; i++)
-		{
-			char a;
-			int m;
-			cin >> a >> m;
-			for (int i = 0; i < m; i++)
-			{
-				char b;
-				int c;
-				cin >> b >> c;
-				g[a - 'A' + 1][b - 'A' + 1] = g[b - 'A' + 1][a - 'A' + 1] = c;
-			}
-		}
-		prime();
-		cout << ans << endl;
-	}
-	return 0;
-}
+//#include<iostream>
+//#include<algorithm>
+//#include<math.h>
+//#include<cstring>
+//using namespace std;
+//
+//typedef long long ll;
+//const int N = 2010;
+//ll dist[N], g[N][N];
+//ll x[N], y[N], z[N];
+//bool st[N];
+//
+//ll dis(int i, int j)
+//{
+//    return ceil(sqrt((x[i] - x[j]) * (x[i] - x[j]) + (y[i] - y[j]) * (y[i] - y[j]) + (z[i] - z[j]) * (z[i] - z[j])));
+//}
+//int main()
+//{
+//    int n;
+//    cin >> n;
+//    for (int i = 1; i <= n; i++)
+//    {
+//        cin >> x[i] >> y[i] >> z[i];
+//        for (int j = i; j >= 1; j--)
+//        {
+//            g[i][j] = g[j][i] = dis(i, j);
+//        }
+//    }
+//    for (int i = 0; i <= n; i++)
+//    {
+//        dist[i] = 1e18;
+//    }
+//    dist[1] = 0;
+//    int ans = 0;
+//    for (int i = 1; i <= n; i++)
+//    {
+//        int t = -1;
+//        for (int j = 1; j <= n; j++)
+//            if (!st[j] && (t == -1 || dist[t] > dist[j]))
+//                t = j;
+//        st[t] = true;
+//        ans += dist[t];
+//        for (int j = 1; j <= n; j++)
+//        {
+//            if (dist[j] > g[t][j]) dist[j] = g[t][j];
+//        }
+//    }
+//    cout << ans << endl;
+//    return 0;
+//}
+
+
+
+//#include<iostream>
+//#include<algorithm>
+//#include<math.h>
+//#include<stdio.h>
+//#include<queue>
+//#include<deque>
+//#include<map>
+//#include<cstring>
+//#include<vector>
+//using namespace std;
+//
+//const int N = 110;
+//int g[N][N], dist[N];
+//int n, ans;
+//bool st[N];
+//
+//void prime()
+//{
+//	memset(dist, 0x3f, sizeof dist);
+//	memset(st, 0, sizeof st);
+//	dist[1] = 0;
+//	for (int i = 1; i <= n; i++)
+//	{
+//		int t = -1;
+//		for (int j = 1; j <= n; j++)
+//			if (!st[j] && (t == -1 || dist[t] > dist[j]))
+//				t = j;
+//		if (i - 1) ans += dist[t];
+//		st[t] = true;
+//		for (int j = 1; j <= n; j++)
+//		{
+//			if (dist[j] > g[t][j]) dist[j] = g[t][j];
+//		}
+//	}
+//}
+//
+//int main()
+//{
+//	while (cin >> n, n)
+//	{
+//		ans = 0;
+//		memset(g, 0x3f, sizeof g);
+//		for (int i = 1; i < n; i++)
+//		{
+//			char a;
+//			int m;
+//			cin >> a >> m;
+//			for (int i = 0; i < m; i++)
+//			{
+//				char b;
+//				int c;
+//				cin >> b >> c;
+//				g[a - 'A' + 1][b - 'A' + 1] = g[b - 'A' + 1][a - 'A' + 1] = c;
+//			}
+//		}
+//		prime();
+//		cout << ans << endl;
+//	}
+//	return 0;
+//}
 
 
 
