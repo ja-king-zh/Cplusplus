@@ -1,25 +1,282 @@
 #define _CRT_SECURE_NO_WARNINGS 1
 #include<iostream>
-#include<vector>
-#include<stdio.h>
-using namespace std;
+#include<algorithm>
+#include<string>
+#include<cstring>
 
+#include<vector>
+using namespace std;
+typedef long long ll;
+using namespace std;
+#define fore(i, l, r) for(ll i = ll(l); i < ll(r); i++)
+#define endl '\n'
+typedef long long ll;
+#define all(a) (a).begin(), (a).end()
+
+ll nxt() {
+    ll x; cin >> x; return x;
+}
+string def = "abcdefghijklmnopqrstuvwxyz";
+
+void solve() {
+    //cout << "---------------" << endl;
+    string x; cin >> x;
+    int last = x[x.length() - 1] - '0';
+    int best = 0;
+    for (int i = x.length() - 2; i >= 0; i--) {
+        int temp1 = x[i] - '0';
+        if (temp1 + last >= 10) {
+            best = i;
+            break;
+        }
+
+        last = temp1;
+    }
+    fore(i, 0, best) cout << x[i];
+    cout << x[best] - '0' + x[best + 1] - '0';
+    fore(i, best + 2, x.length()) cout << x[i]; cout << endl;
+}
 
 int main()
 {
-	string a;
-	vector<int>ans;
-	cin >> a;
-	int cnt = 0;
-	for (int i = a.size() - 1; i >= 0; i--)
-	{
-		int f = (a[i] - '0') * 2 + cnt;
-		ans.push_back(f % 10);
-		cnt = f / 10;
-	}
-	if (cnt)ans.push_back(cnt);
-	for (int i = ans.size() - 1;i >= 0;i--) cout << ans[i];
+    int t = nxt();
+    while (t--) {
+        solve();
+    }
+    return 0;
 }
+//int main()
+//{
+//    ios_base::sync_with_stdio(false);
+//    cin.tie(NULL);
+//    ll t = 1;
+//    cin >> t;
+//    while (t--)
+//    {
+//        ll i, j, k, n, m;
+//        string ss;
+//        cin >> ss;
+//        string ans = "";
+//        m = -1; n = -1;
+//        for (i = 1; i < ss.length(); i++)
+//        {
+//            string x = ss;
+//            k = ss[i - 1] - '0';
+//            k += ss[i] - '0';
+//            if (k > 9)
+//            {
+//                m = i;
+//            }
+//            else if (n == -1)
+//            {
+//                n = i;
+//            }
+//
+//        }
+//        if (m == -1)
+//        {
+//            k = ss[n - 1] - '0';
+//            k += ss[n] - '0';
+//            string s1, s2, s3;
+//            s1 = ss.substr(0, n - 1);
+//            s2 = to_string(k);
+//            s3 = ss.substr(n + 1, ss.length());
+//            s1 += s2 + s3;
+//            ans = s1;
+//        }
+//        else
+//        {
+//            k = ss[m - 1] - '0';
+//            k += ss[m] - '0';
+//            string s1, s2, s3;
+//            s1 = ss.substr(0, m - 1);
+//            s2 = to_string(k);
+//            s3 = ss.substr(m + 1, ss.length());
+//            s1 += s2 + s3;
+//            ans = s1;
+//        }
+//        cout << ans << "\n";
+//    }
+//    return 0;
+//}
+
+//const int N = 1e4 + 10;
+//int a[N];
+//
+//int main()
+//{
+//    int n;
+//    cin >> n;
+//    for (int i = 1; i <= n; i++)
+//    {
+//        cin >> a[i];
+//    }
+//    long long ans = 0, res = 1e18;
+//    for (int i = 1; i < n; i++)
+//    {
+//        for (int j = i + 1; j <= n; j++)
+//        {
+//            if (j - i == 1)
+//            {
+//                res = min(res, a[i]);
+//                res = min(res, a[j]);
+//            }
+//            else res = max(res, a[j]);
+//            ans += res;
+//        }
+//    }
+//    cout << ans << endl;
+//    return 0;
+//}
+//#include<iostream>
+//#include<cstring>
+//#include<queue>
+//#include<algorithm>
+//using namespace std;
+//int n, m;
+//const int N = 1e3 + 10;
+//int a[N][N];
+//typedef pair<int, int>PII;
+//PII s[15], e[15];
+//int dist[N][N];
+//int dx[4] = { 1, 0, -1, 0 }, dy[4] = { 0, 1, 0, -1 };
+//void bfs(PII x, PII y)
+//{
+//    memset(dist, -1, sizeof dist);
+//    dist[x.first][x.second] = 0;
+//    queue<PII>q;
+//    q.push(x);
+//    while (!q.empty())
+//    {
+//        auto t = q.front();
+//        q.pop();
+//        for (int i = 0; i < 4; i++)
+//        {
+//            int aa = t.first + dx[i], bb = t.second + dy[i];
+//            if (aa < 0 || aa >= n || bb < 0 || bb >= n) continue;
+//            if (dist[aa][bb] != -1) continue;
+//            if (a[aa][bb] == -1 || a[aa][bb] == 1 || (a[aa][bb] == 2 && aa != y.first && bb != y.second)) continue;
+//            dist[aa][bb] = dist[t.first][t.second] + 1;
+//            q.push({ aa, bb });
+//        }
+//    }
+//    cout << dist[y.first][y.second] << endl;
+//}
+//
+//int main()
+//{
+//    cin >> n >> m;
+//    for (int i = 0; i < m; i++)
+//    {
+//        int x, y;
+//        cin >> x >> y;
+//        a[x][y] = -1;
+//    }
+//    int t;
+//    cin >> t;
+//    for (int i = 1; i <= t; i++)
+//    {
+//        int x1, y1, x2, y2;
+//        cin >> x1 >> y1 >> x2 >> y2;
+//        s[i] = { x1, y1 };
+//        e[i] = { x2, y2 };
+//        a[x1][y1] = 1;
+//        a[x2][y2] = 2;
+//    }
+//    for (int i = 1; i <= t; i++)
+//    {
+//        bfs(s[i], e[i]);
+//    }
+//    return 0;
+//}
+
+//#include <iostream>
+//#include <vector>
+//
+//using namespace std;
+//
+//const int base = 1000000000;
+//
+//vector<int> add(vector<int>& A, vector<int>& B)
+//{
+//    if (A.size() < B.size()) return add(B, A);
+//
+//    vector<int> C;
+//    int t = 0;
+//    for (int i = 0; i < A.size(); i++)
+//    {
+//        t += A[i];
+//        if (i < B.size()) t += B[i];
+//        C.push_back(t % base);
+//        t /= base;
+//    }
+//
+//    if (t) C.push_back(t);
+//    return C;
+//}
+//
+//int main()
+//{
+//    string a, b;
+//    vector<int> A, B;
+//    cin >> a;
+//
+//    for (int i = a.size() - 1, s = 0, j = 0, t = 1; i >= 0; i--)
+//    {
+//        s += (a[i] - '0') * t;
+//        j++, t *= 10;
+//        if (j == 9 || i == 0)
+//        {
+//            A.push_back(s);
+//            s = j = 0;
+//            t = 1;
+//        }
+//    }
+//    for (int i = a.size() - 1, s = 0, j = 0, t = 1; i >= 0; i--)
+//    {
+//        s += (a[i] - '0') * t;
+//        j++, t *= 10;
+//        if (j == 9 || i == 0)
+//        {
+//            B.push_back(s);
+//            s = j = 0;
+//            t = 1;
+//        }
+//    }
+//
+//    auto C = add(A, B);
+//
+//    cout << C.back();
+//    for (int i = C.size() - 2; i >= 0; i--) printf("%09d", C[i]);
+//    cout << endl;
+//
+//    return 0;
+//}
+
+
+
+
+
+
+
+
+
+//
+//int main()
+//{
+//	string a;
+//	vector<int>ans;
+//	cin >> a;
+//	int cnt = 0;
+//	for (int i = a.size() - 1; i >= 0; i--)
+//	{
+//		int f = (a[i] - '0') * 2 + cnt;
+//		ans.push_back(f % 10);
+//		cnt = f / 10;
+//	}
+//	if (cnt)ans.push_back(cnt);
+//	for (int i = ans.size() - 1;i >= 0;i--) cout << ans[i];
+//}
 
 
 

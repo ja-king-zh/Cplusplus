@@ -1,2 +1,5 @@
 ﻿  源.cpp
+C:\Users\james\Desktop\Python\C++\刷题\源.cpp(35,32): warning C4244: “参数”: 从“ll”转换到“const unsigned int”，可能丢失数据
+C:\Users\james\Desktop\Python\C++\刷题\源.cpp(37,45): warning C4244: “参数”: 从“ll”转换到“const unsigned int”，可能丢失数据
+C:\Users\james\Desktop\Python\C++\刷题\源.cpp(42,11): warning C4244: “初始化”: 从“ll”转换到“int”，可能丢失数据
   刷题.vcxproj -> C:\Users\james\Desktop\Python\C++\刷题\Debug\刷题.exe
