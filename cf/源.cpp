@@ -8,38 +8,188 @@
 #include<map>
 using namespace std;
 
-const int N = 1e6 + 10;
-int a[N];
-
-int gcd(int a, int b)
-{
-    return b == 0 ? a : gcd(b, a % b);
-}
+typedef long long ll;
+const int N = 110;
+ll a[N], b[N];
 
 int main()
 {
-    int n;
-    cin >> n;
-    for (int i = 0; i < n; i++)
-    {
-        int x;
-        cin >> x;
-        a[x]++;
-    }
-    int ans = 0;
-    for (int i = N; i >= 1; i--)
-    {
-        if (a[i]) continue;
-        int t = 0;
-        for (int j = i; j <= N; j += i)
-        {
-            if (a[j]) t = gcd(t, j);
-        }
-        if (t == i) ans++;
-    }
-    cout << ans << endl;
-    return 0;
+	int t;
+	cin >> t;
+	while (t--)
+	{
+		int n;
+		cin >> n;
+		for (int i = 1; i <= n; i++)
+		{
+			cin >> a[i];
+		}
+		for (int i = 1; i <= n; i++)
+		{
+			cin >> b[i];
+		}
+		for (int i = n - 1; i; i--) {
+			b[i] = max(b[i], b[i + 1] - (a[i + 1] - a[i]));
+		}
+		ll ans = 0, last = -1;
+		for (int i = 1; i <= n; i++)
+		{
+			if (i - 1)
+			{
+				ll x = a[i], y = b[i];
+				if (x - a[i - 1] < y)
+				{
+					ans = ans + (2 * last + 1 + x - a[i - 1]) * (x - a[i - 1]) / 2;
+					last = last + x - a[i - 1];
+				}
+				else
+				{
+					ans = ans + (b[i] + 1) * b[i] / 2;
+					last = b[i];
+				}
+			}
+			else
+			{
+				ans = ans + (b[i] + 1) * b[i] / 2;
+				last = b[i];
+			}
+		}
+		cout << ans << endl;
+	}
+	return 0;
 }
+
+
+//int main()
+//{
+//	int t;
+//	cin >> t;
+//	while (t--)
+//	{
+//		string s;
+//		cin >> s;
+//		sort(s.begin(), s.end());
+//		cout << s << endl;
+//	}
+//	return 0;
+//}
+
+
+//const int N = 110;
+//typedef long long ll;
+//ll ans;
+//ll a[N];
+//
+//int main()
+//{
+//	int t;
+//	cin >> t;
+//	while (t--)
+//	{
+//		int n;
+//		ans = 0;
+//		cin >> n;
+//		for (int i = 1; i <= n; i++)
+//		{
+//			cin >> a[i];
+//		}
+//		ll last = -1;
+//		for (int i = 1; i <= n; i++)
+//		{
+//			ll x;
+//			cin >> x;
+//			ll y = last;
+//			int ff = 0;
+//			if (i - 1)
+//			{
+//				if ((2 * y + 1 + a[i] - a[i - 1]) * (a[i] - a[i - 1])  > ((1 + x) * x)  && x < (a[i] - a[i - 1])) ans = ans + (1 + x) * x / 2, last = x, ff = 1;
+//				else
+//				{
+//					ans = ans + (2 * y + 1 + a[i] - a[i - 1]) * (a[i] - a[i - 1]) / 2;
+//				}
+//			}
+//			else ans += (1 + x) * x / 2, last = x, ff = 1;
+//			if(a[i] == x) ans = (1 + x) * x / 2, last = x, ff = 1;
+//			if(!ff)last = a[i] - a[i - 1] + y;
+//		}
+//		cout << ans << endl;
+//	}
+//	return 0;
+//}
+
+
+
+//const int N = 1e5 + 10;
+//
+//int main()
+//{
+//	int t;
+//	cin >> t;
+//	while (t--)
+//	{
+//		string s;
+//		cin >> s;
+//		int f = 1;
+//		for (int i = s.size() - 2; i >= 0; i--)
+//		{
+//			int x = s[i] + s[i + 1] - '0' - '0';
+//			if (x >= 10)
+//			{
+//				s[i] = '1';
+//				s[i + 1] = x - 10 + '0';
+//				f = 0;
+//				break;
+//			}
+//		}
+//		if (f)
+//		{
+//			cout << s[0] + s[1] - '0' - '0';
+//			
+//			for (int i = 2; i < s.size(); i++)
+//				cout << s[i];
+//			cout << endl;
+//		}
+//		else cout << s << endl;
+//	}
+//	return 0;
+//}
+
+
+
+
+
+//const int N = 1e6 + 10;
+//int a[N];
+//
+//int gcd(int a, int b)
+//{
+//    return b == 0 ? a : gcd(b, a % b);
+//}
+//
+//int main()
+//{
+//    int n;
+//    cin >> n;
+//    for (int i = 0; i < n; i++)
+//    {
+//        int x;
+//        cin >> x;
+//        a[x]++;
+//    }
+//    int ans = 0;
+//    for (int i = N; i >= 1; i--)
+//    {
+//        if (a[i]) continue;
+//        int t = 0;
+//        for (int j = i; j <= N; j += i)
+//        {
+//            if (a[j]) t = gcd(t, j);
+//        }
+//        if (t == i) ans++;
+//    }
+//    cout << ans << endl;
+//    return 0;
+//}
 
 
 
