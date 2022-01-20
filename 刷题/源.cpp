@@ -1,50 +1,222 @@
 #define _CRT_SECURE_NO_WARNINGS 1
+
 #include<iostream>
-#include<algorithm>
-#include<string>
-#include<cstring>
-
-#include<vector>
+#include<deque>
 using namespace std;
-typedef long long ll;
-using namespace std;
-#define fore(i, l, r) for(ll i = ll(l); i < ll(r); i++)
-#define endl '\n'
-typedef long long ll;
-#define all(a) (a).begin(), (a).end()
 
-ll nxt() {
-    ll x; cin >> x; return x;
-}
-string def = "abcdefghijklmnopqrstuvwxyz";
-
-void solve() {
-    //cout << "---------------" << endl;
-    string x; cin >> x;
-    int last = x[x.length() - 1] - '0';
-    int best = 0;
-    for (int i = x.length() - 2; i >= 0; i--) {
-        int temp1 = x[i] - '0';
-        if (temp1 + last >= 10) {
-            best = i;
-            break;
-        }
-
-        last = temp1;
-    }
-    fore(i, 0, best) cout << x[i];
-    cout << x[best] - '0' + x[best + 1] - '0';
-    fore(i, best + 2, x.length()) cout << x[i]; cout << endl;
-}
+const int N = 1e6 + 10;
+int a[N];
+int n, k;
 
 int main()
 {
-    int t = nxt();
-    while (t--) {
-        solve();
+    deque<int>q;
+    cin >> n >> k;
+
+    for (int i = 1; i <= n; i++)
+    {
+        if (!q.empty() && q.front() <= i - k) q.pop_back();
+        while (!q.empty() && a[q.back()] > a[i]) q.pop_back();
+        q.push_back(i);
+        if (i >= k) cout << a[q.front()] << ' ';
     }
     return 0;
 }
+
+
+//#include<iostream>
+//#include<algorithm>
+//#include<string>
+//#include<map>
+//#include<cstring>
+//#include<vector>
+//using namespace std;
+//
+//map<string, int>::iterator it;
+//map<string, int>mp;
+//#pragma GCC optimize(2)
+//int main()
+//{
+//	ios::sync_with_stdio(0); cin.tie(0); cin.tie(0);
+//#pragma GCC optimize(2)
+//	int t;
+//	cin >> t;
+//	while (t--)
+//	{
+//		string s;
+//		cin >> s;
+//		string res1, res2, res;
+//		int ans = 0;
+//		for (int i = 0; i < s.size() - 1; i++)
+//		{
+//			if (!i)res1 = s[0];
+//			else res1 = s.substr(0, i + 1);
+//			res2 = s.substr(i + 1);
+//			res = res1 + res2;
+//			if (mp[res] == 0) ans++, mp[res]++;
+//			res = res2 + res1;
+//			if (mp[res] == 0) ans++, mp[res]++;
+//
+//			reverse(res1.begin(), res1.end());
+//			res = res1 + res2;
+//			if (mp[res] == 0) ans++, mp[res]++;
+//			res = res2 + res1;
+//			if (mp[res] == 0) ans++, mp[res]++;
+//			reverse(res1.begin(), res1.end());
+//
+//			reverse(res2.begin(), res2.end());
+//			res = res1 + res2;
+//			if (mp[res] == 0) ans++, mp[res]++;
+//			res = res2 + res1;
+//			if (mp[res] == 0) ans++, mp[res]++;
+//			reverse(res2.begin(), res2.end());
+//
+//			reverse(res1.begin(), res1.end());
+//			reverse(res2.begin(), res2.end());
+//			res = res1 + res2;
+//			if (mp[res] == 0) ans++, mp[res]++;
+//			res = res2 + res1;
+//			if (mp[res] == 0) ans++, mp[res]++;
+//		}
+//		cout << ans << endl;
+//		mp.clear();
+//	}
+//	return 0;
+//}
+
+
+
+
+
+//int main()
+//{
+//	int x, y;
+//	while (cin >> x >> y)
+//	{
+//		int ans = 0;
+//		if (x * 4 - y < 0) ans = x * 10 - 2 * y;
+//		else if (x * 3 - 2 * y < 0) ans = x * 8 - 4 * y;
+//		else if (x * 2 - 3 * y < 0) ans = x * 6 - y * 6;
+//		else if (x - 4 * y < 0) ans = x * 3 - y * 9;
+//		else ans = -12 * y;
+//		if (ans >= 0) cout << ans << endl;
+//		else cout << "Deficit" << endl;
+//	}
+//	return 0;
+//}
+
+
+
+
+//map<string, int>::iterator it;
+//
+//int main()
+//{
+//	string s;
+//	string end = "*";
+//	while (cin >> s, s != end)
+//	{
+//		if (s.size() < 3)
+//		{
+//			cout << s << " is surprising." << endl;
+//			continue;
+//		}
+//		else
+//		{
+//			map<string, int>mp;
+//			string res;
+//			int f = 1;
+//			for (int i = 0; i < s.size(); i++)
+//			{
+//				for (int j = 0; i + j < s.size() - 1; j++)
+//				{
+//					res += s[j];
+//					res += s[i + j + 1];
+//					mp[res]++;
+//					res.clear();
+//				}
+//				for (it = mp.begin();it != mp.end();it++)
+//				{
+//					if (it->second > 1)
+//					{
+//						f = 0;
+//						break;
+//					}
+//				}
+//				mp.clear();
+//				if (!f)break;
+//			}
+//			
+//			if (f) cout << s << " is surprising." << endl;
+//			else cout << s << " is NOT surprising." << endl;
+//		}
+//	}
+//	return 0;
+//}
+
+
+
+
+//struct node
+//{
+//	int x;
+//	bool operator< (node& a) 
+//	{
+//		return x > a.x;
+//	}
+//}Node[3];
+//
+//int main()
+//{
+//	Node[0].x = 1;
+//	Node[1].x = 2;
+//	Node[2].x = 3;
+//	sort(Node, Node + 3);
+//
+// 	return 0;
+//}
+
+
+
+//typedef long long ll;
+//using namespace std;
+//#define fore(i, l, r) for(ll i = ll(l); i < ll(r); i++)
+//#define endl '\n'
+//typedef long long ll;
+//#define all(a) (a).begin(), (a).end()
+//
+//ll nxt() {
+//    ll x; cin >> x; return x;
+//}
+//string def = "abcdefghijklmnopqrstuvwxyz";
+//
+//void solve() {
+//    //cout << "---------------" << endl;
+//    string x; cin >> x;
+//    int last = x[x.length() - 1] - '0';
+//    int best = 0;
+//    for (int i = x.length() - 2; i >= 0; i--) {
+//        int temp1 = x[i] - '0';
+//        if (temp1 + last >= 10) {
+//            best = i;
+//            break;
+//        }
+//
+//        last = temp1;
+//    }
+//    fore(i, 0, best) cout << x[i];
+//    cout << x[best] - '0' + x[best + 1] - '0';
+//    fore(i, best + 2, x.length()) cout << x[i]; cout << endl;
+//}
+//
+//int main()
+//{
+//    int t = nxt();
+//    while (t--) {
+//        solve();
+//    }
+//    return 0;
+//}
 //int main()
 //{
 //    ios_base::sync_with_stdio(false);
