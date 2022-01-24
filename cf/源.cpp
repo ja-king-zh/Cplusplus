@@ -6,58 +6,336 @@
 #include<math.h>
 #include<vector>
 #include<map>
+#include<set>
 using namespace std;
-
+typedef pair<int, int>PII;
 typedef long long ll;
-const int N = 110;
-ll a[N], b[N];
+const int N = 1e6 + 10;
+string ans[N], res[N];
+
+bool check(string s1, string s2)
+{
+	return s1 == s2;
+}
 
 int main()
 {
-	int t;
-	cin >> t;
-	while (t--)
+	int n, m;
+	cin >> n >> m;
+	for (int i = 1;i <= n; i++) cin >> ans[i];
+	for (int i = 1; i <= m; i++) cin >> res[i];
+	int i = 1, j = 1;
+	while (i <= n)
 	{
-		int n;
-		cin >> n;
-		for (int i = 1; i <= n; i++)
+		if (check(ans[i], res[j]))
 		{
-			cin >> a[i];
+			i++;
+			j++;
+			cout << "YES" << endl;
 		}
-		for (int i = 1; i <= n; i++)
+		else
 		{
-			cin >> b[i];
+			i++;
+			cout << "NO" << endl;
 		}
-		for (int i = n - 1; i; i--) {
-			b[i] = max(b[i], b[i + 1] - (a[i + 1] - a[i]));
-		}
-		ll ans = 0, last = -1;
-		for (int i = 1; i <= n; i++)
-		{
-			if (i - 1)
-			{
-				ll x = a[i], y = b[i];
-				if (x - a[i - 1] < y)
-				{
-					ans = ans + (2 * last + 1 + x - a[i - 1]) * (x - a[i - 1]) / 2;
-					last = last + x - a[i - 1];
-				}
-				else
-				{
-					ans = ans + (b[i] + 1) * b[i] / 2;
-					last = b[i];
-				}
-			}
-			else
-			{
-				ans = ans + (b[i] + 1) * b[i] / 2;
-				last = b[i];
-			}
-		}
-		cout << ans << endl;
 	}
 	return 0;
 }
+
+
+
+
+//int main()
+//{
+//	int t;
+//	cin >> t;
+//	map<string, int>mp;
+//	while (t--)
+//	{
+//		int n;
+//		cin >> n;
+//		int f = 0;
+//		for (int i = 0; i < n; i++)
+//		{
+//			string res;
+//			cin >> res;
+//			mp[res]++;
+//			if (res.size() == 1) f = 1;
+//			reverse(res.begin(), res.end());
+//			if (res.size() % 2 == 1)
+//			{
+//				if (mp[res.substr(0, 2)] >= 1) f = 1;
+//			}
+//			else
+//			{
+//				for (int j = 0; j < 26; j++)
+//				{
+//					char ans = ('a' + j);
+//					if (mp[res + ans] >= 1) f = 1;
+//				}
+//			}
+//			if (mp[res] >= 1) f = 1;
+//		}
+//		if (f) cout << "YES" << endl;
+//		else cout << "NO" << endl;
+//		mp.clear();
+//	}
+//	return 0;
+//}
+
+
+
+
+//const int N = 2e5 + 10;
+//int a[N], f[N];
+//
+//int main()
+//{
+//	int t;
+//	cin >> t;
+//	while (t--)
+//	{
+//		int n;
+//		cin >> n;
+//		for (int i = 1; i <= n; i++)
+//		{
+//			cin >> a[i];
+//			f[a[i]]++;
+//		}
+//		vector<int>ans;
+//		set<int>s;
+//		int mex = 0;
+//		for (int i = 0; i <= n;i++)
+//		{
+//			if (f[i]) s.insert(i);
+//			else
+//			{
+//				mex = i;
+//				if(i) ans.push_back(i);
+//				break;
+//			}
+//		}
+//		for (int i = 1; i <= n; i++)
+//		{
+//			if (s.size() == 0)
+//			{
+//				ans.push_back(mex);
+//				for (int i = 0; i < mex;i++)s.insert(i);
+//			}
+//			f[a[i]]--;
+//			if (s.find(a[i]) != s.end()) s.erase(a[i]);
+//			if (f[a[i]] == 0) mex = min(mex, a[i]);
+//		}
+//		cout << ans.size() << endl;
+//		for (int i = 0; i < ans.size();i++)cout << ans[i] << ' ';
+//		cout << endl;
+//	}
+//	return 0;
+//}
+
+
+
+
+
+//const int N = 2e5 + 10;
+//int a[N], s[N], ans[N];
+//bool ck[N];
+//
+//bool check(int x, int res)
+//{
+//	for (int i = 0; i <= res; i ++) ck[i] = 0;
+//	for (int i = 0; i <= x; i++)
+//	{
+//		if(a[i] != -1)ck[a[i]] = true;
+//	}
+//	for (int i = 0; i < res; i++)
+//	{
+//		if (!ck[i]) return false;
+//	}
+//	return true;
+//}
+//
+//int main()
+//{
+//	ios::sync_with_stdio(0); cin.tie(0); cin.tie(0);
+//	int t;
+//	cin >> t;
+//	while (t--)
+//	{
+//		int n;
+//		cin >> n;
+//		for (int i = 0; i <= n; i++)s[i] = 0;
+//		for (int i = 0; i < n; i++) cin >> a[i], s[a[i]]++;
+//		int i = 0, cc = 0;
+//		if (s[0] == 0)
+//		{
+//			cout << n << endl;
+//			for (int i = 0;i < n; i++)
+//				cout << 0 << ' ';
+//			cout << endl;
+//			continue;
+//		}
+//		while (i < n)
+//		{
+//			int res = 0;
+//			for (int j = 0; j <= n; j++)
+//			{
+//				if (s[j]>0)res++;
+//				else break;
+//			}
+//			if (res == 0)
+//			{
+//				break;
+//			}
+//			int l = i, r = n;
+//			while (l < r)
+//			{
+//				int mid = l + r >> 1;
+//				if (check(mid, res)) r = mid;
+//				else l = mid + 1;
+//			}
+//			s[a[l]]--;
+//			i = l;
+//			for (int i = 0; i < l; i++) s[a[i]]--,a[i] = -1;
+//			ans[cc++] = res;
+//		}
+//		for (int j = i; j < n; j++)ans[cc++] = 0;
+//		if (i != 0) cc--;
+//		cout << cc << endl;
+//		for (int j = 0; j < cc;j++)cout << ans[j] << ' ';
+//		cout << endl;
+//	}
+//	return 0;
+//}
+
+
+
+//typedef pair<int, int>PII;
+//const int N = 110;
+//int a[N], b[N];
+//PII c[N];
+//int main()
+//{
+//	int t;
+//	cin >> t;
+//	while (t--)
+//	{
+//		int l, r, k, res = 0;
+//		cin >> l >> r >> k;
+//		res = r - l + 1;
+//		if (l == r && l != 1)
+//		{
+//			puts("YES");
+//			continue;
+//		}
+//		if (l % 2 == 1) res++;
+//		if (res / 2 <= k) puts("YES");
+//		else puts("NO");
+//	}
+//	return 0;
+//}
+
+
+
+
+
+//#define int long long
+//signed main()
+//{
+//	int t;
+//	cin >> t;
+//	while (t--)
+//	{
+//		int n, l, r, w;
+//		cin >> n;
+//		int minl = 1e18, minr = -1e18, lw, rw,W,ans = 0;
+//		for (int i = 0; i < n; i++)
+//		{
+//			cin >> l >> r >> w;
+//			if (l < minl)
+//			{
+//				minl = l;
+//				lw = w;
+//				W = 1e18;
+//			}
+//			if (minl == l)
+//			{
+//				lw = min(lw, w);
+//			}
+//			if (minr == r)
+//			{
+//				rw = min(rw, w);
+//			}
+//			if (r > minr)
+//			{
+//				minr = r;
+//				rw = w;
+//				W = 1e18;
+//			}
+//			if (minl == l && minr == r)
+//			{
+//				W = min(W, w);
+//			}
+//			ans = min(W, rw + lw);
+//			cout << ans << endl;
+//		}
+//		
+//	}
+//	return 0;
+//}
+
+
+
+//typedef long long ll;
+//const int N = 110;
+//ll a[N], b[N];
+//
+//int main()
+//{
+//	int t;
+//	cin >> t;
+//	while (t--)
+//	{
+//		int n;
+//		cin >> n;
+//		for (int i = 1; i <= n; i++)
+//		{
+//			cin >> a[i];
+//		}
+//		for (int i = 1; i <= n; i++)
+//		{
+//			cin >> b[i];
+//		}
+//		for (int i = n - 1; i; i--) {
+//			b[i] = max(b[i], b[i + 1] - (a[i + 1] - a[i]));
+//		}
+//		ll ans = 0, last = -1;
+//		for (int i = 1; i <= n; i++)
+//		{
+//			if (i - 1)
+//			{
+//				ll x = a[i], y = b[i];
+//				if (x - a[i - 1] < y)
+//				{
+//					ans = ans + (2 * last + 1 + x - a[i - 1]) * (x - a[i - 1]) / 2;
+//					last = last + x - a[i - 1];
+//				}
+//				else
+//				{
+//					ans = ans + (b[i] + 1) * b[i] / 2;
+//					last = b[i];
+//				}
+//			}
+//			else
+//			{
+//				ans = ans + (b[i] + 1) * b[i] / 2;
+//				last = b[i];
+//			}
+//		}
+//		cout << ans << endl;
+//	}
+//	return 0;
+//}
 
 
 //int main()
