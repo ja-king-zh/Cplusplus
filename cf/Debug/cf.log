@@ -1,3 +1,17 @@
 ﻿  源.cpp
-C:\Users\james\Desktop\Python\C++\cf\源.cpp(13,19): warning C4244: “初始化”: 从“double”转换到“int”，可能丢失数据
+C:\Users\james\Desktop\Python\C++\cf\源.cpp(17,15): warning C4244: “参数”: 从“__int64”转换到“const unsigned int”，可能丢失数据
+C:\Users\james\Desktop\Python\C++\cf\源.cpp(24,21): warning C4244: “参数”: 从“__int64”转换到“const unsigned int”，可能丢失数据
+C:\Users\james\Desktop\Python\C++\cf\源.cpp(32,25): warning C4244: “参数”: 从“__int64”转换到“const unsigned int”，可能丢失数据
+C:\Users\james\Desktop\Python\C++\cf\源.cpp(32,43): warning C4244: “参数”: 从“__int64”转换到“const unsigned int”，可能丢失数据
+C:\Users\james\Desktop\Python\C++\cf\源.cpp(36,39): warning C4244: “参数”: 从“__int64”转换到“const unsigned int”，可能丢失数据
+C:\Users\james\Desktop\Python\C++\cf\源.cpp(36,57): warning C4244: “参数”: 从“__int64”转换到“const unsigned int”，可能丢失数据
+C:\Users\james\Desktop\Python\C++\cf\源.cpp(38,17): warning C4244: “参数”: 从“__int64”转换到“const unsigned int”，可能丢失数据
+C:\Users\james\Desktop\Python\C++\cf\源.cpp(45,26): warning C4244: “参数”: 从“__int64”转换到“const unsigned int”，可能丢失数据
+C:\Users\james\Desktop\Python\C++\cf\源.cpp(45,44): warning C4244: “参数”: 从“__int64”转换到“const unsigned int”，可能丢失数据
+C:\Users\james\Desktop\Python\C++\cf\源.cpp(49,41): warning C4244: “参数”: 从“__int64”转换到“const unsigned int”，可能丢失数据
+C:\Users\james\Desktop\Python\C++\cf\源.cpp(49,59): warning C4244: “参数”: 从“__int64”转换到“const unsigned int”，可能丢失数据
+C:\Users\james\Desktop\Python\C++\cf\源.cpp(52,60): warning C4244: “参数”: 从“__int64”转换到“const unsigned int”，可能丢失数据
+C:\Users\james\Desktop\Python\C++\cf\源.cpp(52,67): warning C4244: “参数”: 从“__int64”转换到“const unsigned int”，可能丢失数据
+C:\Users\james\Desktop\Python\C++\cf\源.cpp(53,61): warning C4244: “参数”: 从“__int64”转换到“const unsigned int”，可能丢失数据
+C:\Users\james\Desktop\Python\C++\cf\源.cpp(53,69): warning C4244: “参数”: 从“__int64”转换到“const unsigned int”，可能丢失数据
   cf.vcxproj -> C:\Users\james\Desktop\Python\C++\cf\Debug\cf.exe

@@ -1,27 +1,531 @@
 #define _CRT_SECURE_NO_WARNINGS 1
-
-#include<iostream>
-#include<deque>
+#include <iostream>
+#include <cstring>
+#include<algorithm>
 using namespace std;
 
-const int N = 1e6 + 10;
-int a[N];
-int n, k;
 
-int main()
-{
-    deque<int>q;
-    cin >> n >> k;
 
-    for (int i = 1; i <= n; i++)
-    {
-        if (!q.empty() && q.front() <= i - k) q.pop_back();
-        while (!q.empty() && a[q.back()] > a[i]) q.pop_back();
-        q.push_back(i);
-        if (i >= k) cout << a[q.front()] << ' ';
-    }
-    return 0;
-}
+
+//const int N = 2e3 + 10;
+//int h1[N], h2[N], e1[N], ne1[N], ne2[N], e2[N], idx1, idx2;
+//int n;
+//int f1[N], f2[N];
+//int a[N], b[N];
+//
+//void add1(int a, int b)
+//{
+//    e1[idx1] = b, ne1[idx1] = h1[a], h1[a] = idx1++;
+//}
+//
+//void add2(int a, int b)
+//{
+//    e2[idx2] = b, ne2[idx2] = h2[a], h2[a] = idx2++;
+//}
+//int cnt1 = 0;
+//void dfs1(int r)
+//{
+//    for (int i = h1[r]; i != -1; i = ne1[i])
+//    {
+//        int j = e1[i];
+//        a[cnt1++] = j;
+//        dfs1(j);
+//    }
+//}
+//int cnt2 = 0;
+//void dfs2(int r)
+//{
+//    for (int i = h2[r]; i != -1; i = ne2[i])
+//    {
+//        int j = e2[i];
+//        b[cnt2++] = j;
+//        dfs2(j);
+//    }
+//}
+//
+//int main()
+//{
+//    cin >> n;
+//    memset(h1, -1, sizeof h1);
+//    memset(h2, -1, sizeof h2);
+//    for (int i = 0; i <= n; i++) f1[i] = f2[i] = i;
+//    for (int i = 1; i <= n; i++)
+//    {
+//        int a, b;
+//        cin >> a >> b;
+//        if (a) add1(i, a), f1[a] = i;
+//        if (b) add1(i, b), f1[b] = i;
+//    }
+//    for (int i = 1; i <= n; i++)
+//    {
+//        int a, b;
+//        cin >> a >> b;
+//        if (a) add2(i, a), f2[a] = i;
+//        if (b) add2(i, b), f2[b] = i;
+//    }
+//    int root1 = 0, root2 = 0;
+//    for (int i = 1; i <= n; i++)
+//    {
+//        if (f1[i] == i) root1 = i;
+//        if (f2[i] == i) root2 = i;
+//    }
+//    if (root1 != root2) cout << 1 << endl << root1 << endl;
+//    else
+//    {
+//        dfs1(root1);
+//        dfs2(root2);
+//        int f = 0;
+//        for (int i = 0; i < n; i++)
+//        {
+//            cout << a[i] << ' ' << b[i] << endl;
+//            //             if(a[i] != b[i]) 
+//            //             {
+//            //                 cout << 1 << endl << a[i] << endl, f = 1;
+//            //                 break;
+//            //             }
+//        }
+//        if (!f) cout << 0 << endl;
+//    }
+//    return 0;
+//}
+//#include <iostream>
+//#include <cstring>
+//#include<vector>
+//#include<algorithm>
+//#include<map>
+//using namespace std;
+//
+//const int N = 1010, M = 5e4 + 10;
+//int a[N][N];
+//string s[N];
+//char res[M];
+//
+//int main()
+//{
+//    int n, m;
+//    cin >> n >> m;
+//    for (int i = 0; i < m; i++)
+//        cin >> s[i];
+//    for (int i = 0; i < n; i++)
+//    {
+//        for (int j = 0; j < m; j++)
+//        {
+//            cin >> a[i][j];
+//        }
+//    }
+//    for (int i = 0; i < 5e4 + 10; i++)
+//    {
+//        cin >> res[i];
+//        if (res[i] == 'Y') break;
+//    }
+//    string mmp, cnm;
+//    cin >> mmp;
+//    vector<string>ans;
+//    for (int i = 0; i < mmp.size(); i++)
+//    {
+//        int f = 0;
+//        if (mmp[i] == ',' || mmp[i] == ';')
+//        {
+//            ans.push_back(cnm);
+//            f = 1;
+//        }
+//        cnm += mmp[i];
+//        if (f) cnm.clear();
+//    }
+//    vector<int>hh;
+//    for (auto t : ans)
+//    {
+//        for (int i = 0; i < m; i++)
+//            if (s[i] == t)
+//            {
+//                hh.push_back(i);
+//                break;
+//            }
+//    }
+//    map<string, int>mp;
+//    for (int i = 0; i < n; i++)
+//    {
+//        string res;
+//        for (auto t : hh)
+//        {
+//            char woc = a[i][t] + '0';
+//            res += woc;
+//        }
+//        mp[res]++;
+//        res.clear();
+//    }
+//    cout << mp.size() << endl;
+//    for (auto t : mp) cout << t.second << ' ';
+//    return 0;
+//}
+//#include <iostream>
+//#include <cstring>
+//#include<algorithm>
+//using namespace std;
+//
+//typedef long long ll;
+//#define int long long
+//const int N = 1e5 + 10, mod = 1e9 + 7;
+//char a[N];
+//int b[N];
+//
+//int qq(int x, int y)
+//{
+//    int res = 1;
+//    while (y)
+//    {
+//        if (y & 1) res *= x % mod;
+//        x = x * x % mod;
+//        y >>= 1;
+//    }
+//    return res;
+//}
+//
+//bool cmp(char a, char b)
+//{
+//    return a > b;
+//}
+//
+//signed main()
+//{
+//    int n, m, k;
+//    cin >> n >> m >> k;
+//    cin >> a;
+//    for (int i = 0; i < n; i++) cin >> b[i];
+//    int ans = 0;
+//    for (int i = 0; i < n - 1; i++)
+//    {
+//        int j = i;
+//        while (b[j] == b[j + 1] && j < n) j++;
+//        sort(a + i, a + j + 1, cmp);
+//        i = j;
+//    }
+//    for (int i = 0; i < n; i++)
+//    {
+//        ans += (a[i] - '0') * qq(10, n - i - 1) % mod;
+//    }
+//    cout << ans % mod << endl;
+//    while (k-- > 0)
+//    {
+//        int p, q;
+//        cin >> p >> q;
+//        for (int i = 0; i < n; i++) if (b[i] == p) b[i] = q;
+//        ans = 0;
+//        for (int i = 0; i < n - 1; i++)
+//        {
+//            int j = i;
+//            while (b[j] == b[j + 1]) j++;
+//            sort(a + i, a + j + 1, cmp);
+//            i = j;
+//        }
+//        for (int i = 0; i < n; i++)
+//        {
+//            ans += (a[i] - '0') * qq(10, n - i - 1) % mod;
+//        }
+//        cout << ans % mod << endl;
+//    }
+//    return 0;
+//}
+//#include <iostream>
+//#include <cstring>
+//#include<algorithm>
+//using namespace std;
+//
+//#define int long long
+//const int N = 2e3 + 10, mod = 1e9 + 7;
+//int f[N], a[N];
+//
+//signed main()
+//{
+//    int n, m;
+//    cin >> n >> m;
+//    for (int i = 1; i <= n; i++) cin >> a[i];
+//    for (int i = 1, j = n + 1; i <= n; i++, j++) a[j] = a[i] / 2;
+//    f[0] = 1;
+//    for (int i = 1; i <= n; i++)
+//    {
+//        for (int j = m; j >= a[i] / 2; j--)
+//        {
+//            for(int k = 0; k <= 1; k ++ )
+//                f[j] = f[j] + f[j - a[i + n * k]] % mod;
+//        }
+//    }
+//    for (int i = 1; i <= m; i++) cout << f[i] % mod << ' ';
+//    return 0;
+//}
+//const int N = 1e7 + 10, mod = 1000000007;
+//int f[N], ff[N], p[N];
+//
+//int max(int x, int y) { return (x > y) ? x : y; }
+//int min(int x, int y) { return (x > y) ? y : x; }
+//int find(int x)
+//{
+//    if (x == p[x]) return p[x];
+//    return p[x] = find(p[x]);
+//}
+//signed main()
+//{
+//    int n, q;
+//    cin >> n >> q;
+//    string res;
+//    cin >> res;
+//    for (int i = 0; i < n; i++) cin >> ff[i], p[i] = i, ff[i]%=mod;
+//    memcpy(f, ff, n * 8);
+//    for (int i = 0; i < res.size(); i++)
+//    {
+//        if (res[i] == '*')
+//        {
+//            ff[i + 1] = ff[i] * ff[i + 1] % mod;
+//            ff[i] = -1;
+//            p[find(i)] = find(p[i + 1]);
+//        }
+//    }
+//
+//    int cnm = 0;
+//    for (int i = 0; i < n; i++)
+//    {
+//        if (ff[i] != -1) cnm += ff[i];
+//        //         cout << ff[i] << ' ';
+//        //         cout << p[i] << ' ';
+//    }
+//    //cout << cnm <<endl;
+//    while (q--)
+//    {
+//        int x, y;
+//        cin >> x >> y;
+//        x--;
+//        int a = 0, gai = 0;
+//        if (ff[x] == -1 || (x != 0 && ff[x - 1] == -1))
+//        {
+//            a = find(x);
+//            gai = (ff[a] * y + mod) / f[x] % mod - ff[a];
+//            ff[a] = (ff[a] + mod) / (f[x] % mod) * y % mod;
+//            f[x] = y;
+//        }
+//        else
+//        {
+//            gai = y - f[x];
+//            f[x] = y;
+//        }
+//        cnm += gai;
+//        cout << cnm % mod << endl;
+//    }
+//    return 0;
+//}
+//#include <iostream>
+//#include <cstring>
+//#include <stack>
+//#include <unordered_map>
+//using namespace std;
+//
+//#define int long long
+//const int N = 1e6 + 10;
+//int f[N];
+//
+//stack<int> num;
+//stack<char> op;
+//int max(int x, int y) { return (x > y) ? x : y; }
+//int min(int x, int y) {return (x > y) ? y : x;}
+//void eval()
+//{
+//    auto b = num.top(); num.pop();
+//    auto a = num.top(); num.pop();
+//    auto c = op.top(); op.pop();
+//    int x;
+//    if (c == '+') x = a + b;
+//    else if (c == '-') x = a - b;
+//    else if (c == '*') x = a * b;
+//    else x = a / b;
+//    num.push(x);
+//}
+//
+//signed main()
+//{
+//    unordered_map<char, int> pr{ {'+', 1}, {'-', 1}, {'*', 2}, {'/', 2} };
+//    int n, q;
+//    cin >> n >> q;
+//    string res;
+//    cin >> res;
+//    string str;
+//    for (int i = 0; i < n; i++) cin >> f[i];
+//    for (int i = 0; i < n; i++)
+//    {
+//        str += f[i] + '0';
+//        if (n - 1 - i) str += res[i];
+//    }
+//    for (int i = 0; i < str.size(); i++)
+//    {
+//        auto c = str[i];
+//        if (isdigit(c))
+//        {
+//            int x = 0, j = i;
+//            while (j < str.size() && isdigit(str[j]))
+//                x = x * 10 + str[j++] - '0';
+//            i = j - 1;
+//            num.push(x);
+//        }
+//        else if (c == '(') op.push(c);
+//        else if (c == ')')
+//        {
+//            while (op.top() != '(') eval();
+//            op.pop();
+//        }
+//        else
+//        {
+//            while (op.size() && op.top() != '(' && pr[op.top()] >= pr[c]) eval();
+//            op.push(c);
+//        }
+//    }
+//    while (op.size()) eval();
+//    int cnm = num.top();
+//    //cout << cnm <<endl;
+//    while (q--)
+//    {
+//        int x, y;
+//        cin >> x >> y;
+//        int a = min(n - 2, x - 1), b = max(0, x - 2);
+//        if (res[a] == '+' && res[b] == '+')
+//        {
+//            int gai = y - f[x - 1];
+//            cnm += gai;
+//            f[x - 1] = y;
+//            cout << gai << endl;
+//        }
+//        else {
+//            if (res[x - 1] == '*' && res[x - 2] == '*')
+//            {
+//                int gai = y * f[x] * f[x - 2] - f[x - 2] * f[x] * f[x - 1];
+//                cnm += gai;
+//                f[x - 1] = y;
+//            }
+//            else if (res[x - 2] == '*')
+//            {
+//                int gai = y * f[x - 2] - f[x - 2] * f[x - 1];
+//                cnm += gai;
+//                f[x - 1] = y;
+//            }
+//            else
+//            {
+//                int gai = y * f[x] - f[x] * f[x - 1];
+//                cnm += gai;
+//                f[x - 1] = y;
+//            }
+//        }
+//        cout << cnm << endl;
+//    }
+//    return 0;
+//}
+
+
+//#include<iostream>
+//#include<algorithm>
+//#include<cstring>
+//using namespace std;
+//const int N = 1e6 + 10;
+//int a[4] = { 1,2 };
+//bool isp(int x)
+//{
+//    for (int i = 2; i <= x / i; i++)
+//    {
+//        if (x % i == 0) return false;
+//    }
+//    return true;
+//}
+//
+//int main()
+//{
+//    for (int i = 2; i <= 1e3; i++)
+//    {
+//        if (isp(i)) cout << i << ',';
+//    }
+//    int t, n;
+//    cin >> t;
+//    while (t--)
+//    {
+//        cin >> n;
+//        if (n < 2)
+//        {
+//            cout << -1 << endl;
+//            continue;
+//        }
+//        int x = 2;
+//
+//    }
+//    return 0;
+//}
+
+
+
+//#include<iostream>
+//#include<deque>
+//#include<cstring>
+//#include<stdlib.h>
+//#include<string.h>
+//using namespace std;
+//
+//int main()
+//{
+//	int t;
+//	cin >> t;
+//	while (t--)
+//	{
+//		int x, y;
+//		cin >> x >> y;
+//		cout << x * y << endl;
+//	}
+//	return 0;
+//}
+
+
+
+
+//const int N = 1e5 + 10;
+//int a[N], f[N];
+//
+//int main()
+//{
+//	int n = 0;
+//	while (cin >> n)
+//	{
+//		memset(f, 0, sizeof f);
+//		for (int i = 1; i <= n; i++) cin >> a[i];
+//		deque<int>ans;
+//		for (int i = 1; i <= n; i++)
+//		{
+//			while (ans.size() != 0 && a[i] > a[ans.back()])
+//			{
+//				f[ans.back()] = i - ans.back();
+//				ans.pop_back();
+//			}
+//			ans.push_back(i);
+//		}
+//		for (int i = 1; i <= n; i++) cout << f[i] << ' ';
+//		cout << endl;
+//	}
+//	return 0;
+//}
+
+
+
+
+//const int N = 1e6 + 10;
+//int a[N];
+//int n, k;
+//
+//int main()
+//{
+//    deque<int>q;
+//    cin >> n >> k;
+//
+//    for (int i = 1; i <= n; i++)
+//    {
+//        if (!q.empty() && q.front() <= i - k) q.pop_back();
+//        while (!q.empty() && a[q.back()] > a[i]) q.pop_back();
+//        q.push_back(i);
+//        if (i >= k) cout << a[q.front()] << ' ';
+//    }
+//    return 0;
+//}
 
 
 //#include<iostream>

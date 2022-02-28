@@ -4,7 +4,79 @@
 #include<stdio.h>
 #include<algorithm>
 using namespace std;
-const int N = 5e5 + 10;
+const int 
+int main()
+{
+	
+	return 0;
+}
+
+
+
+//const int N = 20;
+//int sum[N], w[N];
+//int n, m;
+//int res = N;
+//
+//void dfs(int u, int k)
+//{
+//    if (k >= res) return;
+//    if (u == n)
+//    {
+//        res = k;
+//        return;
+//    }
+//    for (int i = 0; i < k; i++)
+//        if (sum[i] + w[u] <= m)
+//        {
+//            sum[i] += w[u];
+//            dfs(u + 1, k);
+//            sum[i] -= w[u];
+//        }
+//    sum[k] += w[u];
+//    dfs(u + 1, k + 1);
+//    sum[k] -= w[u];
+//}
+//
+//int main()
+//{
+//    cin >> n >> m;
+//    for (int i = 0; i < n; i++) cin >> w[i];
+//    dfs(0, 0);
+//    cout << res << endl;
+//    return 0;
+//}
+
+//const int N = 310;
+//int f[N][N], a[N];
+//
+//int main()
+//{
+//	int n;
+//	cin >> n;
+//	for (int i = 1; i <= n; i++) cin >> a[i];
+//	int ans = 0;
+//	for (int len = 1; len <= n; len++)
+//	{
+//		for (int l = 1; l + len - 1 <= n; l++)
+//		{
+//			int r = l + len - 1;
+//			if (l == r) f[l][r] = a[l];
+//			else
+//			{
+//				for (int k = l; k < r; k++)
+//				{
+//					if (f[l][k] == f[k + 1][r] && f[l][k]) f[l][r] = max(f[l][r], f[l][k] + 1);
+//				}
+//			}
+//			ans = max(ans, f[l][r]);
+//		}
+//	}
+//	cout << ans << endl;
+//	return 0;
+//}
+
+
 
 
 
